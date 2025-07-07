@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut } from "lucide-react";
+import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, XCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -34,9 +33,27 @@ interface Property {
   image: string;
 }
 
+interface PendingProperty {
+  id: number;
+  title: string;
+  location: string;
+  price: string;
+  description: string;
+  propertyType: string;
+  bedrooms: number;
+  bathrooms: number;
+  sqft: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  submissionDate: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
 const Admin = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('contacts');
+  
   const [contacts, setContacts] = useState<ContactMessage[]>([
     {
       id: 1,
@@ -81,6 +98,41 @@ const Admin = () => {
     }
   ]);
 
+  const [pendingProperties, setPendingProperties] = useState<PendingProperty[]>([
+    {
+      id: 1,
+      title: "Beautiful Family Home",
+      location: "123 Main Street, Springfield",
+      price: "450000",
+      description: "This stunning family home features modern amenities and a great location.",
+      propertyType: "house",
+      bedrooms: 3,
+      bathrooms: 2,
+      sqft: "2400",
+      contactName: "Alice Johnson",
+      contactEmail: "alice@example.com",
+      contactPhone: "(555) 123-4567",
+      submissionDate: "2024-01-16",
+      status: 'pending'
+    },
+    {
+      id: 2,
+      title: "Cozy Downtown Apartment",
+      location: "456 Oak Avenue, Downtown",
+      price: "1800",
+      description: "Perfect apartment for young professionals in the heart of the city.",
+      propertyType: "apartment",
+      bedrooms: 1,
+      bathrooms: 1,
+      sqft: "800",
+      contactName: "Bob Wilson",
+      contactEmail: "bob@example.com",
+      contactPhone: "(555) 987-6543",
+      submissionDate: "2024-01-15",
+      status: 'pending'
+    }
+  ]);
+
   const [newProperty, setNewProperty] = useState({
     title: "",
     location: "",
@@ -93,7 +145,9 @@ const Admin = () => {
   });
 
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
+  const [editingPendingProperty, setEditingPendingProperty] = useState<PendingProperty | null>(null);
   const [showPropertyDialog, setShowPropertyDialog] = useState(false);
+  const [showPendingPropertyDialog, setShowPendingPropertyDialog] = useState(false);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('adminLoggedIn');
@@ -148,15 +202,65 @@ const Admin = () => {
     });
   };
 
+  const handleApprovePendingProperty = (pendingProperty: PendingProperty) => {
+    // Convert pending property to approved property
+    const newProperty: Property = {
+      id: Math.max(...properties.map(p => p.id), 0) + 1,
+      title: pendingProperty.title,
+      location: pendingProperty.location,
+      price: pendingProperty.propertyType === 'apartment' ? `$${pendingProperty.price}/month` : `$${pendingProperty.price}`,
+      beds: pendingProperty.bedrooms,
+      baths: pendingProperty.bathrooms,
+      sqft: `${pendingProperty.sqft} sq ft`,
+      type: pendingProperty.propertyType === 'apartment' ? 'rent' : 'buy',
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+    };
+
+    setProperties([...properties, newProperty]);
+    setPendingProperties(pendingProperties.filter(p => p.id !== pendingProperty.id));
+    
+    toast({
+      title: "Property Approved",
+      description: "Property has been approved and added to listings.",
+    });
+  };
+
+  const handleRejectPendingProperty = (id: number) => {
+    setPendingProperties(pendingProperties.filter(p => p.id !== id));
+    toast({
+      title: "Property Rejected",
+      description: "Property submission has been rejected.",
+    });
+  };
+
+  const handleEditPendingProperty = (property: PendingProperty) => {
+    setEditingPendingProperty(property);
+    setShowPendingPropertyDialog(true);
+  };
+
+  const handleUpdatePendingProperty = () => {
+    if (editingPendingProperty) {
+      setPendingProperties(pendingProperties.map(p => 
+        p.id === editingPendingProperty.id ? editingPendingProperty : p
+      ));
+      toast({
+        title: "Property Updated",
+        description: "Pending property has been updated.",
+      });
+    }
+    setEditingPendingProperty(null);
+    setShowPendingPropertyDialog(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Admin Dashboard</h1>
             <p className="text-gray-600">Manage your real estate platform</p>
           </div>
           <Button onClick={handleLogout} variant="outline" className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white">
@@ -166,22 +270,33 @@ const Admin = () => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex space-x-4 mb-8">
+        <div className="flex flex-wrap gap-2 mb-8">
           <Button
             variant={activeTab === 'contacts' ? 'default' : 'outline'}
             onClick={() => setActiveTab('contacts')}
-            className="flex items-center"
+            className="flex items-center text-xs sm:text-sm"
           >
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Contact Messages
+            <MessageSquare className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Contact Messages</span>
+            <span className="sm:hidden">Contacts</span>
           </Button>
           <Button
             variant={activeTab === 'properties' ? 'default' : 'outline'}
             onClick={() => setActiveTab('properties')}
-            className="flex items-center"
+            className="flex items-center text-xs sm:text-sm"
           >
-            <Home className="mr-2 h-4 w-4" />
-            Properties
+            <Home className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Properties</span>
+            <span className="sm:hidden">Props</span>
+          </Button>
+          <Button
+            variant={activeTab === 'pending' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('pending')}
+            className="flex items-center text-xs sm:text-sm"
+          >
+            <Clock className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Pending Properties</span>
+            <span className="sm:hidden">Pending</span>
           </Button>
         </div>
 
@@ -191,26 +306,26 @@ const Admin = () => {
             <CardHeader>
               <CardTitle>Contact Messages</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
+                    <TableHead className="hidden sm:table-cell">Email</TableHead>
                     <TableHead>Subject</TableHead>
-                    <TableHead>Message</TableHead>
-                    <TableHead>Date</TableHead>
+                    <TableHead className="hidden md:table-cell">Message</TableHead>
+                    <TableHead className="hidden sm:table-cell">Date</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {contacts.map((contact) => (
                     <TableRow key={contact.id}>
-                      <TableCell>{contact.name}</TableCell>
-                      <TableCell>{contact.email}</TableCell>
+                      <TableCell className="font-medium">{contact.name}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{contact.email}</TableCell>
                       <TableCell>{contact.subject}</TableCell>
-                      <TableCell className="max-w-xs truncate">{contact.message}</TableCell>
-                      <TableCell>{contact.date}</TableCell>
+                      <TableCell className="hidden md:table-cell max-w-xs truncate">{contact.message}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{contact.date}</TableCell>
                       <TableCell>
                         <Button
                           variant="destructive"
@@ -231,16 +346,17 @@ const Admin = () => {
         {/* Properties Tab */}
         {activeTab === 'properties' && (
           <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Properties Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+              <h2 className="text-xl sm:text-2xl font-bold">Properties Management</h2>
               <Dialog open={showPropertyDialog} onOpenChange={setShowPropertyDialog}>
                 <DialogTrigger asChild>
                   <Button onClick={() => { setEditingProperty(null); setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "" }); }}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Property
+                    <span className="hidden sm:inline">Add Property</span>
+                    <span className="sm:hidden">Add</span>
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-md">
+                <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle>{editingProperty ? 'Edit Property' : 'Add New Property'}</DialogTitle>
                   </DialogHeader>
@@ -331,30 +447,30 @@ const Admin = () => {
             </div>
 
             <Card>
-              <CardContent className="p-0">
+              <CardContent className="p-0 overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Image</TableHead>
+                      <TableHead className="hidden sm:table-cell">Image</TableHead>
                       <TableHead>Title</TableHead>
-                      <TableHead>Location</TableHead>
+                      <TableHead className="hidden md:table-cell">Location</TableHead>
                       <TableHead>Price</TableHead>
-                      <TableHead>Beds/Baths</TableHead>
-                      <TableHead>Type</TableHead>
+                      <TableHead className="hidden sm:table-cell">Beds/Baths</TableHead>
+                      <TableHead className="hidden lg:table-cell">Type</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {properties.map((property) => (
                       <TableRow key={property.id}>
-                        <TableCell>
-                          <img src={property.image} alt={property.title} className="w-16 h-16 object-cover rounded" />
+                        <TableCell className="hidden sm:table-cell">
+                          <img src={property.image} alt={property.title} className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded" />
                         </TableCell>
                         <TableCell className="font-medium">{property.title}</TableCell>
-                        <TableCell>{property.location}</TableCell>
+                        <TableCell className="hidden md:table-cell">{property.location}</TableCell>
                         <TableCell className="font-semibold text-brand-green">{property.price}</TableCell>
-                        <TableCell>{property.beds}bed / {property.baths}bath</TableCell>
-                        <TableCell>
+                        <TableCell className="hidden sm:table-cell">{property.beds}bed / {property.baths}bath</TableCell>
+                        <TableCell className="hidden lg:table-cell">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             property.type === 'buy' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
                           }`}>
@@ -362,12 +478,12 @@ const Admin = () => {
                           </span>
                         </TableCell>
                         <TableCell>
-                          <div className="flex space-x-2">
+                          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                             <Button variant="outline" size="sm" onClick={() => handleEditProperty(property)}>
-                              <Edit className="h-4 w-4" />
+                              <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                             <Button variant="destructive" size="sm" onClick={() => handleDeleteProperty(property.id)}>
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </div>
                         </TableCell>
@@ -377,6 +493,205 @@ const Admin = () => {
                 </Table>
               </CardContent>
             </Card>
+          </div>
+        )}
+
+        {/* Pending Properties Tab */}
+        {activeTab === 'pending' && (
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold">Pending Property Submissions</h2>
+            </div>
+
+            <Card>
+              <CardContent className="p-0 overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead className="hidden md:table-cell">Location</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead className="hidden sm:table-cell">Contact</TableHead>
+                      <TableHead className="hidden lg:table-cell">Date</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {pendingProperties.map((property) => (
+                      <TableRow key={property.id}>
+                        <TableCell className="font-medium">{property.title}</TableCell>
+                        <TableCell className="hidden md:table-cell">{property.location}</TableCell>
+                        <TableCell className="font-semibold text-brand-green">
+                          ${property.price}{property.propertyType === 'apartment' ? '/month' : ''}
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">{property.contactName}</TableCell>
+                        <TableCell className="hidden lg:table-cell">{property.submissionDate}</TableCell>
+                        <TableCell>
+                          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleApprovePendingProperty(property)}
+                              className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white"
+                            >
+                              <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEditPendingProperty(property)}
+                            >
+                              <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleRejectPendingProperty(property.id)}
+                            >
+                              <XCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            {/* Edit Pending Property Dialog */}
+            <Dialog open={showPendingPropertyDialog} onOpenChange={setShowPendingPropertyDialog}>
+              <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Edit Pending Property</DialogTitle>
+                </DialogHeader>
+                {editingPendingProperty && (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="edit-title">Title</Label>
+                        <Input
+                          id="edit-title"
+                          value={editingPendingProperty.title}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, title: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-location">Location</Label>
+                        <Input
+                          id="edit-location"
+                          value={editingPendingProperty.location}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, location: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="edit-price">Price</Label>
+                        <Input
+                          id="edit-price"
+                          value={editingPendingProperty.price}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, price: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-type">Property Type</Label>
+                        <Select 
+                          value={editingPendingProperty.propertyType} 
+                          onValueChange={(value) => setEditingPendingProperty({ ...editingPendingProperty, propertyType: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="house">House</SelectItem>
+                            <SelectItem value="apartment">Apartment</SelectItem>
+                            <SelectItem value="condo">Condo</SelectItem>
+                            <SelectItem value="townhouse">Townhouse</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="edit-bedrooms">Bedrooms</Label>
+                        <Input
+                          id="edit-bedrooms"
+                          type="number"
+                          value={editingPendingProperty.bedrooms}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, bedrooms: parseInt(e.target.value) })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-bathrooms">Bathrooms</Label>
+                        <Input
+                          id="edit-bathrooms"
+                          type="number"
+                          step="0.5"
+                          value={editingPendingProperty.bathrooms}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, bathrooms: parseFloat(e.target.value) })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-sqft">Square Feet</Label>
+                        <Input
+                          id="edit-sqft"
+                          value={editingPendingProperty.sqft}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, sqft: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-description">Description</Label>
+                      <Textarea
+                        id="edit-description"
+                        value={editingPendingProperty.description}
+                        onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, description: e.target.value })}
+                        rows={3}
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="edit-contact-name">Contact Name</Label>
+                        <Input
+                          id="edit-contact-name"
+                          value={editingPendingProperty.contactName}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, contactName: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-contact-email">Contact Email</Label>
+                        <Input
+                          id="edit-contact-email"
+                          type="email"
+                          value={editingPendingProperty.contactEmail}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, contactEmail: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-contact-phone">Contact Phone</Label>
+                        <Input
+                          id="edit-contact-phone"
+                          value={editingPendingProperty.contactPhone}
+                          onChange={(e) => setEditingPendingProperty({ ...editingPendingProperty, contactPhone: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 pt-4">
+                      <Button onClick={handleUpdatePendingProperty} className="flex-1">
+                        Update Property
+                      </Button>
+                      <Button
+                        onClick={() => handleApprovePendingProperty(editingPendingProperty)}
+                        className="flex-1 bg-green-600 hover:bg-green-700"
+                      >
+                        Update & Approve
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </div>
