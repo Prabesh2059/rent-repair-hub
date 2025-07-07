@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
@@ -11,21 +10,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 // Rain animation component
 const RainAnimation = () => {
   return (
-    <div className="rain-container absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(100)].map((_, i) => (
-        <div
-          key={i}
-          className="rain-drop absolute w-0.5 bg-gradient-to-b from-transparent via-green-200/30 to-green-300/40 animate-pulse"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 2}s`,
-            animationDuration: `${1 + Math.random() * 2}s`,
-            height: `${20 + Math.random() * 30}px`,
-            transform: `translateY(-${Math.random() * 100}px)`,
-          }}
-        />
-      ))}
-      <style jsx>{`
+    <>
+      <style>{`
         @keyframes fall {
           0% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
           10% { opacity: 0.6; }
@@ -36,7 +22,22 @@ const RainAnimation = () => {
           animation: fall linear infinite;
         }
       `}</style>
-    </div>
+      <div className="rain-container absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="rain-drop absolute w-0.5 bg-gradient-to-b from-transparent via-green-200/30 to-green-300/40 animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${1 + Math.random() * 2}s`,
+              height: `${20 + Math.random() * 30}px`,
+              transform: `translateY(-${Math.random() * 100}px)`,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
