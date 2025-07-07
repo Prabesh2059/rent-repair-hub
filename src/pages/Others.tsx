@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Paintbrush, Hammer, Wrench, Palette, Home, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,13 +28,13 @@ const Others = () => {
       icon: Hammer,
       title: t('others.services.houseRenovation'),
       description: t('others.services.houseRenovationDesc'),
-      color: "bg-orange-500"
+      color: "bg-green-500"
     },
     {
       icon: Paintbrush,
       title: t('others.services.interiorPainting'),
       description: t('others.services.interiorPaintingDesc'),
-      color: "bg-blue-500"
+      color: "bg-green-500"
     },
     {
       icon: Palette,
@@ -47,19 +46,19 @@ const Others = () => {
       icon: Wrench,
       title: t('others.services.kitchenRenovation'),
       description: t('others.services.kitchenRenovationDesc'),
-      color: "bg-red-500"
+      color: "bg-green-500"
     },
     {
       icon: Home,
       title: t('others.services.bathroomRenovation'),
       description: t('others.services.bathroomRenovationDesc'),
-      color: "bg-purple-500"
+      color: "bg-green-500"
     },
     {
       icon: Hammer,
       title: t('others.services.flooring'),
       description: t('others.services.flooringDesc'),
-      color: "bg-yellow-500"
+      color: "bg-green-500"
     }
   ];
 
@@ -84,7 +83,7 @@ const Others = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative h-96 bg-gradient-to-r from-orange-600 to-red-700 flex items-center justify-center">
+      <section className="relative h-96 bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center">
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Hammer className="mx-auto h-16 w-16 mb-6" />
@@ -118,7 +117,7 @@ const Others = () => {
 
         {/* Service Request Form */}
         <Card className="shadow-xl max-w-4xl mx-auto">
-          <CardHeader className="bg-orange-600 text-white">
+          <CardHeader className="bg-green-600 text-white">
             <CardTitle className="text-2xl flex items-center">
               <Hammer className="mr-3 h-6 w-6" />
               {t('others.form.title')}
@@ -265,7 +264,7 @@ const Others = () => {
 
               {/* Submit Button */}
               <div className="pt-6">
-                <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-lg py-3">
+                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-lg py-3">
                   {t('others.form.submit')}
                 </Button>
               </div>

@@ -54,7 +54,7 @@ const Sell = () => {
 
         {/* Form */}
         <Card className="shadow-xl">
-          <CardHeader className="bg-blue-600 text-white">
+          <CardHeader className="bg-green-600 text-white">
             <CardTitle className="text-2xl flex items-center">
               <Home className="mr-3 h-6 w-6" />
               Property Listing Form
@@ -247,7 +247,7 @@ const Sell = () => {
 
               {/* Submit Button */}
               <div className="pt-6">
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-3">
+                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-lg py-3">
                   List My Property
                 </Button>
               </div>

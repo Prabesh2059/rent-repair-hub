@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
@@ -299,25 +300,25 @@ const Index = () => {
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="bg-gradient-to-br from-green-900 to-green-800 text-white py-16">
+      <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
-              <h3 className="text-2xl font-bold mb-6 text-green-200">{t('common.company')}</h3>
-              <p className="text-green-300 text-lg leading-relaxed">{t('common.tagline')}</p>
+              <h3 className="text-2xl font-bold mb-6 text-gray-200">{t('common.company')}</h3>
+              <p className="text-gray-300 text-lg leading-relaxed">{t('common.tagline')}</p>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl text-green-200">Quick Links</h4>
-              <ul className="space-y-3 text-green-300">
-                <li><Link to="/buy" className="hover:text-green-100 transition-colors text-lg">{t('nav.buy')}</Link></li>
-                <li><Link to="/sell" className="hover:text-green-100 transition-colors text-lg">{t('nav.sell')}</Link></li>
-                <li><Link to="/rent" className="hover:text-green-100 transition-colors text-lg">{t('nav.rent')}</Link></li>
-                <li><Link to="/others" className="hover:text-green-100 transition-colors text-lg">{t('nav.others')}</Link></li>
+              <h4 className="font-bold mb-6 text-xl text-gray-200">Quick Links</h4>
+              <ul className="space-y-3 text-gray-300">
+                <li><Link to="/buy" className="hover:text-gray-100 transition-colors text-lg">{t('nav.buy')}</Link></li>
+                <li><Link to="/sell" className="hover:text-gray-100 transition-colors text-lg">{t('nav.sell')}</Link></li>
+                <li><Link to="/rent" className="hover:text-gray-100 transition-colors text-lg">{t('nav.rent')}</Link></li>
+                <li><Link to="/others" className="hover:text-gray-100 transition-colors text-lg">{t('nav.others')}</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl text-green-200">Services</h4>
-              <ul className="space-y-3 text-green-300">
+              <h4 className="font-bold mb-6 text-xl text-gray-200">Services</h4>
+              <ul className="space-y-3 text-gray-300">
                 <li className="text-lg">Property Management</li>
                 <li className="text-lg">Home Inspection</li>
                 <li className="text-lg">Repair Services</li>
@@ -325,15 +326,15 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl text-green-200">Contact</h4>
-              <div className="text-green-300 space-y-2">
+              <h4 className="font-bold mb-6 text-xl text-gray-200">Contact</h4>
+              <div className="text-gray-300 space-y-2">
                 <p className="text-lg">123 Real Estate St.</p>
                 <p className="text-lg">City, State 12345</p>
                 <p className="text-lg">Phone: (555) 123-4567</p>
               </div>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-green-700 text-center text-green-300">
+          <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
             <p className="text-lg">&copy; 2024 {t('common.company')}. All rights reserved.</p>
           </div>
         </div>
