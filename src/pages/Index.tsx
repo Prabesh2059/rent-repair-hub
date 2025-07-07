@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
@@ -14,7 +15,7 @@ const RainAnimation = () => {
       {[...Array(100)].map((_, i) => (
         <div
           key={i}
-          className="rain-drop absolute w-0.5 bg-gradient-to-b from-transparent via-blue-200/30 to-blue-300/40 animate-pulse"
+          className="rain-drop absolute w-0.5 bg-gradient-to-b from-transparent via-green-200/30 to-green-300/40 animate-pulse"
           style={{
             left: `${Math.random() * 100}%`,
             animationDelay: `${Math.random() * 2}s`,
@@ -133,7 +134,7 @@ const Index = () => {
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse"
+              className="absolute w-2 h-2 bg-green-200/30 rounded-full animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -156,20 +157,20 @@ const Index = () => {
           <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="relative">
-                <MapPin className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <MapPin className="absolute left-4 top-4 h-5 w-5 text-green-500" />
                 <Input
                   placeholder={t('home.search.location')}
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
-                  className="pl-12 h-12 text-gray-700 border-2 border-gray-200 focus:border-brand-green rounded-xl"
+                  className="pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-brand-green rounded-xl"
                 />
               </div>
               <div className="relative">
-                <DollarSign className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <DollarSign className="absolute left-4 top-4 h-5 w-5 text-green-500" />
                 <select
                   value={priceRange}
                   onChange={(e) => setPriceRange(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-gray-200 focus:border-brand-green rounded-xl text-gray-700"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700"
                 >
                   <option value="">{t('home.search.price')}</option>
                   <option value="0-200k">$0 - $200,000</option>
@@ -178,11 +179,11 @@ const Index = () => {
                 </select>
               </div>
               <div className="relative">
-                <Home className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <Home className="absolute left-4 top-4 h-5 w-5 text-green-500" />
                 <select
                   value={propertyType}
                   onChange={(e) => setPropertyType(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-gray-200 focus:border-brand-green rounded-xl text-gray-700"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700"
                 >
                   <option value="">{t('home.search.type')}</option>
                   <option value="house">House</option>
@@ -190,7 +191,7 @@ const Index = () => {
                   <option value="condo">Condo</option>
                 </select>
               </div>
-              <Button className="bg-brand-green hover:bg-brand-green/90 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button className="bg-brand-green hover:bg-green-600 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <Search className="mr-2 h-5 w-5" />
                 {t('home.search.button')}
               </Button>
@@ -202,13 +203,13 @@ const Index = () => {
       {/* Featured Listings */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-gray-800 mb-6">{t('home.featured.title')}</h2>
-          <p className="text-gray-600 text-xl">{t('home.featured.subtitle')}</p>
+          <h2 className="text-5xl font-bold text-green-800 mb-6">{t('home.featured.title')}</h2>
+          <p className="text-green-600 text-xl">{t('home.featured.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {featuredProperties.map((property) => (
-            <Card key={property.id} className="group hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 rounded-2xl overflow-hidden">
+            <Card key={property.id} className="group hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 rounded-2xl overflow-hidden border-2 border-green-100 hover:border-green-300">
               <div className="relative overflow-hidden">
                 <img
                   src={property.image}
@@ -218,16 +219,16 @@ const Index = () => {
                 <div className="absolute top-6 right-6 bg-brand-green text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                   {t('common.featured')}
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-green-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-gray-800 mb-3">{property.title}</h3>
-                <p className="text-gray-600 mb-4 flex items-center text-lg">
+                <h3 className="text-2xl font-bold text-green-800 mb-3">{property.title}</h3>
+                <p className="text-green-600 mb-4 flex items-center text-lg">
                   <MapPin className="mr-2 h-5 w-5" />
                   {property.location}
                 </p>
-                <p className="text-3xl font-bold text-brand-green mb-6">{property.price}</p>
-                <div className="flex justify-between text-gray-600 text-lg">
+                <p className="text-3xl font-bold text-blue-600 mb-6">{property.price}</p>
+                <div className="flex justify-between text-green-600 text-lg">
                   <span className="font-medium">{property.beds} {t('common.beds')}</span>
                   <span className="font-medium">{property.baths} {t('common.baths')}</span>
                   <span className="font-medium">{property.sqft}</span>
@@ -239,18 +240,18 @@ const Index = () => {
       </section>
 
       {/* Action Boxes */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-green-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <Link to="/buy" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage: 'url("https://images.unsplash.com/photo-1560518883-ce09059eeffa")'
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-green/90 to-green-700/90 group-hover:from-green-600/90 group-hover:to-green-800/90 transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600/90 to-green-800/90 group-hover:from-green-500/90 group-hover:to-green-700/90 transition-all duration-500" />
                 <CardContent className="relative z-10 h-full flex flex-col justify-center items-center text-white text-center p-10">
                   <Home className="h-20 w-20 mb-6 group-hover:scale-110 transition-transform duration-500" />
                   <h3 className="text-3xl font-bold mb-4">{t('home.action.buy.title')}</h3>
@@ -260,35 +261,35 @@ const Index = () => {
             </Link>
 
             <Link to="/sell" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage: 'url("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136")'
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/90 to-blue-700/90 group-hover:from-blue-600/90 group-hover:to-blue-800/90 transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/90 to-green-700/90 group-hover:from-green-400/90 group-hover:to-green-600/90 transition-all duration-500" />
                 <CardContent className="relative z-10 h-full flex flex-col justify-center items-center text-white text-center p-10">
                   <DollarSign className="h-20 w-20 mb-6 group-hover:scale-110 transition-transform duration-500" />
                   <h3 className="text-3xl font-bold mb-4">{t('home.action.sell.title')}</h3>
-                  <p className="text-blue-100 text-lg">{t('home.action.sell.desc')}</p>
+                  <p className="text-green-100 text-lg">{t('home.action.sell.desc')}</p>
                 </CardContent>
               </Card>
             </Link>
 
             <Link to="/rent" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage: 'url("https://images.unsplash.com/photo-1493663284031-b7e3aaa4cab7")'
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/90 to-purple-700/90 group-hover:from-purple-600/90 group-hover:to-purple-800/90 transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600/90 to-green-800/90 group-hover:from-green-500/90 group-hover:to-green-700/90 transition-all duration-500" />
                 <CardContent className="relative z-10 h-full flex flex-col justify-center items-center text-white text-center p-10">
                   <Users className="h-20 w-20 mb-6 group-hover:scale-110 transition-transform duration-500" />
                   <h3 className="text-3xl font-bold mb-4">{t('home.action.rent.title')}</h3>
-                  <p className="text-purple-100 text-lg">{t('home.action.rent.desc')}</p>
+                  <p className="text-green-100 text-lg">{t('home.action.rent.desc')}</p>
                 </CardContent>
               </Card>
             </Link>
@@ -297,25 +298,25 @@ const Index = () => {
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
+      <footer className="bg-gradient-to-br from-green-900 to-green-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
-              <h3 className="text-2xl font-bold mb-6">{t('common.company')}</h3>
-              <p className="text-gray-300 text-lg leading-relaxed">{t('common.tagline')}</p>
+              <h3 className="text-2xl font-bold mb-6 text-green-200">{t('common.company')}</h3>
+              <p className="text-green-300 text-lg leading-relaxed">{t('common.tagline')}</p>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl">Quick Links</h4>
-              <ul className="space-y-3 text-gray-300">
-                <li><Link to="/buy" className="hover:text-white transition-colors text-lg">{t('nav.buy')}</Link></li>
-                <li><Link to="/sell" className="hover:text-white transition-colors text-lg">{t('nav.sell')}</Link></li>
-                <li><Link to="/rent" className="hover:text-white transition-colors text-lg">{t('nav.rent')}</Link></li>
-                <li><Link to="/others" className="hover:text-white transition-colors text-lg">{t('nav.others')}</Link></li>
+              <h4 className="font-bold mb-6 text-xl text-green-200">Quick Links</h4>
+              <ul className="space-y-3 text-green-300">
+                <li><Link to="/buy" className="hover:text-green-100 transition-colors text-lg">{t('nav.buy')}</Link></li>
+                <li><Link to="/sell" className="hover:text-green-100 transition-colors text-lg">{t('nav.sell')}</Link></li>
+                <li><Link to="/rent" className="hover:text-green-100 transition-colors text-lg">{t('nav.rent')}</Link></li>
+                <li><Link to="/others" className="hover:text-green-100 transition-colors text-lg">{t('nav.others')}</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl">Services</h4>
-              <ul className="space-y-3 text-gray-300">
+              <h4 className="font-bold mb-6 text-xl text-green-200">Services</h4>
+              <ul className="space-y-3 text-green-300">
                 <li className="text-lg">Property Management</li>
                 <li className="text-lg">Home Inspection</li>
                 <li className="text-lg">Repair Services</li>
@@ -323,15 +324,15 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 text-xl">Contact</h4>
-              <div className="text-gray-300 space-y-2">
+              <h4 className="font-bold mb-6 text-xl text-green-200">Contact</h4>
+              <div className="text-green-300 space-y-2">
                 <p className="text-lg">123 Real Estate St.</p>
                 <p className="text-lg">City, State 12345</p>
                 <p className="text-lg">Phone: (555) 123-4567</p>
               </div>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
+          <div className="mt-12 pt-8 border-t border-green-700 text-center text-green-300">
             <p className="text-lg">&copy; 2024 {t('common.company')}. All rights reserved.</p>
           </div>
         </div>

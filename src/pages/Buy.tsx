@@ -110,33 +110,33 @@ const Buy = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-green-50">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Properties for Sale</h1>
-          <p className="text-gray-600 text-lg">Find your perfect home from our extensive collection</p>
+          <h1 className="text-4xl font-bold text-green-800 mb-4">Properties for Sale</h1>
+          <p className="text-green-600 text-lg">Find your perfect home from our extensive collection</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-2 border-green-200">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-3 h-5 w-5 text-green-500" />
               <Input
                 placeholder="Search properties..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-green-300 focus:border-green-500"
               />
             </div>
             
             <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="h-10 px-3 border border-gray-300 rounded-md"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
             >
               <option value="">All Locations</option>
               <option value="downtown">Downtown</option>
@@ -148,7 +148,7 @@ const Buy = () => {
             <select
               value={priceFilter}
               onChange={(e) => setPriceFilter(e.target.value)}
-              className="h-10 px-3 border border-gray-300 rounded-md"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
             >
               <option value="">All Prices</option>
               <option value="0-300k">Under $300k</option>
@@ -160,7 +160,7 @@ const Buy = () => {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="h-10 px-3 border border-gray-300 rounded-md"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
             >
               <option value="">All Types</option>
               <option value="house">House</option>
@@ -169,7 +169,7 @@ const Buy = () => {
               <option value="townhouse">Townhouse</option>
             </select>
 
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-green-600 hover:bg-green-700 border-2 border-green-600 hover:border-green-700">
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
@@ -178,7 +178,7 @@ const Buy = () => {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">
+          <p className="text-green-600">
             Showing {filteredProperties.length} of {properties.length} properties
           </p>
         </div>
@@ -186,7 +186,7 @@ const Buy = () => {
         {/* Property Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProperties.map((property) => (
-            <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+            <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-green-200 hover:border-green-400">
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={property.image}
@@ -201,12 +201,12 @@ const Buy = () => {
                 </div>
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{property.title}</h3>
-                <p className="text-gray-600 mb-4 flex items-center">
+                <h3 className="text-xl font-bold text-green-800 mb-2">{property.title}</h3>
+                <p className="text-green-600 mb-4 flex items-center">
                   <MapPin className="mr-1 h-4 w-4" />
                   {property.location}
                 </p>
-                <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
+                <div className="flex justify-between items-center text-sm text-green-600 mb-4">
                   <div className="flex items-center">
                     <Bed className="mr-1 h-4 w-4" />
                     {property.beds} beds
@@ -220,7 +220,7 @@ const Buy = () => {
                     {property.sqft} sq ft
                   </div>
                 </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button className="w-full bg-green-600 hover:bg-green-700">
                   View Details
                 </Button>
               </CardContent>
@@ -230,7 +230,7 @@ const Buy = () => {
 
         {filteredProperties.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No properties found matching your criteria.</p>
+            <p className="text-green-600 text-lg">No properties found matching your criteria.</p>
             <Button 
               onClick={() => {
                 setSearchTerm("");
@@ -238,7 +238,7 @@ const Buy = () => {
                 setTypeFilter("");
                 setLocationFilter("");
               }}
-              className="mt-4 bg-blue-600 hover:bg-blue-700"
+              className="mt-4 bg-green-600 hover:bg-green-700"
             >
               Clear Filters
             </Button>
