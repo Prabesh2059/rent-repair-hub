@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, XCircle, Clock, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -31,6 +32,8 @@ interface Property {
   sqft: string;
   type: 'buy' | 'rent';
   image: string;
+  phone: string;
+  status: 'active' | 'inactive';
 }
 
 interface PendingProperty {
@@ -52,7 +55,7 @@ interface PendingProperty {
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('contacts');
+  const [activeTab, setActiveTab] = useState('listings');
   
   const [contacts, setContacts] = useState<ContactMessage[]>([
     {
@@ -73,28 +76,59 @@ const Admin = () => {
     }
   ]);
 
+  // All current listings (buy, sell, rent)
   const [properties, setProperties] = useState<Property[]>([
     {
       id: 1,
-      title: "Modern Family Home",
-      location: "Downtown, City Center",
+      title: "Beautiful Family Home",
+      location: "123 Oak Street, Downtown",
       price: "$450,000",
-      beds: 3,
-      baths: 2,
-      sqft: "2,100 sq ft",
+      beds: 4,
+      baths: 3,
+      sqft: "2,400 sq ft",
       type: 'buy',
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      phone: "(555) 123-4567",
+      status: 'active'
     },
     {
       id: 2,
-      title: "Luxury Apartment",
-      location: "Uptown District",
-      price: "$2,500/month",
+      title: "Modern Luxury Condo",
+      location: "456 Pine Avenue, Uptown",
+      price: "$680,000",
       beds: 2,
       baths: 2,
       sqft: "1,800 sq ft",
+      type: 'buy',
+      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      phone: "(555) 234-5678",
+      status: 'active'
+    },
+    {
+      id: 3,
+      title: "Downtown Luxury Apartment",
+      location: "789 Main Street, City Center",
+      price: "$2,500/month",
+      beds: 2,
+      baths: 2,
+      sqft: "1,200 sq ft",
       type: 'rent',
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
+      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2",
+      phone: "(555) 345-6789",
+      status: 'active'
+    },
+    {
+      id: 4,
+      title: "Cozy Studio Apartment",
+      location: "321 Elm Street, Midtown",
+      price: "$1,800/month",
+      beds: 1,
+      baths: 1,
+      sqft: "800 sq ft",
+      type: 'rent',
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
+      phone: "(555) 456-7890",
+      status: 'active'
     }
   ]);
 
@@ -141,7 +175,9 @@ const Admin = () => {
     baths: 1,
     sqft: "",
     type: 'buy' as 'buy' | 'rent',
-    image: ""
+    image: "",
+    phone: "",
+    status: 'active' as 'active' | 'inactive'
   });
 
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
@@ -183,7 +219,7 @@ const Admin = () => {
       toast({ title: "Property Added", description: "New property has been added successfully." });
     }
     
-    setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "" });
+    setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "", phone: "", status: 'active' });
     setEditingProperty(null);
     setShowPropertyDialog(false);
   };
@@ -202,6 +238,16 @@ const Admin = () => {
     });
   };
 
+  const handleTogglePropertyStatus = (id: number) => {
+    setProperties(properties.map(p => 
+      p.id === id ? { ...p, status: p.status === 'active' ? 'inactive' : 'active' } : p
+    ));
+    toast({
+      title: "Status Updated",
+      description: "Property status has been changed.",
+    });
+  };
+
   const handleApprovePendingProperty = (pendingProperty: PendingProperty) => {
     // Convert pending property to approved property
     const newProperty: Property = {
@@ -213,7 +259,9 @@ const Admin = () => {
       baths: pendingProperty.bathrooms,
       sqft: `${pendingProperty.sqft} sq ft`,
       type: pendingProperty.propertyType === 'apartment' ? 'rent' : 'buy',
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
+      phone: pendingProperty.contactPhone,
+      status: 'active'
     };
 
     setProperties([...properties, newProperty]);
@@ -252,6 +300,10 @@ const Admin = () => {
     setShowPendingPropertyDialog(false);
   };
 
+  const handleCallProperty = (phone: string) => {
+    window.location.href = `tel:${phone}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -272,22 +324,13 @@ const Admin = () => {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-2 mb-8">
           <Button
-            variant={activeTab === 'contacts' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('contacts')}
-            className="flex items-center text-xs sm:text-sm"
-          >
-            <MessageSquare className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Contact Messages</span>
-            <span className="sm:hidden">Contacts</span>
-          </Button>
-          <Button
-            variant={activeTab === 'properties' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('properties')}
+            variant={activeTab === 'listings' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('listings')}
             className="flex items-center text-xs sm:text-sm"
           >
             <Home className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Properties</span>
-            <span className="sm:hidden">Props</span>
+            <span className="hidden sm:inline">All Listings</span>
+            <span className="sm:hidden">Listings</span>
           </Button>
           <Button
             variant={activeTab === 'pending' ? 'default' : 'outline'}
@@ -298,59 +341,25 @@ const Admin = () => {
             <span className="hidden sm:inline">Pending Properties</span>
             <span className="sm:hidden">Pending</span>
           </Button>
+          <Button
+            variant={activeTab === 'contacts' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('contacts')}
+            className="flex items-center text-xs sm:text-sm"
+          >
+            <MessageSquare className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Contact Messages</span>
+            <span className="sm:hidden">Contacts</span>
+          </Button>
         </div>
 
-        {/* Contact Messages Tab */}
-        {activeTab === 'contacts' && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Messages</CardTitle>
-            </CardHeader>
-            <CardContent className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead className="hidden sm:table-cell">Email</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead className="hidden md:table-cell">Message</TableHead>
-                    <TableHead className="hidden sm:table-cell">Date</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {contacts.map((contact) => (
-                    <TableRow key={contact.id}>
-                      <TableCell className="font-medium">{contact.name}</TableCell>
-                      <TableCell className="hidden sm:table-cell">{contact.email}</TableCell>
-                      <TableCell>{contact.subject}</TableCell>
-                      <TableCell className="hidden md:table-cell max-w-xs truncate">{contact.message}</TableCell>
-                      <TableCell className="hidden sm:table-cell">{contact.date}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => handleDeleteContact(contact.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Properties Tab */}
-        {activeTab === 'properties' && (
+        {/* All Listings Tab */}
+        {activeTab === 'listings' && (
           <div>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-              <h2 className="text-xl sm:text-2xl font-bold">Properties Management</h2>
+              <h2 className="text-xl sm:text-2xl font-bold">All Property Listings</h2>
               <Dialog open={showPropertyDialog} onOpenChange={setShowPropertyDialog}>
                 <DialogTrigger asChild>
-                  <Button onClick={() => { setEditingProperty(null); setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "" }); }}>
+                  <Button onClick={() => { setEditingProperty(null); setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "", phone: "", status: 'active' }); }}>
                     <Plus className="mr-2 h-4 w-4" />
                     <span className="hidden sm:inline">Add Property</span>
                     <span className="sm:hidden">Add</span>
@@ -418,6 +427,15 @@ const Admin = () => {
                       />
                     </div>
                     <div>
+                      <Label htmlFor="phone">Contact Phone</Label>
+                      <Input
+                        id="phone"
+                        value={newProperty.phone}
+                        onChange={(e) => setNewProperty({ ...newProperty, phone: e.target.value })}
+                        placeholder="(555) 123-4567"
+                      />
+                    </div>
+                    <div>
                       <Label htmlFor="type">Type</Label>
                       <Select value={newProperty.type} onValueChange={(value: 'buy' | 'rent') => setNewProperty({ ...newProperty, type: value })}>
                         <SelectTrigger>
@@ -426,6 +444,18 @@ const Admin = () => {
                         <SelectContent>
                           <SelectItem value="buy">Buy</SelectItem>
                           <SelectItem value="rent">Rent</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="status">Status</Label>
+                      <Select value={newProperty.status} onValueChange={(value: 'active' | 'inactive') => setNewProperty({ ...newProperty, status: value })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="active">Active</SelectItem>
+                          <SelectItem value="inactive">Inactive</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -457,6 +487,7 @@ const Admin = () => {
                       <TableHead>Price</TableHead>
                       <TableHead className="hidden sm:table-cell">Beds/Baths</TableHead>
                       <TableHead className="hidden lg:table-cell">Type</TableHead>
+                      <TableHead className="hidden lg:table-cell">Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -477,10 +508,33 @@ const Admin = () => {
                             {property.type === 'buy' ? 'For Sale' : 'For Rent'}
                           </span>
                         </TableCell>
+                        <TableCell className="hidden lg:table-cell">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            property.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {property.status}
+                          </span>
+                        </TableCell>
                         <TableCell>
                           <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleCallProperty(property.phone)}
+                              className="text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
+                            >
+                              <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
                             <Button variant="outline" size="sm" onClick={() => handleEditProperty(property)}>
                               <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleTogglePropertyStatus(property.id)}
+                              className={property.status === 'active' ? 'text-gray-600' : 'text-green-600'}
+                            >
+                              {property.status === 'active' ? 'Deactivate' : 'Activate'}
                             </Button>
                             <Button variant="destructive" size="sm" onClick={() => handleDeleteProperty(property.id)}>
                               <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -693,6 +747,49 @@ const Admin = () => {
               </DialogContent>
             </Dialog>
           </div>
+        )}
+
+        {/* Contact Messages Tab */}
+        {activeTab === 'contacts' && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Contact Messages</CardTitle>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead className="hidden sm:table-cell">Email</TableHead>
+                    <TableHead>Subject</TableHead>
+                    <TableHead className="hidden md:table-cell">Message</TableHead>
+                    <TableHead className="hidden sm:table-cell">Date</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {contacts.map((contact) => (
+                    <TableRow key={contact.id}>
+                      <TableCell className="font-medium">{contact.name}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{contact.email}</TableCell>
+                      <TableCell>{contact.subject}</TableCell>
+                      <TableCell className="hidden md:table-cell max-w-xs truncate">{contact.message}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{contact.date}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDeleteContact(contact.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>

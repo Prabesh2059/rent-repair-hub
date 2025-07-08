@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Search, Filter, MapPin, Bed, Bath, Square } from "lucide-react";
+import { Search, Filter, MapPin, Bed, Bath, Square, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,7 +21,8 @@ const Buy = () => {
       beds: 4,
       baths: 3,
       sqft: 2400,
-      type: "house"
+      type: "house",
+      phone: "(555) 123-4567"
     },
     {
       id: 2,
@@ -33,7 +33,8 @@ const Buy = () => {
       beds: 2,
       baths: 2,
       sqft: 1800,
-      type: "condo"
+      type: "condo",
+      phone: "(555) 234-5678"
     },
     {
       id: 3,
@@ -44,7 +45,8 @@ const Buy = () => {
       beds: 3,
       baths: 2,
       sqft: 1600,
-      type: "house"
+      type: "house",
+      phone: "(555) 345-6789"
     },
     {
       id: 4,
@@ -55,7 +57,8 @@ const Buy = () => {
       beds: 3,
       baths: 2.5,
       sqft: 2000,
-      type: "townhouse"
+      type: "townhouse",
+      phone: "(555) 456-7890"
     },
     {
       id: 5,
@@ -66,7 +69,8 @@ const Buy = () => {
       beds: 1,
       baths: 1,
       sqft: 1200,
-      type: "apartment"
+      type: "apartment",
+      phone: "(555) 567-8901"
     },
     {
       id: 6,
@@ -77,7 +81,8 @@ const Buy = () => {
       beds: 5,
       baths: 4,
       sqft: 3200,
-      type: "house"
+      type: "house",
+      phone: "(555) 678-9012"
     }
   ];
 
@@ -108,6 +113,10 @@ const Buy = () => {
     
     return matchesSearch && matchesType && matchesLocation && matchesPrice;
   });
+
+  const handleCallNow = (phone: string) => {
+    window.location.href = `tel:${phone}`;
+  };
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -220,9 +229,18 @@ const Buy = () => {
                     {property.sqft} sq ft
                   </div>
                 </div>
-                <Button className="w-full bg-green-600 hover:bg-green-700">
-                  View Details
-                </Button>
+                <div className="flex gap-2">
+                  <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                    View Details
+                  </Button>
+                  <Button 
+                    onClick={() => handleCallNow(property.phone)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium shadow-lg transform hover:scale-105 transition-all duration-200 animate-pulse"
+                  >
+                    <Phone className="h-4 w-4 mr-1" />
+                    Call Now
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
