@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,10 +43,27 @@ const RainAnimation = () => {
 };
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchLocation, setSearchLocation] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const { t } = useLanguage();
+
+  const handleSearch = () => {
+    if (!searchLocation.trim()) {
+      alert("Please enter a location to search");
+      return;
+    }
+    
+    // Create search parameters
+    const searchParams = new URLSearchParams();
+    if (searchLocation) searchParams.append('location', searchLocation);
+    if (priceRange) searchParams.append('price', priceRange);
+    if (propertyType) searchParams.append('type', propertyType);
+    
+    // Navigate to buy page with search parameters
+    navigate(`/buy?${searchParams.toString()}`);
+  };
 
   const featuredProperties = [
     {
@@ -193,7 +210,10 @@ const Index = () => {
                   <option value="condo">Condo</option>
                 </select>
               </div>
-              <Button className="bg-brand-green hover:bg-green-600 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button 
+                onClick={handleSearch}
+                className="bg-brand-green hover:bg-green-600 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
                 <Search className="mr-2 h-5 w-5" />
                 {t('home.search.button')}
               </Button>

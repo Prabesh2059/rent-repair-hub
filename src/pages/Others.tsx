@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Paintbrush, Hammer, Wrench, Palette, Home, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -83,32 +84,32 @@ const Others = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative h-96 bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center">
+      <section className="relative h-64 sm:h-80 lg:h-96 bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center">
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <Hammer className="mx-auto h-16 w-16 mb-6" />
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">{t('others.hero.title')}</h1>
-          <p className="text-xl">{t('others.hero.subtitle')}</p>
+          <Hammer className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6" />
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">{t('others.hero.title')}</h1>
+          <p className="text-base sm:text-lg lg:text-xl">{t('others.hero.subtitle')}</p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Services Grid */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('others.services.title')}</h2>
-            <p className="text-gray-600 text-lg">{t('others.services.subtitle')}</p>
+        <div className="mb-12 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">{t('others.services.title')}</h2>
+            <p className="text-gray-600 text-base sm:text-lg">{t('others.services.subtitle')}</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => (
               <Card key={index} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
-                <CardContent className="p-8 text-center">
-                  <div className={`${service.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <service.icon className="h-8 w-8 text-white" />
+                <CardContent className="p-6 sm:p-8 text-center">
+                  <div className={`${service.color} w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <service.icon className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">{service.title}</h3>
-                  <p className="text-gray-600">{service.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">{service.title}</h3>
+                  <p className="text-gray-600 text-sm sm:text-base">{service.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -117,16 +118,16 @@ const Others = () => {
 
         {/* Service Request Form */}
         <Card className="shadow-xl max-w-4xl mx-auto">
-          <CardHeader className="bg-green-600 text-white">
-            <CardTitle className="text-2xl flex items-center">
-              <Hammer className="mr-3 h-6 w-6" />
+          <CardHeader className="bg-green-600 text-white p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl flex items-center">
+              <Hammer className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
               {t('others.form.title')}
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="p-4 sm:p-6 lg:p-8">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Personal Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <Label htmlFor="name" className="text-sm font-medium">{t('others.form.name')} *</Label>
                   <Input
@@ -136,7 +137,7 @@ const Others = () => {
                     onChange={handleInputChange}
                     placeholder="Your full name"
                     required
-                    className="mt-1"
+                    className="mt-1 text-sm sm:text-base"
                   />
                 </div>
                 
@@ -150,12 +151,12 @@ const Others = () => {
                     onChange={handleInputChange}
                     placeholder="(555) 123-4567"
                     required
-                    className="mt-1"
+                    className="mt-1 text-sm sm:text-base"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <Label htmlFor="email" className="text-sm font-medium">{t('others.form.email')}</Label>
                   <Input
@@ -165,7 +166,7 @@ const Others = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="your@email.com"
-                    className="mt-1"
+                    className="mt-1 text-sm sm:text-base"
                   />
                 </div>
 
@@ -178,13 +179,13 @@ const Others = () => {
                     onChange={handleInputChange}
                     placeholder="Full property address"
                     required
-                    className="mt-1"
+                    className="mt-1 text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               {/* Service Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <Label htmlFor="serviceType" className="text-sm font-medium">{t('others.form.serviceType')} *</Label>
                   <select
@@ -193,7 +194,7 @@ const Others = () => {
                     value={formData.serviceType}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 w-full h-10 px-3 border border-gray-300 rounded-md"
+                    className="mt-1 w-full h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base"
                   >
                     <option value="">Select Service</option>
                     <option value="house-renovation">{t('others.services.houseRenovation')}</option>
@@ -213,7 +214,7 @@ const Others = () => {
                     value={formData.urgency}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 w-full h-10 px-3 border border-gray-300 rounded-md"
+                    className="mt-1 w-full h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base"
                   >
                     <option value="">Select Urgency</option>
                     <option value="urgent">Urgent (1-2 weeks)</option>
@@ -231,7 +232,7 @@ const Others = () => {
                   type="date"
                   value={formData.preferredDate}
                   onChange={handleInputChange}
-                  className="mt-1"
+                  className="mt-1 text-sm sm:text-base"
                 />
               </div>
 
@@ -245,26 +246,26 @@ const Others = () => {
                   placeholder="Please describe your renovation or painting project in detail..."
                   required
                   rows={5}
-                  className="mt-1"
+                  className="mt-1 text-sm sm:text-base resize-none"
                 />
               </div>
 
               {/* Image Upload */}
               <div>
                 <Label className="text-sm font-medium">{t('others.form.upload')}</Label>
-                <div className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-400 transition-colors">
-                  <Upload className="mx-auto h-10 w-10 text-gray-400 mb-3" />
-                  <p className="text-gray-500 mb-2">{t('others.form.uploadDesc')}</p>
-                  <p className="text-sm text-gray-400">{t('others.form.uploadFormat')}</p>
-                  <Button type="button" variant="outline" className="mt-3">
+                <div className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center hover:border-orange-400 transition-colors">
+                  <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 text-gray-400 mb-3" />
+                  <p className="text-gray-500 mb-2 text-sm sm:text-base">{t('others.form.uploadDesc')}</p>
+                  <p className="text-xs sm:text-sm text-gray-400">{t('others.form.uploadFormat')}</p>
+                  <Button type="button" variant="outline" className="mt-3 text-sm sm:text-base">
                     {t('others.form.chooseImages')}
                   </Button>
                 </div>
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6">
-                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-lg py-3">
+              <div className="pt-4 sm:pt-6">
+                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-base sm:text-lg py-2 sm:py-3 transition-colors duration-200">
                   {t('others.form.submit')}
                 </Button>
               </div>

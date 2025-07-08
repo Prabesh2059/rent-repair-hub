@@ -138,3 +138,12 @@ All colors MUST be HSL.
     background-color: hsl(var(--brand-blue));
   }
 }
+
+/* Language toggle button should use green colors */
+.language-toggle {
+  background-color: hsl(142 69% 39%) !important;
+}
+
+.language-toggle:hover {
+  background-color: hsl(142 60% 35%) !important;
+}
