@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, XCircle, Clock, Phone } from "lucide-react";
+import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, XCircle, Clock, Phone, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -184,6 +183,12 @@ const Admin = () => {
   const [editingPendingProperty, setEditingPendingProperty] = useState<PendingProperty | null>(null);
   const [showPropertyDialog, setShowPropertyDialog] = useState(false);
   const [showPendingPropertyDialog, setShowPendingPropertyDialog] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+  const [showViewPropertyDialog, setShowViewPropertyDialog] = useState(false);
+  const [showViewPendingDialog, setShowViewPendingDialog] = useState(false);
+  const [viewingContact, setViewingContact] = useState<ContactMessage | null>(null);
+  const [viewingProperty, setViewingProperty] = useState<Property | null>(null);
+  const [viewingPendingProperty, setViewingPendingProperty] = useState<PendingProperty | null>(null);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('adminLoggedIn');
@@ -302,6 +307,21 @@ const Admin = () => {
 
   const handleCallProperty = (phone: string) => {
     window.location.href = `tel:${phone}`;
+  };
+
+  const handleViewContact = (contact: ContactMessage) => {
+    setViewingContact(contact);
+    setShowContactDialog(true);
+  };
+
+  const handleViewProperty = (property: Property) => {
+    setViewingProperty(property);
+    setShowViewPropertyDialog(true);
+  };
+
+  const handleViewPendingProperty = (property: PendingProperty) => {
+    setViewingPendingProperty(property);
+    setShowViewPendingDialog(true);
   };
 
   return (
@@ -520,6 +540,14 @@ const Admin = () => {
                             <Button
                               variant="outline"
                               size="sm"
+                              onClick={() => handleViewProperty(property)}
+                              className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                            >
+                              <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
                               onClick={() => handleCallProperty(property.phone)}
                               className="text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
                             >
@@ -582,6 +610,14 @@ const Admin = () => {
                         <TableCell className="hidden lg:table-cell">{property.submissionDate}</TableCell>
                         <TableCell>
                           <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleViewPendingProperty(property)}
+                              className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                            >
+                              <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
                             <Button
                               variant="outline"
                               size="sm"
@@ -776,13 +812,23 @@ const Admin = () => {
                       <TableCell className="hidden md:table-cell max-w-xs truncate">{contact.message}</TableCell>
                       <TableCell className="hidden sm:table-cell">{contact.date}</TableCell>
                       <TableCell>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => handleDeleteContact(contact.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleViewContact(contact)}
+                            className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDeleteContact(contact.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -791,6 +837,259 @@ const Admin = () => {
             </CardContent>
           </Card>
         )}
+
+        {/* View Contact Dialog */}
+        <Dialog open={showContactDialog} onOpenChange={setShowContactDialog}>
+          <DialogContent className="w-[95vw] max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Contact Message Details</DialogTitle>
+            </DialogHeader>
+            {viewingContact && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="font-semibold">Name</Label>
+                    <p className="text-gray-700">{viewingContact.name}</p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Date</Label>
+                    <p className="text-gray-700">{viewingContact.date}</p>
+                  </div>
+                </div>
+                <div>
+                  <Label className="font-semibold">Email</Label>
+                  <p className="text-gray-700">{viewingContact.email}</p>
+                </div>
+                <div>
+                  <Label className="font-semibold">Subject</Label>
+                  <p className="text-gray-700">{viewingContact.subject}</p>
+                </div>
+                <div>
+                  <Label className="font-semibold">Message</Label>
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg border">
+                    <p className="text-gray-700 whitespace-pre-wrap">{viewingContact.message}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2 pt-4">
+                  <Button
+                    onClick={() => window.location.href = `mailto:${viewingContact.email}?subject=Re: ${viewingContact.subject}`}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Reply via Email
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      handleDeleteContact(viewingContact.id);
+                      setShowContactDialog(false);
+                    }}
+                  >
+                    Delete Message
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* View Property Dialog */}
+        <Dialog open={showViewPropertyDialog} onOpenChange={setShowViewPropertyDialog}>
+          <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Property Details</DialogTitle>
+            </DialogHeader>
+            {viewingProperty && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <img 
+                      src={viewingProperty.image} 
+                      alt={viewingProperty.title} 
+                      className="w-full h-64 object-cover rounded-lg"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="font-semibold">Title</Label>
+                      <p className="text-gray-700 text-lg">{viewingProperty.title}</p>
+                    </div>
+                    <div>
+                      <Label className="font-semibold">Location</Label>
+                      <p className="text-gray-700">{viewingProperty.location}</p>
+                    </div>
+                    <div>
+                      <Label className="font-semibold">Price</Label>
+                      <p className="text-green-600 text-xl font-bold">{viewingProperty.price}</p>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="font-semibold">Bedrooms</Label>
+                        <p className="text-gray-700">{viewingProperty.beds}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Bathrooms</Label>
+                        <p className="text-gray-700">{viewingProperty.baths}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Square Feet</Label>
+                        <p className="text-gray-700">{viewingProperty.sqft}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <Label className="font-semibold">Type</Label>
+                    <p className="text-gray-700 capitalize">
+                      {viewingProperty.type === 'buy' ? 'For Sale' : 'For Rent'}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Status</Label>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      viewingProperty.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {viewingProperty.status}
+                    </span>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Contact Phone</Label>
+                    <p className="text-gray-700">{viewingProperty.phone}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2 pt-4">
+                  <Button
+                    onClick={() => handleCallProperty(viewingProperty.phone)}
+                    className="bg-orange-500 hover:bg-orange-600"
+                  >
+                    <Phone className="mr-2 h-4 w-4" />
+                    Call Now
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleEditProperty(viewingProperty);
+                      setShowViewPropertyDialog(false);
+                    }}
+                    variant="outline"
+                  >
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Property
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* View Pending Property Dialog */}
+        <Dialog open={showViewPendingDialog} onOpenChange={setShowViewPendingDialog}>
+          <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Pending Property Details</DialogTitle>
+            </DialogHeader>
+            {viewingPendingProperty && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="font-semibold">Title</Label>
+                    <p className="text-gray-700 text-lg">{viewingPendingProperty.title}</p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Submission Date</Label>
+                    <p className="text-gray-700">{viewingPendingProperty.submissionDate}</p>
+                  </div>
+                </div>
+                <div>
+                  <Label className="font-semibold">Location</Label>
+                  <p className="text-gray-700">{viewingPendingProperty.location}</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="font-semibold">Price</Label>
+                    <p className="text-green-600 text-xl font-bold">
+                      ${viewingPendingProperty.price}
+                      {viewingPendingProperty.propertyType === 'apartment' ? '/month' : ''}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Property Type</Label>
+                    <p className="text-gray-700 capitalize">{viewingPendingProperty.propertyType}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label className="font-semibold">Bedrooms</Label>
+                    <p className="text-gray-700">{viewingPendingProperty.bedrooms}</p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Bathrooms</Label>
+                    <p className="text-gray-700">{viewingPendingProperty.bathrooms}</p>
+                  </div>
+                  <div>
+                    <Label className="font-semibold">Square Feet</Label>
+                    <p className="text-gray-700">{viewingPendingProperty.sqft}</p>
+                  </div>
+                </div>
+                <div>
+                  <Label className="font-semibold">Description</Label>
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg border">
+                    <p className="text-gray-700 whitespace-pre-wrap">{viewingPendingProperty.description}</p>
+                  </div>
+                </div>
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-lg mb-3">Contact Information</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <Label className="font-semibold">Name</Label>
+                      <p className="text-gray-700">{viewingPendingProperty.contactName}</p>
+                    </div>
+                    <div>
+                      <Label className="font-semibold">Email</Label>
+                      <p className="text-gray-700">{viewingPendingProperty.contactEmail}</p>
+                    </div>
+                    <div>
+                      <Label className="font-semibold">Phone</Label>
+                      <p className="text-gray-700">{viewingPendingProperty.contactPhone}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-4">
+                  <Button
+                    onClick={() => handleApprovePendingProperty(viewingPendingProperty)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Approve Property
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleEditPendingProperty(viewingPendingProperty);
+                      setShowViewPendingDialog(false);
+                    }}
+                    variant="outline"
+                  >
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Property
+                  </Button>
+                  <Button
+                    onClick={() => window.location.href = `mailto:${viewingPendingProperty.contactEmail}`}
+                    variant="outline"
+                    className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                  >
+                    Contact Owner
+                  </Button>
+                  <Button
+                    onClick={() => window.location.href = `tel:${viewingPendingProperty.contactPhone}`}
+                    className="bg-orange-500 hover:bg-orange-600"
+                  >
+                    <Phone className="mr-2 h-4 w-4" />
+                    Call Owner
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
