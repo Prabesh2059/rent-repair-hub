@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
@@ -164,16 +163,16 @@ const Index = () => {
           ))}
         </div>
 
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg drop-shadow-2xl">
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg drop-shadow-2xl animate-slide-in-down">
             {t('home.hero.title')}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-green-100 drop-shadow-lg">
+          <p className="text-xl md:text-2xl mb-8 text-green-100 drop-shadow-lg animate-fade-in-up animate-delay-300">
             {t('home.hero.subtitle')}
           </p>
           
           {/* Enhanced Search Bar */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20 animate-scale-in animate-delay-500">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="relative">
                 <MapPin className="absolute left-4 top-4 h-5 w-5 text-green-500" />
@@ -181,7 +180,7 @@ const Index = () => {
                   placeholder={t('home.search.location')}
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
-                  className="pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-brand-green rounded-xl"
+                  className="pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-brand-green rounded-xl smooth-transition"
                 />
               </div>
               <div className="relative">
@@ -189,7 +188,7 @@ const Index = () => {
                 <select
                   value={priceRange}
                   onChange={(e) => setPriceRange(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700 smooth-transition"
                 >
                   <option value="">{t('home.search.price')}</option>
                   <option value="0-200k">$0 - $200,000</option>
@@ -202,7 +201,7 @@ const Index = () => {
                 <select
                   value={propertyType}
                   onChange={(e) => setPropertyType(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-brand-green rounded-xl text-gray-700 smooth-transition"
                 >
                   <option value="">{t('home.search.type')}</option>
                   <option value="house">House</option>
@@ -212,7 +211,7 @@ const Index = () => {
               </div>
               <Button 
                 onClick={handleSearch}
-                className="bg-brand-green hover:bg-green-600 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="bg-brand-green hover:bg-green-600 h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl smooth-transition hover-lift"
               >
                 <Search className="mr-2 h-5 w-5" />
                 {t('home.search.button')}
@@ -224,14 +223,14 @@ const Index = () => {
 
       {/* Featured Listings */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 animate-fade-in-up">
           <h2 className="text-5xl font-bold text-green-800 mb-6">{t('home.featured.title')}</h2>
           <p className="text-green-600 text-xl">{t('home.featured.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {featuredProperties.map((property) => (
-            <Card key={property.id} className="group hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 rounded-2xl overflow-hidden border-2 border-green-100 hover:border-green-300">
+          {featuredProperties.map((property, index) => (
+            <Card key={property.id} className={`group hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 rounded-2xl overflow-hidden border-2 border-green-100 hover:border-green-300 hover-lift animate-scale-in animate-delay-${200 + index * 100}`}>
               <div className="relative overflow-hidden">
                 <img
                   src={property.image}
@@ -265,8 +264,8 @@ const Index = () => {
       <section className="py-20 bg-gradient-to-br from-green-50 to-green-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <Link to="/buy" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
+            <Link to="/buy" className="group animate-fade-in-left">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400 hover-lift">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
@@ -282,8 +281,8 @@ const Index = () => {
               </Card>
             </Link>
 
-            <Link to="/sell" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
+            <Link to="/sell" className="group animate-fade-in-up animate-delay-200">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400 hover-lift">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
@@ -299,8 +298,8 @@ const Index = () => {
               </Card>
             </Link>
 
-            <Link to="/rent" className="group">
-              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400">
+            <Link to="/rent" className="group animate-fade-in-right animate-delay-400">
+              <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400 hover-lift">
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
@@ -320,23 +319,23 @@ const Index = () => {
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
+      <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 animate-fade-in-up">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div>
+            <div className="animate-fade-in-left">
               <h3 className="text-2xl font-bold mb-6 text-gray-200">{t('common.company')}</h3>
               <p className="text-gray-300 text-lg leading-relaxed">{t('common.tagline')}</p>
             </div>
-            <div>
+            <div className="animate-fade-in-up animate-delay-200">
               <h4 className="font-bold mb-6 text-xl text-gray-200">Quick Links</h4>
               <ul className="space-y-3 text-gray-300">
-                <li><Link to="/buy" className="hover:text-gray-100 transition-colors text-lg">{t('nav.buy')}</Link></li>
-                <li><Link to="/sell" className="hover:text-gray-100 transition-colors text-lg">{t('nav.sell')}</Link></li>
-                <li><Link to="/rent" className="hover:text-gray-100 transition-colors text-lg">{t('nav.rent')}</Link></li>
-                <li><Link to="/others" className="hover:text-gray-100 transition-colors text-lg">{t('nav.others')}</Link></li>
+                <li><Link to="/buy" className="hover:text-gray-100 smooth-transition text-lg">{t('nav.buy')}</Link></li>
+                <li><Link to="/sell" className="hover:text-gray-100 smooth-transition text-lg">{t('nav.sell')}</Link></li>
+                <li><Link to="/rent" className="hover:text-gray-100 smooth-transition text-lg">{t('nav.rent')}</Link></li>
+                <li><Link to="/others" className="hover:text-gray-100 smooth-transition text-lg">{t('nav.others')}</Link></li>
               </ul>
             </div>
-            <div>
+            <div className="animate-fade-in-up animate-delay-400">
               <h4 className="font-bold mb-6 text-xl text-gray-200">Services</h4>
               <ul className="space-y-3 text-gray-300">
                 <li className="text-lg">Property Management</li>
@@ -345,7 +344,7 @@ const Index = () => {
                 <li className="text-lg">Real Estate Investment</li>
               </ul>
             </div>
-            <div>
+            <div className="animate-fade-in-right animate-delay-600">
               <h4 className="font-bold mb-6 text-xl text-gray-200">Contact</h4>
               <div className="text-gray-300 space-y-2">
                 <p className="text-lg">123 Real Estate St.</p>
@@ -354,7 +353,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
+          <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300 animate-fade-in-up animate-delay-800">
             <p className="text-lg">&copy; 2024 {t('common.company')}. All rights reserved.</p>
           </div>
         </div>

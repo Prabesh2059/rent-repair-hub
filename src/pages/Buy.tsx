@@ -114,7 +114,21 @@ const Buy = () => {
     return matchesSearch && matchesType && matchesLocation && matchesPrice;
   });
 
-  const handleCallNow = (phone: string) => {
+  const handleCallNow = (phone: string, event: React.MouseEvent<HTMLButtonElement>) => {
+    const button = event.currentTarget;
+    button.classList.add('animate-press-down');
+    const icon = button.querySelector('.phone-icon');
+    if (icon) {
+      icon.classList.add('animate-phone-ring');
+    }
+    
+    setTimeout(() => {
+      button.classList.remove('animate-press-down');
+      if (icon) {
+        icon.classList.remove('animate-phone-ring');
+      }
+    }, 500);
+    
     window.location.href = `tel:${phone}`;
   };
 
@@ -124,13 +138,13 @@ const Buy = () => {
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 animate-fade-in-up">
           <h1 className="text-4xl font-bold text-green-800 mb-4">Properties for Sale</h1>
           <p className="text-green-600 text-lg">Find your perfect home from our extensive collection</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-2 border-green-200">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-2 border-green-200 animate-slide-in-down animate-delay-200">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-5 w-5 text-green-500" />
@@ -138,14 +152,14 @@ const Buy = () => {
                 placeholder="Search properties..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-green-300 focus:border-green-500"
+                className="pl-10 border-green-300 focus:border-green-500 smooth-transition"
               />
             </div>
             
             <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
             >
               <option value="">All Locations</option>
               <option value="downtown">Downtown</option>
@@ -157,7 +171,7 @@ const Buy = () => {
             <select
               value={priceFilter}
               onChange={(e) => setPriceFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
             >
               <option value="">All Prices</option>
               <option value="0-300k">Under $300k</option>
@@ -169,7 +183,7 @@ const Buy = () => {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700"
+              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
             >
               <option value="">All Types</option>
               <option value="house">House</option>
@@ -178,7 +192,7 @@ const Buy = () => {
               <option value="townhouse">Townhouse</option>
             </select>
 
-            <Button className="bg-green-600 hover:bg-green-700 border-2 border-green-600 hover:border-green-700">
+            <Button className="bg-green-600 hover:bg-green-700 border-2 border-green-600 hover:border-green-700 smooth-transition hover-lift">
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
@@ -186,7 +200,7 @@ const Buy = () => {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
+        <div className="mb-6 animate-fade-in-left animate-delay-300">
           <p className="text-green-600">
             Showing {filteredProperties.length} of {properties.length} properties
           </p>
@@ -194,8 +208,8 @@ const Buy = () => {
 
         {/* Property Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProperties.map((property) => (
-            <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-green-200 hover:border-green-400">
+          {filteredProperties.map((property, index) => (
+            <Card key={property.id} className={`group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-green-200 hover:border-green-400 animate-scale-in animate-delay-${Math.min(500 + index * 100, 800)}`}>
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={property.image}
@@ -230,15 +244,16 @@ const Buy = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                  <Button className="flex-1 bg-green-600 hover:bg-green-700 smooth-transition hover-lift">
                     View Details
                   </Button>
                   <Button 
-                    onClick={() => handleCallNow(property.phone)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium shadow-lg transform hover:scale-105 transition-all duration-200 animate-pulse"
+                    onClick={(e) => handleCallNow(property.phone, e)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium shadow-lg transform hover:scale-105 smooth-transition relative overflow-hidden group"
                   >
-                    <Phone className="h-4 w-4 mr-1" />
-                    Call Now
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <Phone className="h-4 w-4 mr-1 phone-icon relative z-10" />
+                    <span className="relative z-10">Call Now</span>
                   </Button>
                 </div>
               </CardContent>
@@ -247,7 +262,7 @@ const Buy = () => {
         </div>
 
         {filteredProperties.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12 animate-fade-in-up">
             <p className="text-green-600 text-lg">No properties found matching your criteria.</p>
             <Button 
               onClick={() => {
@@ -256,7 +271,7 @@ const Buy = () => {
                 setTypeFilter("");
                 setLocationFilter("");
               }}
-              className="mt-4 bg-green-600 hover:bg-green-700"
+              className="mt-4 bg-green-600 hover:bg-green-700 smooth-transition hover-lift"
             >
               Clear Filters
             </Button>
