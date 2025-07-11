@@ -12,6 +12,7 @@ import {
   PhoneCall,
   Globe,
   Languages,
+  Info,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -42,6 +43,7 @@ const Navigation = () => {
     { name: t("nav.rent"), path: "/rent", icon: Building2 },
     { name: t("nav.Projects"), path: "/projects", icon: Grid },
     { name: t("nav.others"), path: "/others", icon: Globe },
+    { name: t("nav.about"), path: "/about", icon: Info },
     { name: t("nav.contact"), path: "/contact", icon: PhoneCall },
   ];
 

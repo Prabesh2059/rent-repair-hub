@@ -1,3 +1,4 @@
+
 import Projects from '@/pages/Projects';
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
@@ -19,6 +20,7 @@ const translations = {
       others: "Others",
       contact: "Contact",
       Projects: "Projects",
+      about: "About",
     },
     home: {
       hero: {
@@ -53,6 +55,35 @@ const translations = {
           desc: "Discover a variety of other services and opportunities.",
         }
       },
+    },
+    about: {
+      title: "About Us",
+      subtitle: "Real Estate Crafters International Private Limited is a leading real estate company committed to providing exceptional property services.",
+      branches: {
+        title: "Our Branches",
+        subtitle: "We have established our presence across multiple locations to serve you better.",
+        branch1: {
+          name: "Kathmandu Branch",
+          location: "Thamel, Kathmandu, Nepal"
+        },
+        branch2: {
+          name: "Pokhara Branch", 
+          location: "Lakeside, Pokhara, Nepal"
+        },
+        branch3: {
+          name: "Chitwan Branch",
+          location: "Bharatpur, Chitwan, Nepal"
+        },
+        branch4: {
+          name: "Butwal Branch",
+          location: "Traffic Chowk, Butwal, Nepal"
+        }
+      },
+      ceo: {
+        title: "Chief Executive Officer",
+        name: "Mr. Aarman",
+        description: "Leading the company with vision and expertise in real estate industry."
+      }
     },
     contact: {
       title: "Contact Us",
@@ -130,6 +161,7 @@ const translations = {
       others: "अन्य",
       contact: "सम्पर्क",
       Projects: "परियोजनाहरू",
+      about: "हाम्रो बारेमा",
     },
     home: {
       hero: {
@@ -164,6 +196,35 @@ const translations = {
           desc: "विभिन्न अन्य सेवाहरू र अवसरहरू पत्ता लगाउनुहोस्।",
         }
       },
+    },
+    about: {
+      title: "हाम्रो बारेमा",
+      subtitle: "रियल एस्टेट क्राफ्टर्स इन्टरनेशनल प्राइभेट लिमिटेड एक अग्रणी रियल एस्टेट कम्पनी हो जुन असाधारण सम्पत्ति सेवाहरू प्रदान गर्न प्रतिबद्ध छ।",
+      branches: {
+        title: "हाम्रा शाखाहरू",
+        subtitle: "हामीले तपाईंलाई राम्रो सेवा दिन विभिन्न स्थानहरूमा हाम्रो उपस्थिति स्थापना गरेका छौं।",
+        branch1: {
+          name: "काठमाडौं शाखा",
+          location: "ठमेल, काठमाडौं, नेपाल"
+        },
+        branch2: {
+          name: "पोखरा शाखा",
+          location: "लेकसाइड, पोखरा, नेपाल"
+        },
+        branch3: {
+          name: "चितवन शाखा",
+          location: "भरतपुर, चितवन, नेपाल"
+        },
+        branch4: {
+          name: "बुटवल शाखा",
+          location: "ट्राफिक चोक, बुटवल, नेपाल"
+        }
+      },
+      ceo: {
+        title: "प्रमुख कार्यकारी अधिकारी",
+        name: "श्री आर्मन",
+        description: "रियल एस्टेट उद्योगमा दृष्टिकोण र विशेषज्ञताको साथ कम्पनीको नेतृत्व गर्दै।"
+      }
     },
     contact: {
       title: "हामीलाई सम्पर्क गर्नुहोस्",
