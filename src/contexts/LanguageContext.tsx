@@ -56,9 +56,70 @@ const translations = {
         }
       },
     },
+    buy: {
+      title: "Buy Property",
+      subtitle: "Discover your perfect property from our extensive collection of homes and commercial spaces.",
+      filters: {
+        location: "Location",
+        priceRange: "Price Range",
+        propertyType: "Property Type",
+        bedrooms: "Bedrooms",
+        search: "Search Properties"
+      }
+    },
+    sell: {
+      title: "Sell Your Property",
+      subtitle: "Get the best value for your property with our professional selling services.",
+      form: {
+        title: "Property Details",
+        propertyType: "Property Type",
+        location: "Property Location",
+        price: "Expected Price",
+        bedrooms: "Number of Bedrooms",
+        bathrooms: "Number of Bathrooms",
+        area: "Total Area (sq ft)",
+        description: "Property Description",
+        submit: "List Property"
+      }
+    },
+    rent: {
+      title: "Rent Property",
+      subtitle: "Find your ideal rental property from our carefully curated selection.",
+      filters: {
+        location: "Location",
+        rentRange: "Rent Range",
+        propertyType: "Property Type",
+        bedrooms: "Bedrooms",
+        search: "Search Rentals"
+      }
+    },
+    projects: {
+      title: "Our Projects",
+      subtitle: "Explore our completed and ongoing real estate development projects.",
+      status: {
+        completed: "Completed",
+        ongoing: "Ongoing",
+        upcoming: "Upcoming"
+      },
+      details: {
+        location: "Location",
+        units: "Total Units",
+        completion: "Completion Date"
+      }
+    },
     about: {
       title: "About Us",
       subtitle: "Real Estate Crafters International Private Limited is a leading real estate company committed to providing exceptional property services.",
+      stats: {
+        title: "Our Achievements",
+        subtitle: "Years of dedication and excellence in the real estate industry.",
+        experience: "Years of Experience",
+        experienceDesc: "Serving clients with dedication and expertise",
+        projects: "Completed Projects",
+        projectsDesc: "Successfully delivered residential and commercial projects",
+        clients: "Happy Clients",
+        clientsDesc: "Satisfied customers who trust our services"
+      },
       branches: {
         title: "Our Branches",
         subtitle: "We have established our presence across multiple locations to serve you better.",
@@ -82,7 +143,23 @@ const translations = {
       ceo: {
         title: "Chief Executive Officer",
         name: "Mr. Aarman",
-        description: "Leading the company with vision and expertise in real estate industry."
+        description: "Leading the company with vision and expertise in real estate industry. With over 15 years of experience, he has successfully guided our organization to become a trusted name in the real estate sector."
+      },
+      reviews: {
+        title: "What Our Clients Say",
+        subtitle: "Read testimonials from our satisfied customers who have experienced our exceptional service.",
+        client1: {
+          name: "John Smith",
+          review: "Excellent service! They helped me find my dream home within my budget. Highly professional and reliable."
+        },
+        client2: {
+          name: "Sarah Johnson",
+          review: "Outstanding experience selling my property. The team was very supportive throughout the entire process."
+        },
+        client3: {
+          name: "Michael Brown",
+          review: "Great rental service! Found the perfect apartment in my preferred location. Very responsive team."
+        }
       }
     },
     contact: {
@@ -197,9 +274,70 @@ const translations = {
         }
       },
     },
+    buy: {
+      title: "सम्पत्ति किन्नुहोस्",
+      subtitle: "घर र व्यावसायिक स्थानहरूको हाम्रो व्यापक संग्रहबाट आफ्नो उत्तम सम्पत्ति पत्ता लगाउनुहोस्।",
+      filters: {
+        location: "स्थान",
+        priceRange: "मूल्य दायरा",
+        propertyType: "सम्पत्ति प्रकार",
+        bedrooms: "शयनकक्षहरू",
+        search: "सम्पत्तिहरू खोज्नुहोस्"
+      }
+    },
+    sell: {
+      title: "आफ्नो सम्पत्ति बेच्नुहोस्",
+      subtitle: "हाम्रो व्यावसायिक बिक्री सेवाहरूको साथ आफ्नो सम्पत्तिको लागि उत्तम मूल्य प्राप्त गर्नुहोस्।",
+      form: {
+        title: "सम्पत्ति विवरणहरू",
+        propertyType: "सम्पत्ति प्रकार",
+        location: "सम्पत्ति स्थान",
+        price: "अपेक्षित मूल्य",
+        bedrooms: "शयनकक्षहरूको संख्या",
+        bathrooms: "बाथरूमहरूको संख्या",
+        area: "कुल क्षेत्रफल (वर्ग फिट)",
+        description: "सम्पत्ति विवरण",
+        submit: "सम्पत्ति सूचीबद्ध गर्नुहोस्"
+      }
+    },
+    rent: {
+      title: "सम्पत्ति भाडामा",
+      subtitle: "हाम्रो सावधानीपूर्वक चयन गरिएको संग्रहबाट आफ्नो आदर्श भाडा सम्पत्ति पत्ता लगाउनुहोस्।",
+      filters: {
+        location: "स्थान",
+        rentRange: "भाडा दायरा",
+        propertyType: "सम्पत्ति प्रकार",
+        bedrooms: "शयनकक्षहरू",
+        search: "भाडाहरू खोज्नुहोस्"
+      }
+    },
+    projects: {
+      title: "हाम्रा परियोजनाहरू",
+      subtitle: "हाम्रो पूरा भएका र चलिरहेका घरजग्गा विकास परियोजनाहरू अन्वेषण गर्नुहोस्।",
+      status: {
+        completed: "पूरा भएको",
+        ongoing: "चलिरहेको",
+        upcoming: "आगामी"
+      },
+      details: {
+        location: "स्थान",
+        units: "कुल एकाइहरू",
+        completion: "पूर्णता मिति"
+      }
+    },
     about: {
       title: "हाम्रो बारेमा",
       subtitle: "रियल एस्टेट क्राफ्टर्स इन्टरनेशनल प्राइभेट लिमिटेड एक अग्रणी रियल एस्टेट कम्पनी हो जुन असाधारण सम्पत्ति सेवाहरू प्रदान गर्न प्रतिबद्ध छ।",
+      stats: {
+        title: "हाम्रा उपलब्धिहरू",
+        subtitle: "रियल एस्टेट उद्योगमा समर्पण र उत्कृष्टताका वर्षहरू।",
+        experience: "अनुभवका वर्षहरू",
+        experienceDesc: "समर्पण र विशेषज्ञताको साथ ग्राहकहरूको सेवा गर्दै",
+        projects: "पूरा भएका परियोजनाहरू",
+        projectsDesc: "सफलतापूर्वक आवासीय र व्यावसायिक परियोजनाहरू प्रदान गरिएको",
+        clients: "खुसी ग्राहकहरू",
+        clientsDesc: "हाम्रो सेवामा भरोसा गर्ने सन्तुष्ट ग्राहकहरू"
+      },
       branches: {
         title: "हाम्रा शाखाहरू",
         subtitle: "हामीले तपाईंलाई राम्रो सेवा दिन विभिन्न स्थानहरूमा हाम्रो उपस्थिति स्थापना गरेका छौं।",
@@ -223,7 +361,23 @@ const translations = {
       ceo: {
         title: "प्रमुख कार्यकारी अधिकारी",
         name: "श्री आर्मन",
-        description: "रियल एस्टेट उद्योगमा दृष्टिकोण र विशेषज्ञताको साथ कम्पनीको नेतृत्व गर्दै।"
+        description: "रियल एस्टेट उद्योगमा दृष्टिकोण र विशेषज्ञताको साथ कम्पनीको नेतृत्व गर्दै। १५ वर्षभन्दा बढी अनुभवको साथ, उहाँले हाम्रो संस्थालाई रियल एस्टेट क्षेत्रमा एक विश्वसनीय नाम बन्न सफलतापूर्वक मार्गदर्शन गर्नुभएको छ।"
+      },
+      reviews: {
+        title: "हाम्रा ग्राहकहरूले के भन्छन्",
+        subtitle: "हाम्रो असाधारण सेवा अनुभव गरेका सन्तुष्ट ग्राहकहरूका प्रशंसापत्रहरू पढ्नुहोस्।",
+        client1: {
+          name: "राम श्रेष्ठ",
+          review: "उत्कृष्ट सेवा! तिनीहरूले मलाई मेरो बजेट भित्र मेरो सपनाको घर फेला पार्न मद्दत गरे। अत्यधिक व्यावसायिक र भरपर्दो।"
+        },
+        client2: {
+          name: "सीता पौडेल",
+          review: "मेरो सम्पत्ति बेच्ने उत्कृष्ट अनुभव। टोली सम्पूर्ण प्रक्रियामा धेरै सहयोगी थियो।"
+        },
+        client3: {
+          name: "गोपाल तामाङ",
+          review: "उत्कृष्ट भाडा सेवा! मेरो मनपर्ने स्थानमा उत्तम अपार्टमेन्ट भेट्टाए। धेरै उत्तरदायी टोली।"
+        }
       }
     },
     contact: {
