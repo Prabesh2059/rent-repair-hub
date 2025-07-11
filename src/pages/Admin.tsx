@@ -23,6 +23,7 @@ import AdminReviews from "@/components/admin/AdminReviews";
 const Admin = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Check if user is authenticated (in real app, this would check auth token)
@@ -32,16 +33,13 @@ const Admin = () => {
     } else {
       setIsAuthenticated(true);
     }
+    setIsLoading(false);
   }, [navigate]);
 
   const handleLogout = () => {
     sessionStorage.removeItem('adminAuth');
     navigate('/');
   };
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   const stats = [
     {
@@ -69,6 +67,29 @@ const Admin = () => {
       change: "+5%"
     }
   ];
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#006d4e] mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading...</p>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Show nothing if not authenticated (will redirect via useEffect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
