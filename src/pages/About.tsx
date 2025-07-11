@@ -1,4 +1,3 @@
-
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -119,7 +118,7 @@ const About = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-20">
+      <section className="bg-[#006d4e] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
             {t("about.title")}
@@ -145,7 +144,7 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow duration-300 hover-scale">
               <CardContent className="p-8">
-                <Award className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <Award className="h-12 w-12 text-[#006d4e] mx-auto mb-4" />
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   {experienceCount}+
                 </div>
@@ -160,7 +159,7 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-shadow duration-300 hover-scale">
               <CardContent className="p-8">
-                <Briefcase className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <Briefcase className="h-12 w-12 text-[#006d4e] mx-auto mb-4" />
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   {projectsCount}+
                 </div>
@@ -175,7 +174,7 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-shadow duration-300 hover-scale">
               <CardContent className="p-8">
-                <Users className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <Users className="h-12 w-12 text-[#006d4e] mx-auto mb-4" />
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   {clientsCount}+
                 </div>
@@ -218,7 +217,7 @@ const About = () => {
                 </div>
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-lg">
-                    <Building2 className="h-5 w-5 text-green-600" />
+                    <Building2 className="h-5 w-5 text-[#006d4e]" />
                     {branch.name}
                   </CardTitle>
                 </CardHeader>
@@ -261,7 +260,7 @@ const About = () => {
                   </div>
                   <div className="flex-1 text-center md:text-left">
                     <div className="flex items-center gap-2 justify-center md:justify-start mb-4">
-                      <User className="h-6 w-6 text-green-600" />
+                      <User className="h-6 w-6 text-[#006d4e]" />
                       <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
                         {t("about.ceo.name")}
                       </h3>
