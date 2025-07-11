@@ -1,4 +1,3 @@
-
 import Projects from '@/pages/Projects';
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
@@ -57,14 +56,48 @@ const translations = {
       },
     },
     buy: {
+      hero: {
+        title: "Find Your Perfect Property",
+        subtitle: "Discover amazing properties that match your dreams and budget."
+      },
       title: "Buy Property",
       subtitle: "Discover your perfect property from our extensive collection of homes and commercial spaces.",
+      search: {
+        placeholder: "Search properties by title or location..."
+      },
       filters: {
-        location: "Location",
-        priceRange: "Price Range",
-        propertyType: "Property Type",
-        bedrooms: "Bedrooms",
-        search: "Search Properties"
+        allLocations: "All Locations",
+        downtown: "Downtown",
+        uptown: "Uptown", 
+        suburbs: "Suburbs",
+        midtown: "Midtown",
+        artsDistrict: "Arts District",
+        allPrices: "All Prices",
+        under50L: "Under रू 50,00,000",
+        "50L75L": "रू 50,00,000 - रू 75,00,000",
+        "75L1Cr": "रू 75,00,000 - रू 1,00,00,000",
+        over1Cr: "रू 1,00,00,000+",
+        allTypes: "All Types",
+        house: "House",
+        apartment: "Apartment",
+        condo: "Condo",
+        loft: "Loft",
+        apply: "Apply Filters"
+      },
+      results: {
+        showing: "Showing",
+        of: "of",
+        properties: "properties"
+      },
+      property: {
+        forSale: "For Sale",
+        beds: "beds",
+        baths: "baths",
+        contact: "Contact Agent"
+      },
+      noResults: {
+        message: "No properties found matching your criteria.",
+        clearFilters: "Clear All Filters"
       }
     },
     sell: {
@@ -275,14 +308,48 @@ const translations = {
       },
     },
     buy: {
+      hero: {
+        title: "आफ्नो उत्तम सम्पत्ति खोज्नुहोस्",
+        subtitle: "तपाईंको सपना र बजेट अनुकूल अद्भुत सम्पत्तिहरू पत्ता लगाउनुहोस्।"
+      },
       title: "सम्पत्ति किन्नुहोस्",
       subtitle: "घर र व्यावसायिक स्थानहरूको हाम्रो व्यापक संग्रहबाट आफ्नो उत्तम सम्पत्ति पत्ता लगाउनुहोस्।",
+      search: {
+        placeholder: "शीर्षक वा स्थानद्वारा सम्पत्तिहरू खोज्नुहोस्..."
+      },
       filters: {
-        location: "स्थान",
-        priceRange: "मूल्य दायरा",
-        propertyType: "सम्पत्ति प्रकार",
-        bedrooms: "शयनकक्षहरू",
-        search: "सम्पत्तिहरू खोज्नुहोस्"
+        allLocations: "सबै स्थानहरू",
+        downtown: "डाउनटाउन",
+        uptown: "अपटाउन",
+        suburbs: "उपनगरहरू", 
+        midtown: "मिडटाउन",
+        artsDistrict: "कला जिल्ला",
+        allPrices: "सबै मूल्यहरू",
+        under50L: "रू ५०,००,००० मुनि",
+        "50L75L": "रू ५०,००,००० - रू ७५,००,०००",
+        "75L1Cr": "रू ७५,००,००० - रू १,००,००,०००",
+        over1Cr: "रू १,००,००,०००+",
+        allTypes: "सबै प्रकारहरू",
+        house: "घर",
+        apartment: "अपार्टमेन्ट",
+        condo: "कन्डो",
+        loft: "लफ्ट",
+        apply: "फिल्टर लागू गर्नुहोस्"
+      },
+      results: {
+        showing: "देखाइँदै",
+        of: "को",
+        properties: "सम्पत्तिहरू"
+      },
+      property: {
+        forSale: "बिक्रीको लागि",
+        beds: "शैयाहरू",
+        baths: "बाथरूमहरू",
+        contact: "एजेन्टलाई सम्पर्क गर्नुहोस्"
+      },
+      noResults: {
+        message: "तपाईंको मापदण्ड मिल्ने कुनै सम्पत्ति फेला परेन।",
+        clearFilters: "सबै फिल्टरहरू सफा गर्नुहोस्"
       }
     },
     sell: {
