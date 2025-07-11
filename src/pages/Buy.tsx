@@ -1,9 +1,11 @@
+
 import { useState } from "react";
-import { Search, Filter, MapPin, Bed, Bath, Square, Phone } from "lucide-react";
+import { Search, Filter, MapPin, Bed, Bath, Square, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const Buy = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,74 +17,68 @@ const Buy = () => {
     {
       id: 1,
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-      title: "Beautiful Family Home",
-      location: "123 Oak Street, Downtown",
-      price: "$450,000",
-      beds: 4,
-      baths: 3,
-      sqft: 2400,
-      type: "house",
-      phone: "(555) 123-4567"
+      title: "Luxury Villa with Pool",
+      location: "123 Ocean View Drive",
+      price: "रू 1,20,00,000",
+      beds: 5,
+      baths: 4,
+      sqft: 3500,
+      type: "house"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
-      title: "Modern Luxury Condo",
-      location: "456 Pine Avenue, Uptown",
-      price: "$680,000",
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      title: "Cozy Apartment in Downtown",
+      location: "456 City Center Plaza",
+      price: "रू 45,00,000",
       beds: 2,
       baths: 2,
-      sqft: 1800,
-      type: "condo",
-      phone: "(555) 234-5678"
+      sqft: 1200,
+      type: "apartment"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-      title: "Cozy Starter Home",
-      location: "789 Maple Drive, Suburbs",
-      price: "$320,000",
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      title: "Charming House with Garden",
+      location: "789 Green Valley Road",
+      price: "रू 75,00,000",
       beds: 3,
-      baths: 2,
-      sqft: 1600,
-      type: "house",
-      phone: "(555) 345-6789"
+      baths: 3,
+      sqft: 2000,
+      type: "house"
     },
     {
       id: 4,
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-      title: "Spacious Townhouse",
-      location: "321 Elm Street, Midtown",
-      price: "$520,000",
-      beds: 3,
-      baths: 2.5,
-      sqft: 2000,
-      type: "townhouse",
-      phone: "(555) 456-7890"
+      title: "Modern Loft in Arts District",
+      location: "101 Art Lane",
+      price: "रू 60,00,000",
+      beds: 1,
+      baths: 1,
+      sqft: 1000,
+      type: "loft"
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
-      title: "Downtown Loft",
-      location: "654 Broadway, City Center",
-      price: "$590,000",
-      beds: 1,
-      baths: 1,
-      sqft: 1200,
-      type: "apartment",
-      phone: "(555) 567-8901"
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      title: "Spacious Family Home",
+      location: "222 Hilltop Avenue",
+      price: "रू 90,00,000",
+      beds: 4,
+      baths: 3,
+      sqft: 2500,
+      type: "house"
     },
     {
       id: 6,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-      title: "Suburban Paradise",
-      location: "987 Cedar Lane, West Side",
-      price: "$720,000",
-      beds: 5,
-      baths: 4,
-      sqft: 3200,
-      type: "house",
-      phone: "(555) 678-9012"
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      title: "Luxury Condo with City View",
+      location: "333 Skyline Boulevard",
+      price: "रू 80,00,000",
+      beds: 2,
+      baths: 2,
+      sqft: 1400,
+      type: "condo"
     }
   ];
 
@@ -94,19 +90,19 @@ const Buy = () => {
     
     let matchesPrice = true;
     if (priceFilter) {
-      const price = parseInt(property.price.replace(/[\$,]/g, ''));
+      const price = parseInt(property.price.replace(/[रू,]/g, ''));
       switch (priceFilter) {
-        case '0-300k':
-          matchesPrice = price <= 300000;
+        case '0-5000000':
+          matchesPrice = price <= 5000000;
           break;
-        case '300k-500k':
-          matchesPrice = price > 300000 && price <= 500000;
+        case '5000000-7500000':
+          matchesPrice = price > 5000000 && price <= 7500000;
           break;
-        case '500k-700k':
-          matchesPrice = price > 500000 && price <= 700000;
+        case '7500000-10000000':
+          matchesPrice = price > 7500000 && price <= 10000000;
           break;
-        case '700k+':
-          matchesPrice = price > 700000;
+        case '10000000+':
+          matchesPrice = price > 10000000;
           break;
       }
     }
@@ -114,85 +110,92 @@ const Buy = () => {
     return matchesSearch && matchesType && matchesLocation && matchesPrice;
   });
 
-  const handleCallNow = (phone: string, event: React.MouseEvent<HTMLButtonElement>) => {
-    const button = event.currentTarget;
-    button.classList.add('animate-press-down');
-    const icon = button.querySelector('.phone-icon');
-    if (icon) {
-      icon.classList.add('animate-phone-ring');
-    }
-    
-    setTimeout(() => {
-      button.classList.remove('animate-press-down');
-      if (icon) {
-        icon.classList.remove('animate-phone-ring');
-      }
-    }, 500);
-    
-    window.location.href = `tel:${phone}`;
-  };
-
   return (
-    <div className="min-h-screen bg-green-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Hero Section with Bubble Effect */}
+      <section className="relative h-64 sm:h-80 lg:h-96 hero-bubble-bg flex items-center justify-center animate-fade-in-up overflow-hidden">
+        {/* Floating Bubbles */}
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20"></div>
+        
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+          <Heart className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">Properties for Sale</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">Discover your dream home from our curated collection of premium properties</p>
+        </div>
+      </section>
+      
+      <div className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {/* Header */}
-        <div className="text-center mb-8 animate-fade-in-up">
-          <h1 className="text-4xl font-bold text-green-800 mb-4">Properties for Sale</h1>
-          <p className="text-green-600 text-lg">Find your perfect home from our extensive collection</p>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Find Your Dream Home</h1>
+          <p className="text-gray-600 text-lg">Explore our listings of properties for sale</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-2 border-green-200 animate-slide-in-down animate-delay-200">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-green-500" />
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
                 placeholder="Search properties..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-green-300 focus:border-green-500 smooth-transition"
+                className="pl-10"
               />
             </div>
             
             <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
+              className="h-10 px-3 border border-gray-300 rounded-md"
             >
               <option value="">All Locations</option>
               <option value="downtown">Downtown</option>
               <option value="uptown">Uptown</option>
               <option value="suburbs">Suburbs</option>
               <option value="midtown">Midtown</option>
+              <option value="arts district">Arts District</option>
             </select>
 
             <select
               value={priceFilter}
               onChange={(e) => setPriceFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
+              className="h-10 px-3 border border-gray-300 rounded-md"
             >
               <option value="">All Prices</option>
-              <option value="0-300k">Under $300k</option>
-              <option value="300k-500k">$300k - $500k</option>
-              <option value="500k-700k">$500k - $700k</option>
-              <option value="700k+">$700k+</option>
+              <option value="0-5000000">Under रू 50,00,000</option>
+              <option value="5000000-7500000">रू 50,00,000 - रू 75,00,000</option>
+              <option value="7500000-10000000">रू 75,00,000 - रू 1,00,00,000</option>
+              <option value="10000000+">रू 1,00,00,000+</option>
             </select>
 
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="h-10 px-3 border border-green-300 rounded-md focus:border-green-500 text-green-700 smooth-transition"
+              className="h-10 px-3 border border-gray-300 rounded-md"
             >
               <option value="">All Types</option>
               <option value="house">House</option>
               <option value="apartment">Apartment</option>
               <option value="condo">Condo</option>
-              <option value="townhouse">Townhouse</option>
+              <option value="loft">Loft</option>
             </select>
 
-            <Button className="bg-green-600 hover:bg-green-700 border-2 border-green-600 hover:border-green-700 smooth-transition hover-lift">
+            <Button className="bg-[#006d4e] hover:bg-[#005a3f]">
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
@@ -200,23 +203,23 @@ const Buy = () => {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6 animate-fade-in-left animate-delay-300">
-          <p className="text-green-600">
+        <div className="mb-6">
+          <p className="text-gray-600">
             Showing {filteredProperties.length} of {properties.length} properties
           </p>
         </div>
 
         {/* Property Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProperties.map((property, index) => (
-            <Card key={property.id} className={`group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-green-200 hover:border-green-400 animate-scale-in animate-delay-${Math.min(500 + index * 100, 800)}`}>
+          {filteredProperties.map((property) => (
+            <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={property.image}
                   alt={property.title}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-4 left-4 bg-[#006d4e] text-white px-3 py-1 rounded-full text-sm font-semibold">
                   For Sale
                 </div>
                 <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -224,46 +227,36 @@ const Buy = () => {
                 </div>
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-green-800 mb-2">{property.title}</h3>
-                <p className="text-green-600 mb-4 flex items-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{property.title}</h3>
+                <p className="text-gray-600 mb-4 flex items-center">
                   <MapPin className="mr-1 h-4 w-4" />
                   {property.location}
                 </p>
-                <div className="flex justify-between items-center text-sm text-green-600 mb-4">
+                <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
                   <div className="flex items-center">
                     <Bed className="mr-1 h-4 w-4" />
-                    {property.beds} beds
+                    {property.beds} bed{property.beds !== 1 ? 's' : ''}
                   </div>
                   <div className="flex items-center">
                     <Bath className="mr-1 h-4 w-4" />
-                    {property.baths} baths
+                    {property.baths} bath{property.baths !== 1 ? 's' : ''}
                   </div>
                   <div className="flex items-center">
                     <Square className="mr-1 h-4 w-4" />
                     {property.sqft} sq ft
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button className="flex-1 bg-green-600 hover:bg-green-700 smooth-transition hover-lift">
-                    View Details
-                  </Button>
-                  <Button 
-                    onClick={(e) => handleCallNow(property.phone, e)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium shadow-lg transform hover:scale-105 smooth-transition relative overflow-hidden group"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Phone className="h-4 w-4 mr-1 phone-icon relative z-10" />
-                    <span className="relative z-10">Call Now</span>
-                  </Button>
-                </div>
+                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                  Contact Agent
+                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
         {filteredProperties.length === 0 && (
-          <div className="text-center py-12 animate-fade-in-up">
-            <p className="text-green-600 text-lg">No properties found matching your criteria.</p>
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No properties found matching your criteria.</p>
             <Button 
               onClick={() => {
                 setSearchTerm("");
@@ -271,13 +264,15 @@ const Buy = () => {
                 setTypeFilter("");
                 setLocationFilter("");
               }}
-              className="mt-4 bg-green-600 hover:bg-green-700 smooth-transition hover-lift"
+              className="mt-4 bg-[#006d4e] hover:bg-[#005a3f]"
             >
               Clear Filters
             </Button>
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 };

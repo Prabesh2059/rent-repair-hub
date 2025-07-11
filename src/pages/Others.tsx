@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import Navigation from "@/components/Navigation";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Footer  from "@/components/Footer";
 
 const Others = () => {
   const { t } = useLanguage();
@@ -29,37 +30,37 @@ const Others = () => {
       icon: Hammer,
       title: t('others.services.houseRenovation'),
       description: t('others.services.houseRenovationDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     },
     {
       icon: Paintbrush,
       title: t('others.services.interiorPainting'),
       description: t('others.services.interiorPaintingDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     },
     {
       icon: Palette,
       title: t('others.services.exteriorPainting'),
       description: t('others.services.exteriorPaintingDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     },
     {
       icon: Wrench,
       title: t('others.services.kitchenRenovation'),
       description: t('others.services.kitchenRenovationDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     },
     {
       icon: Home,
       title: t('others.services.bathroomRenovation'),
       description: t('others.services.bathroomRenovationDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     },
     {
       icon: Hammer,
       title: t('others.services.flooring'),
       description: t('others.services.flooringDesc'),
-      color: "bg-green-500"
+      color: "bg-[#006d4e]"
     }
   ];
 
@@ -105,9 +106,21 @@ const Others = () => {
 
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative h-64 sm:h-80 lg:h-96 bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center animate-fade-in-up">
-        <div className="absolute inset-0 bg-black opacity-40"></div>
+      {/* Hero Section with Bubble Effect */}
+      <section className="relative h-64 sm:h-80 lg:h-96 hero-bubble-bg flex items-center justify-center animate-fade-in-up overflow-hidden">
+        {/* Floating Bubbles */}
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20"></div>
+        
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Hammer className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t('others.hero.title')}</h1>
@@ -140,7 +153,7 @@ const Others = () => {
 
         {/* Service Request Form */}
         <Card className="shadow-xl max-w-4xl mx-auto hover-lift animate-fade-in-up animate-delay-500">
-          <CardHeader className="bg-green-600 text-white p-4 sm:p-6">
+          <CardHeader className="bg-[#006D4E] text-white p-4 sm:p-6">
             <CardTitle className="text-xl sm:text-2xl flex items-center">
               <Hammer className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6 animate-bounce" />
               {t('others.form.title')}
@@ -287,7 +300,7 @@ const Others = () => {
 
               {/* Submit Button */}
               <div className="pt-4 sm:pt-6 animate-fade-in-up animate-delay-1000">
-                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-base sm:text-lg py-2 sm:py-3 smooth-transition hover-lift">
+                <Button type="submit" className="w-full bg-[#006D4E] hover:bg-[#006D4E] text-base sm:text-lg py-2 sm:py-3 smooth-transition hover-lift">
                   {t('others.form.submit')}
                 </Button>
               </div>
@@ -295,7 +308,10 @@ const Others = () => {
           </CardContent>
         </Card>
       </div>
+              <Footer/>
+
     </div>
+    
   );
 };
 

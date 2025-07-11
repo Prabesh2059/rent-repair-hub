@@ -8,8 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Navigation from "@/components/Navigation";
 import { toast } from "@/hooks/use-toast";
-
+import Footer from "@/components/Footer";
+import { useLanguage } from "@/contexts/LanguageContext";
 const Contact = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,20 +37,32 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50">
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        {/* Header with improved spacing */}
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in-up">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-6">
-            Contact Us
-          </h1>
-          <p className="text-gray-600 text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed">
-            Get in touch with our team for any questions or assistance. We're here to help you with all your real estate needs.
-          </p>
+      {/* Hero Section with Bubble Effect */}
+      <section className="relative h-64 sm:h-80 lg:h-96 hero-bubble-bg flex items-center justify-center animate-fade-in-up overflow-hidden">
+        {/* Floating Bubbles */}
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20"></div>
+        
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+          <Mail className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t('contact.title')}</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t('contact.subtitle')}</p>
         </div>
-
+      </section>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 sm:gap-16 lg:gap-20">
           {/* Contact Information with improved spacing */}
           <div className="space-y-8 sm:space-y-10 animate-fade-in-left">
@@ -65,10 +79,9 @@ const Contact = () => {
                   <div className="min-w-0 flex-1 pt-1">
                     <h3 className="font-bold text-gray-800 text-lg sm:text-xl mb-2">Our Address</h3>
                     <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                      123 Real Estate Street<br />
-                      Business District<br />
-                      City, State 12345
-                    </p>
+                      Dhanusha<br />
+                      Janakpurdham<br />
+                     </p>
                   </div>
                 </div>
 
@@ -79,8 +92,8 @@ const Contact = () => {
                   <div className="min-w-0 flex-1 pt-1">
                     <h3 className="font-bold text-gray-800 text-lg sm:text-xl mb-2">Phone Number</h3>
                     <p className="text-gray-600 text-base sm:text-lg">
-                      <a href="tel:+15551234567" className="hover:text-blue-600 smooth-transition">
-                        (555) 123-4567
+                      <a href="tel:+977 9707362213" className="hover:text-blue-600 smooth-transition">
+                       +977 970-7362231
                       </a>
                     </p>
                   </div>
@@ -93,8 +106,8 @@ const Contact = () => {
                   <div className="min-w-0 flex-1 pt-1">
                     <h3 className="font-bold text-gray-800 text-lg sm:text-xl mb-2">Email Address</h3>
                     <p className="text-gray-600 text-base sm:text-lg">
-                      <a href="mailto:info@homehaven.com" className="hover:text-purple-600 smooth-transition">
-                        info@homehaven.com
+                      <a href="mailto:realestatecrafters1@gmail.com" className="hover:text-purple-600 smooth-transition">
+                        realestatecrafters1@gmail.com
                       </a>
                     </p>
                   </div>
@@ -107,9 +120,8 @@ const Contact = () => {
                   <div className="min-w-0 flex-1 pt-1">
                     <h3 className="font-bold text-gray-800 text-lg sm:text-xl mb-2">Business Hours</h3>
                     <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                      Monday - Friday: 9:00 AM - 6:00 PM<br />
-                      Saturday: 10:00 AM - 4:00 PM<br />
-                      Sunday: Closed
+                      Sunday - Friday: 9:00 AM - 6:00 PM<br />
+                      Saturday:Closed <br />
                     </p>
                   </div>
                 </div>
@@ -117,18 +129,15 @@ const Contact = () => {
             </Card>
 
             {/* Enhanced Map Placeholder */}
-            <Card className="shadow-xl hover-lift animate-scale-in animate-delay-300 border-0 bg-white/80 backdrop-blur-sm overflow-hidden">
-              <CardContent className="p-0">
-                <div className="h-64 sm:h-72 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center relative">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-gray-500 mx-auto mb-4" />
-                    <p className="text-gray-600 text-lg font-medium">Interactive Map</p>
-                    <p className="text-gray-500 text-sm">Coming Soon</p>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
-                </div>
-              </CardContent>
-            </Card>
+            <Card className="shadow-xl hover-lift animate-scale-in animate-delay-300 border-0 bg-white/80 backdrop-blur-sm">
+  <iframe
+   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3563.4383042902004!2d85.92298397552759!3d26.73038577675638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ec40069de3d507%3A0x5e9842f10a951d7f!2sJanaki%20Temple!5e0!3m2!1sen!2snp!4v1751989193610!5m2!1sen!2snp"
+    className="w-full h-[450px]"
+    loading="lazy"
+    style={{ border: 0 }}
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</Card>
           </div>
 
           {/* Enhanced Contact Form */}
@@ -206,7 +215,7 @@ const Contact = () => {
                 <div className="animate-fade-in-up animate-delay-500 pt-4">
                   <Button 
                     type="submit" 
-                    className="w-full h-14 bg-green-600 hover:bg-green-700 text-lg font-semibold py-4 smooth-transition hover-lift shadow-lg hover:shadow-xl rounded-lg"
+                    className="w-full h-14 bg-[#006D4E] hover:bg-[#006D4E] text-lg font-semibold py-4 smooth-transition hover-lift shadow-lg hover:shadow-xl rounded-lg"
                   >
                     Send Message
                   </Button>
@@ -219,6 +228,7 @@ const Contact = () => {
         {/* Additional spacing at bottom */}
         <div className="mt-16 sm:mt-20 lg:mt-24"></div>
       </div>
+      <Footer />
     </div>
   );
 };
