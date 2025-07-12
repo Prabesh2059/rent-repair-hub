@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 
 interface LanguageContextProps {
@@ -788,25 +789,32 @@ const LanguageProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) =
   }, []);
 
   const t = useCallback((key: string): string => {
+    console.log(`Translation requested for key: ${key}, language: ${language}`);
+    
     const keys = key.split('.');
     let result: any = translations[language];
+    
     for (const k of keys) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
       } else {
-        // Fallback to English if translation is missing in current language
+        console.log(`Key not found: ${k} in ${JSON.stringify(Object.keys(result || {}))}`);
+        // Fallback to English if translation is missing
         let fallbackResult: any = translations['en'];
         for (const fk of keys) {
           if (fallbackResult && typeof fallbackResult === 'object' && fk in fallbackResult) {
             fallbackResult = fallbackResult[fk];
           } else {
-            return key; // Return the key itself if no translation is found anywhere
+            console.log(`Fallback key not found: ${fk}`);
+            return key; // Return the key itself if no translation is found
           }
         }
         return fallbackResult;
       }
     }
-    return result;
+    
+    console.log(`Translation result: ${result}`);
+    return typeof result === 'string' ? result : key;
   }, [language]);
 
   const contextValue = useMemo(() => ({
