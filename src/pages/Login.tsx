@@ -100,18 +100,10 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-lg py-3">
+              <Button type="submit" className="w-full bg-[#006d4e] hover:bg-[#006d4e] text-lg py-3">
                 Login to Admin Dashboard
               </Button>
             </form>
-
-            {/* <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-semibold text-green-800 mb-2">Admin Credentials:</h4>
-              <p className="text-sm text-green-700">
-                <strong>Email:</strong> admin@realestate.com<br />
-                <strong>Password:</strong> RealEstate2024!
-              </p>
-            </div> */}
           </CardContent>
         </Card>
       </div>
