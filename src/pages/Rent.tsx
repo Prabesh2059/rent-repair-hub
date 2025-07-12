@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { Search, Filter, MapPin, Bed, Bath, Square, Calendar, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,10 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const Rent = () => {
-  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
@@ -140,16 +140,16 @@ const Rent = () => {
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Key className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t("rent.hero.title")}</h1>
-          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t("rent.hero.subtitle")}</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">Properties for Rent</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">Find your perfect rental home in prime locations with flexible terms</p>
         </div>
       </section>
       
       <div className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t("rent.title")}</h1>
-          <p className="text-gray-600 text-lg">{t("rent.subtitle")}</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Properties for Rent</h1>
+          <p className="text-gray-600 text-lg">Find your perfect rental home in prime locations</p>
         </div>
 
         {/* Search and Filters */}
@@ -158,7 +158,7 @@ const Rent = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
-                placeholder={t("rent.search.placeholder")}
+                placeholder="Search rentals..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -170,7 +170,7 @@ const Rent = () => {
               onChange={(e) => setLocationFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("rent.filters.allLocations")}</option>
+              <option value="">All Locations</option>
               <option value="downtown">Downtown</option>
               <option value="uptown">Uptown</option>
               <option value="suburbs">Suburbs</option>
@@ -183,7 +183,7 @@ const Rent = () => {
               onChange={(e) => setPriceFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("rent.filters.allPrices")}</option>
+              <option value="">All Prices</option>
               <option value="0-15000">Under रू 15,000</option>
               <option value="15000-25000">रू 15,000 - रू 25,000</option>
               <option value="25000-35000">रू 25,000 - रू 35,000</option>
@@ -195,7 +195,7 @@ const Rent = () => {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("rent.filters.allTypes")}</option>
+              <option value="">All Types</option>
               <option value="apartment">Apartment</option>
               <option value="house">House</option>
               <option value="studio">Studio</option>
@@ -205,7 +205,7 @@ const Rent = () => {
 
             <Button className="bg-[#006d4e] hover:bg-[#005a3f]">
               <Filter className="mr-2 h-4 w-4" />
-              {t("rent.filters.apply")}
+              Apply Filters
             </Button>
           </div>
         </div>
@@ -213,7 +213,7 @@ const Rent = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            {t("rent.results.showing")} {filteredProperties.length} {t("rent.results.of")} {rentalProperties.length} {t("rent.results.properties")}
+            Showing {filteredProperties.length} of {rentalProperties.length} rental properties
           </p>
         </div>
 
@@ -228,7 +228,7 @@ const Rent = () => {
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute top-4 left-4 bg-[#006d4e] text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  {t("rent.property.forRent")}
+                  For Rent
                 </div>
                 <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                   {property.price}
@@ -247,11 +247,11 @@ const Rent = () => {
                 <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
                   <div className="flex items-center">
                     <Bed className="mr-1 h-4 w-4" />
-                    {property.beds} {t("rent.property.bed")}
+                    {property.beds} bed{property.beds !== 1 ? 's' : ''}
                   </div>
                   <div className="flex items-center">
                     <Bath className="mr-1 h-4 w-4" />
-                    {property.baths} {t("rent.property.bath")}
+                    {property.baths} bath{property.baths !== 1 ? 's' : ''}
                   </div>
                   <div className="flex items-center">
                     <Square className="mr-1 h-4 w-4" />
@@ -259,7 +259,7 @@ const Rent = () => {
                   </div>
                 </div>
                 <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
-                  {t("rent.property.contact")}
+                  Contact Landlord
                 </Button>
               </CardContent>
             </Card>
@@ -268,7 +268,7 @@ const Rent = () => {
 
         {filteredProperties.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">{t("rent.noResults.message")}</p>
+            <p className="text-gray-500 text-lg">No rental properties found matching your criteria.</p>
             <Button 
               onClick={() => {
                 setSearchTerm("");
@@ -278,7 +278,7 @@ const Rent = () => {
               }}
               className="mt-4 bg-[#006d4e] hover:bg-[#005a3f]"
             >
-              {t("rent.noResults.clearFilters")}
+              Clear Filters
             </Button>
           </div>
         )}

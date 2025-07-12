@@ -1,21 +1,19 @@
 
-import { useState, useMemo } from "react";
-import { Search, Filter, Heart } from "lucide-react";
+import { useState } from "react";
+import { Search, Filter, MapPin, Bed, Bath, Square, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import PropertyCard from "@/components/PropertyCard";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const Buy = () => {
-  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
 
-  const properties = useMemo(() => [
+  const properties = [
     {
       id: 1,
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
@@ -82,44 +80,35 @@ const Buy = () => {
       sqft: 1400,
       type: "condo"
     }
-  ], []);
+  ];
 
-  const filteredProperties = useMemo(() => {
-    return properties.filter(property => {
-      const matchesSearch = property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           property.location.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesType = !typeFilter || property.type === typeFilter;
-      const matchesLocation = !locationFilter || property.location.toLowerCase().includes(locationFilter.toLowerCase());
-      
-      let matchesPrice = true;
-      if (priceFilter) {
-        const price = parseInt(property.price.replace(/[रू,]/g, ''));
-        switch (priceFilter) {
-          case '0-5000000':
-            matchesPrice = price <= 5000000;
-            break;
-          case '5000000-7500000':
-            matchesPrice = price > 5000000 && price <= 7500000;
-            break;
-          case '7500000-10000000':
-            matchesPrice = price > 7500000 && price <= 10000000;
-            break;
-          case '10000000+':
-            matchesPrice = price > 10000000;
-            break;
-        }
+  const filteredProperties = properties.filter(property => {
+    const matchesSearch = property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         property.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = !typeFilter || property.type === typeFilter;
+    const matchesLocation = !locationFilter || property.location.toLowerCase().includes(locationFilter.toLowerCase());
+    
+    let matchesPrice = true;
+    if (priceFilter) {
+      const price = parseInt(property.price.replace(/[रू,]/g, ''));
+      switch (priceFilter) {
+        case '0-5000000':
+          matchesPrice = price <= 5000000;
+          break;
+        case '5000000-7500000':
+          matchesPrice = price > 5000000 && price <= 7500000;
+          break;
+        case '7500000-10000000':
+          matchesPrice = price > 7500000 && price <= 10000000;
+          break;
+        case '10000000+':
+          matchesPrice = price > 10000000;
+          break;
       }
-      
-      return matchesSearch && matchesType && matchesLocation && matchesPrice;
-    });
-  }, [properties, searchTerm, typeFilter, locationFilter, priceFilter]);
-
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setPriceFilter("");
-    setTypeFilter("");
-    setLocationFilter("");
-  };
+    }
+    
+    return matchesSearch && matchesType && matchesLocation && matchesPrice;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -144,16 +133,16 @@ const Buy = () => {
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Heart className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t("buy.hero.title")}</h1>
-          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t("buy.hero.subtitle")}</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">Properties for Sale</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">Discover your dream home from our curated collection of premium properties</p>
         </div>
       </section>
       
       <div className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t("buy.title")}</h1>
-          <p className="text-gray-600 text-lg">{t("buy.subtitle")}</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Find Your Dream Home</h1>
+          <p className="text-gray-600 text-lg">Explore our listings of properties for sale</p>
         </div>
 
         {/* Search and Filters */}
@@ -162,7 +151,7 @@ const Buy = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
-                placeholder={t("buy.search.placeholder")}
+                placeholder="Search properties..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -174,12 +163,12 @@ const Buy = () => {
               onChange={(e) => setLocationFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("buy.filters.allLocations")}</option>
-              <option value="downtown">{t("buy.filters.downtown")}</option>
-              <option value="uptown">{t("buy.filters.uptown")}</option>
-              <option value="suburbs">{t("buy.filters.suburbs")}</option>
-              <option value="midtown">{t("buy.filters.midtown")}</option>
-              <option value="arts district">{t("buy.filters.artsDistrict")}</option>
+              <option value="">All Locations</option>
+              <option value="downtown">Downtown</option>
+              <option value="uptown">Uptown</option>
+              <option value="suburbs">Suburbs</option>
+              <option value="midtown">Midtown</option>
+              <option value="arts district">Arts District</option>
             </select>
 
             <select
@@ -187,11 +176,11 @@ const Buy = () => {
               onChange={(e) => setPriceFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("buy.filters.allPrices")}</option>
-              <option value="0-5000000">{t("buy.filters.under50L")}</option>
-              <option value="5000000-7500000">{t("buy.filters.50L75L")}</option>
-              <option value="7500000-10000000">{t("buy.filters.75L1Cr")}</option>
-              <option value="10000000+">{t("buy.filters.over1Cr")}</option>
+              <option value="">All Prices</option>
+              <option value="0-5000000">Under रू 50,00,000</option>
+              <option value="5000000-7500000">रू 50,00,000 - रू 75,00,000</option>
+              <option value="7500000-10000000">रू 75,00,000 - रू 1,00,00,000</option>
+              <option value="10000000+">रू 1,00,00,000+</option>
             </select>
 
             <select
@@ -199,16 +188,16 @@ const Buy = () => {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("buy.filters.allTypes")}</option>
-              <option value="house">{t("buy.filters.house")}</option>
-              <option value="apartment">{t("buy.filters.apartment")}</option>
-              <option value="condo">{t("buy.filters.condo")}</option>
-              <option value="loft">{t("buy.filters.loft")}</option>
+              <option value="">All Types</option>
+              <option value="house">House</option>
+              <option value="apartment">Apartment</option>
+              <option value="condo">Condo</option>
+              <option value="loft">Loft</option>
             </select>
 
             <Button className="bg-[#006d4e] hover:bg-[#005a3f]">
               <Filter className="mr-2 h-4 w-4" />
-              {t("buy.filters.apply")}
+              Apply Filters
             </Button>
           </div>
         </div>
@@ -216,25 +205,68 @@ const Buy = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            {t("buy.results.showing")} {filteredProperties.length} {t("buy.results.of")} {properties.length} {t("buy.results.properties")}
+            Showing {filteredProperties.length} of {properties.length} properties
           </p>
         </div>
 
         {/* Property Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
+            <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+              <div className="relative overflow-hidden rounded-t-lg">
+                <img
+                  src={property.image}
+                  alt={property.title}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute top-4 left-4 bg-[#006d4e] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  For Sale
+                </div>
+                <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  {property.price}
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{property.title}</h3>
+                <p className="text-gray-600 mb-4 flex items-center">
+                  <MapPin className="mr-1 h-4 w-4" />
+                  {property.location}
+                </p>
+                <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
+                  <div className="flex items-center">
+                    <Bed className="mr-1 h-4 w-4" />
+                    {property.beds} bed{property.beds !== 1 ? 's' : ''}
+                  </div>
+                  <div className="flex items-center">
+                    <Bath className="mr-1 h-4 w-4" />
+                    {property.baths} bath{property.baths !== 1 ? 's' : ''}
+                  </div>
+                  <div className="flex items-center">
+                    <Square className="mr-1 h-4 w-4" />
+                    {property.sqft} sq ft
+                  </div>
+                </div>
+                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                  Contact Agent
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {filteredProperties.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">{t("buy.noResults.message")}</p>
+            <p className="text-gray-500 text-lg">No properties found matching your criteria.</p>
             <Button 
-              onClick={handleClearFilters}
+              onClick={() => {
+                setSearchTerm("");
+                setPriceFilter("");
+                setTypeFilter("");
+                setLocationFilter("");
+              }}
               className="mt-4 bg-[#006d4e] hover:bg-[#005a3f]"
             >
-              {t("buy.noResults.clearFilters")}
+              Clear Filters
             </Button>
           </div>
         )}

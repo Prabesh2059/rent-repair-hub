@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { Search, Filter, MapPin, Calendar, CheckCircle, Users, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,9 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-
 const Projects = () => {
-  const { t } = useLanguage();
+const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
@@ -118,21 +119,21 @@ const Projects = () => {
         <div className="bubble"></div>
         <div className="bubble"></div>
         
-        {/* Overlay for better text readibility */}
+        {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/20"></div>
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Trophy className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t('projects.title')}</h1>
-          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t('projects.subtitle')}</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">Completed Projects</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">Showcasing our successful developments and construction achievements</p>
         </div>
       </section>
       
       <div className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t("projects.title")}</h1>
-          <p className="text-gray-600 text-lg">{t("projects.subtitle")}</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Our Completed Projects</h1>
+          <p className="text-gray-600 text-lg">Explore our portfolio of successfully delivered projects</p>
         </div>
 
         {/* Search and Filters */}
@@ -141,7 +142,7 @@ const Projects = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
-                placeholder={t("projects.search.placeholder")}
+                placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -153,7 +154,7 @@ const Projects = () => {
               onChange={(e) => setLocationFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("projects.filters.allLocations")}</option>
+              <option value="">All Locations</option>
               <option value="downtown">Downtown</option>
               <option value="suburb">Suburb</option>
               <option value="central">Central</option>
@@ -166,8 +167,8 @@ const Projects = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("projects.filters.allStatus")}</option>
-              <option value="completed">{t("projects.filters.completed")}</option>
+              <option value="">All Status</option>
+              <option value="completed">Completed</option>
             </select>
 
             <select
@@ -175,7 +176,7 @@ const Projects = () => {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="h-10 px-3 border border-gray-300 rounded-md"
             >
-              <option value="">{t("projects.filters.allTypes")}</option>
+              <option value="">All Types</option>
               <option value="commercial">Commercial</option>
               <option value="residential">Residential</option>
               <option value="hospitality">Hospitality</option>
@@ -185,7 +186,7 @@ const Projects = () => {
 
             <Button className="bg-[#006d4e] hover:bg-[#005a3f]">
               <Filter className="mr-2 h-4 w-4" />
-              {t("projects.filters.apply")}
+              Apply Filters
             </Button>
           </div>
         </div>
@@ -193,7 +194,7 @@ const Projects = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            {t("projects.results.showing")} {filteredProjects.length} {t("projects.results.of")} {completedProjects.length} {t("projects.results.projects")}
+            Showing {filteredProjects.length} of {completedProjects.length} completed projects
           </p>
         </div>
 
@@ -209,7 +210,7 @@ const Projects = () => {
                 />
                 <div className="absolute top-4 left-4 bg-[#006d4e] text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
                   <CheckCircle className="mr-1 h-3 w-3" />
-                  {t("projects.project.completed")}
+                  Completed
                 </div>
                 <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                   {project.projectType}
@@ -227,24 +228,24 @@ const Projects = () => {
                 </p>
                 <p className="text-gray-600 mb-4 flex items-center">
                   <Users className="mr-1 h-4 w-4" />
-                  {t("projects.project.client")}: {project.client}
+                  Client: {project.client}
                 </p>
                 <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
                   <div className="flex flex-col">
-                    <span className="font-semibold">{t("projects.project.size")}</span>
+                    <span className="font-semibold">Size</span>
                     <span>{project.size}</span>
                   </div>
                   <div className="flex flex-col text-center">
-                    <span className="font-semibold">{t("projects.project.duration")}</span>
+                    <span className="font-semibold">Duration</span>
                     <span>{project.duration}</span>
                   </div>
                   <div className="flex flex-col text-right">
-                    <span className="font-semibold">{t("projects.project.status")}</span>
-                    <span className="text-[#006d4e] font-semibold">✓ {t("projects.project.completed")}</span>
+                    <span className="font-semibold">Status</span>
+                    <span className="text-[#006d4e] font-semibold">✓ Completed</span>
                   </div>
                 </div>
                 <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
-                  {t("projects.project.viewDetails")}
+                  View Project Details
                 </Button>
               </CardContent>
             </Card>
@@ -253,7 +254,7 @@ const Projects = () => {
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">{t("projects.noResults.message")}</p>
+            <p className="text-gray-500 text-lg">No projects found matching your criteria.</p>
             <Button 
               onClick={() => {
                 setSearchTerm("");
@@ -263,7 +264,7 @@ const Projects = () => {
               }}
               className="mt-4 bg-[#006d4e] hover:bg-[#005a3f]"
             >
-              {t("projects.noResults.clearFilters")}
+              Clear Filters
             </Button>
           </div>
         )}
