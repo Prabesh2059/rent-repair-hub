@@ -52,7 +52,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section - Adjusted positioning */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0 hover:scale-105 transition-transform duration-200">
             <img
               src="/images/realstate-removebg-preview.png"
               alt="Real Estate Crafters Logo"
@@ -74,7 +74,7 @@ const Navigation = () => {
               <Link
                 key={path}
                 to={path}
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition duration-150 rounded-md ${
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md hover:scale-105 transform ${
                   isActive(path)
                     ? "text-brand-green bg-green-50 border-b-2 border-brand-green"
                     : "text-gray-600 hover:text-brand-green hover:bg-gray-50"
@@ -90,7 +90,7 @@ const Navigation = () => {
               variant="outline"
               size="sm"
               onClick={toggleLanguage}
-              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-colors h-8 px-2 text-xs"
+              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-all duration-200 h-8 px-2 text-xs hover:scale-105 transform"
             >
               <Languages className="h-3 w-3" />
               <span className="font-medium">
@@ -106,7 +106,7 @@ const Navigation = () => {
               variant="outline"
               size="sm"
               onClick={toggleLanguage}
-              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-colors h-7 px-1.5 text-xs"
+              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-all duration-200 h-7 px-1.5 text-xs hover:scale-105 transform"
             >
               <Languages className="h-3 w-3" />
               <span className="text-xs font-medium">
@@ -116,7 +116,7 @@ const Navigation = () => {
             
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-brand-green transition p-1"
+              className="text-gray-600 hover:text-brand-green transition-all duration-200 p-1 hover:scale-110 transform"
             >
               {isMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -129,14 +129,14 @@ const Navigation = () => {
 
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-2 border-t pt-4 pb-6">
+          <div className="md:hidden mt-2 border-t pt-4 pb-6 animate-fade-in">
             <div className="flex flex-col gap-3">
               {navLinks.map(({ name, path, icon: Icon }) => (
                 <Link
                   key={path}
                   to={path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition duration-150 rounded-md ${
+                  className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md hover:scale-105 transform ${
                     isActive(path)
                       ? "text-brand-green bg-green-50"
                       : "text-gray-600 hover:text-brand-green hover:bg-gray-50"

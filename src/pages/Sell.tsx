@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Upload, DollarSign, Home, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,7 +100,7 @@ const Sell = () => {
                     onChange={handleInputChange}
                     placeholder={t("sell.form.propertyTitlePlaceholder")}
                     required
-                    className="mt-1 text-sm sm:text-base focus:border-[#006d4e]"
+                    className="mt-1 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                   />
                 </div>
                 
@@ -114,7 +115,7 @@ const Sell = () => {
                       onChange={handleInputChange}
                       placeholder={t("sell.form.locationPlaceholder")}
                       required
-                      className="pl-9 sm:pl-10 text-sm sm:text-base focus:border-[#006d4e]"
+                      className="pl-9 sm:pl-10 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                     />
                   </div>
                 </div>
@@ -132,7 +133,7 @@ const Sell = () => {
                       onChange={handleInputChange}
                       placeholder={t("sell.form.pricePlaceholder")}
                       required
-                      className="pl-9 sm:pl-10 text-sm sm:text-base focus:border-[#006d4e]"
+                      className="pl-9 sm:pl-10 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                     />
                   </div>
                 </div>
@@ -145,7 +146,7 @@ const Sell = () => {
                     value={formData.propertyType}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 w-full h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base focus:border-[#006d4e]"
+                    className="mt-1 w-full h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                   >
                     <option value="">{t("sell.form.selectType")}</option>
                     <option value="house">{t("sell.form.types.house")}</option>
@@ -166,7 +167,7 @@ const Sell = () => {
                     value={formData.bedrooms}
                     onChange={handleInputChange}
                     placeholder="e.g., 3"
-                    className="mt-1 text-sm sm:text-base"
+                    className="mt-1 text-sm sm:text-base transition-colors duration-200"
                   />
                 </div>
 
@@ -180,7 +181,7 @@ const Sell = () => {
                     value={formData.bathrooms}
                     onChange={handleInputChange}
                     placeholder="e.g., 2.5"
-                    className="mt-1 text-sm sm:text-base"
+                    className="mt-1 text-sm sm:text-base transition-colors duration-200"
                   />
                 </div>
 
@@ -193,7 +194,7 @@ const Sell = () => {
                     value={formData.sqft}
                     onChange={handleInputChange}
                     placeholder="e.g., 2400"
-                    className="mt-1 text-sm sm:text-base"
+                    className="mt-1 text-sm sm:text-base transition-colors duration-200"
                   />
                 </div>
               </div>
@@ -208,18 +209,18 @@ const Sell = () => {
                   placeholder={t("sell.form.descriptionPlaceholder")}
                   required
                   rows={5}
-                  className="mt-1 text-sm sm:text-base resize-none focus:border-[#006d4e]"
+                  className="mt-1 text-sm sm:text-base resize-none focus:border-[#006d4e] transition-colors duration-200"
                 />
               </div>
 
               {/* Image Upload Section */}
               <div>
                 <Label className="text-sm font-medium">{t("sell.form.images")}</Label>
-                <div className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 lg:p-8 text-center hover:border-[#006d4e] transition-colors">
+                <div className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 lg:p-8 text-center hover:border-[#006d4e] transition-colors duration-300">
                   <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-gray-400 mb-3 sm:mb-4" />
                   <p className="text-gray-500 mb-2 text-sm sm:text-base">{t("sell.form.upload.text")}</p>
                   <p className="text-xs sm:text-sm text-gray-400">{t("sell.form.upload.formats")}</p>
-                  <Button type="button" variant="outline" className="mt-3 sm:mt-4 text-sm sm:text-base border-[#006d4e] text-[#006d4e] hover:bg-[#006d4e] hover:text-white">
+                  <Button type="button" variant="outline" className="mt-3 sm:mt-4 text-sm sm:text-base border-[#006d4e] text-[#006d4e] hover:bg-[#006d4e] hover:text-white transition-colors duration-200">
                     {t("sell.form.upload.button")}
                   </Button>
                 </div>
@@ -238,7 +239,7 @@ const Sell = () => {
                       onChange={handleInputChange}
                       placeholder={t("sell.form.contact.namePlaceholder")}
                       required
-                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e]"
+                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                     />
                   </div>
 
@@ -252,7 +253,7 @@ const Sell = () => {
                       onChange={handleInputChange}
                       placeholder={t("sell.form.contact.emailPlaceholder")}
                       required
-                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e]"
+                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                     />
                   </div>
 
@@ -265,7 +266,7 @@ const Sell = () => {
                       value={formData.contactPhone}
                       onChange={handleInputChange}
                       placeholder={t("sell.form.contact.phonePlaceholder")}
-                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e]"
+                      className="mt-1 text-sm sm:text-base focus:border-[#006d4e] transition-colors duration-200"
                     />
                   </div>
                 </div>
@@ -273,7 +274,7 @@ const Sell = () => {
 
               {/* Submit Button */}
               <div className="pt-4 sm:pt-6">
-                <Button type="submit" className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-base sm:text-lg py-2 sm:py-3 transition-colors duration-200">
+                <Button type="submit" className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-base sm:text-lg py-2 sm:py-3 transition-all duration-200 hover:scale-105 transform">
                   {t("sell.form.submit")}
                 </Button>
               </div>
