@@ -31,7 +31,7 @@ const Sell = () => {
   const sampleProperties = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
       title: "Modern Family Home",
       location: "Kathmandu, Nepal",
       price: "रू 1,50,00,000",
@@ -42,7 +42,7 @@ const Sell = () => {
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840?auto=format&fit=crop&w=800&q=80",
       title: "Luxury Apartment",
       location: "Pokhara, Nepal",
       price: "रू 85,00,000",
@@ -92,31 +92,31 @@ const Sell = () => {
         <div className="absolute inset-0 bg-black/20"></div>
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <Home className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t("sell.hero.title")}</h1>
-          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t("sell.hero.subtitle")}</p>
+          <Home className="mx-auto h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16 mb-3 sm:mb-4 lg:mb-6 animate-bounce" />
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4 lg:mb-6 animate-slide-in-down leading-tight">{t("sell.hero.title")}</h1>
+          <p className="text-sm sm:text-base lg:text-lg xl:text-xl animate-fade-in-up animate-delay-300 leading-relaxed">{t("sell.hero.subtitle")}</p>
         </div>
       </section>
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 flex-1">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">{t("sell.title")}</h1>
-          <p className="text-gray-600 text-base sm:text-lg">{t("sell.subtitle")}</p>
+        <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 mb-2 sm:mb-3 lg:mb-4">{t("sell.title")}</h1>
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg">{t("sell.subtitle")}</p>
         </div>
 
         {/* Sample Properties Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Featured Properties</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Featured Properties</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {sampleProperties.map((property) => (
               <PropertyCard 
                 key={property.id} 
                 property={property}
                 bedsLabel={t("common.beds")}
                 bathsLabel={t("common.baths")}
-                sqftLabel="वर्ग फिट"
-                viewDetailsLabel="विवरण हेर्नुहोस्"
+                sqftLabel={t("common.sqft")}
+                viewDetailsLabel={t("common.viewDetails")}
               />
             ))}
           </div>
@@ -125,8 +125,8 @@ const Sell = () => {
         {/* Form */}
         <Card className="shadow-xl">
           <CardHeader className="bg-[#006d4e] text-white p-4 sm:p-6">
-            <CardTitle className="text-xl sm:text-2xl flex items-center">
-              <Home className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
+            <CardTitle className="text-lg sm:text-xl lg:text-2xl flex items-center">
+              <Home className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
               {t("sell.form.title")}
             </CardTitle>
           </CardHeader>
