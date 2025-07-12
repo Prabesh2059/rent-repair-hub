@@ -66,7 +66,6 @@ const translations = {
       },
       filters: {
         allLocations: "All Locations",
-        // ... rest of buy filters ...
         downtown: "Downtown",
         uptown: "Uptown",
         suburbs: "Suburbs",
@@ -306,11 +305,11 @@ const translations = {
       title: "Contact Us",
       subtitle: "Get in touch with our team for any inquiries.",
       form: {
-        title: "Send us a Message", // Added this title
-        subtitle: "Fill out the form below and we'll get back to you as soon as possible.", // Added this subtitle
+        title: "Send us a Message",
+        subtitle: "Fill out the form below and we'll get back to you as soon as possible.",
         name: "Your Name",
         email: "Your Email",
-        subject: "Subject", // Added subject
+        subject: "Subject",
         message: "Your Message",
         button: "Send Message",
         namePlaceholder: "Enter your full name",
@@ -327,10 +326,9 @@ const translations = {
         hoursTitle: "Business Hours",
         hoursDays: "Sunday - Friday: 9:00 AM - 6:00 PM",
         hoursSaturday: "Saturday: Closed",
-        // UPDATED CONTACT INFO
-        address: "Dhanusha, Janakpurdham", // Updated
-        phone: "+977 970-7362231", // Updated
-        email: "realestatecrafters1@gmail.com", // Updated
+        address: "Dhanusha, Janakpurdham",
+        phone: "+977 970-7362231",
+        email: "realestatecrafters1@gmail.com",
       },
       toast: {
         title: "Message Sent!",
@@ -385,6 +383,7 @@ const translations = {
       featured: "Featured",
       beds: "Beds",
       baths: "Baths",
+      sqft: "sq ft",
       callNow: "Call Now",
       phone: "Phone"
     },
@@ -706,10 +705,9 @@ const translations = {
         hoursTitle: "व्यवसायका घण्टाहरू",
         hoursDays: "आइतबार - शुक्रबार: बिहान ९:०० - बेलुका ६:००",
         hoursSaturday: "शनिबार: बन्द",
-        // UPDATED CONTACT INFO
-        address: "धनुषा, जनकपुरधाम", // Updated
-        phone: "+९७७ ९७०-७३६२२३१", // Updated
-        email: "realestatecrafters1@gmail.com", // Updated
+        address: "धनुषा, जनकपुरधाम",
+        phone: "+९७७ ९७०-७३६२२३१",
+        email: "realestatecrafters1@gmail.com",
       },
       toast: {
         title: "सन्देश पठाइयो!",
@@ -764,6 +762,7 @@ const translations = {
       featured: "विशेष",
       beds: "शैयाहरू",
       baths: "बाथरूमहरू",
+      sqft: "वर्ग फिट",
       callNow: "अहिले कल गर्नुहोस्",
       phone: "फोन"
     },

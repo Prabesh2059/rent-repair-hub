@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Upload, DollarSign, Home, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PropertyCard from "@/components/PropertyCard";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -26,6 +26,32 @@ const Sell = () => {
     contactEmail: "",
     contactPhone: ""
   });
+
+  // Sample properties for demonstration
+  const sampleProperties = [
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      title: "Modern Family Home",
+      location: "Kathmandu, Nepal",
+      price: "रू 1,50,00,000",
+      beds: 4,
+      baths: 3,
+      sqft: 2400,
+      type: "house"
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      title: "Luxury Apartment",
+      location: "Pokhara, Nepal",
+      price: "रू 85,00,000",
+      beds: 2,
+      baths: 2,
+      sqft: 1200,
+      type: "apartment"
+    }
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -77,6 +103,23 @@ const Sell = () => {
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">{t("sell.title")}</h1>
           <p className="text-gray-600 text-base sm:text-lg">{t("sell.subtitle")}</p>
+        </div>
+
+        {/* Sample Properties Section */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Featured Properties</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {sampleProperties.map((property) => (
+              <PropertyCard 
+                key={property.id} 
+                property={property}
+                bedsLabel={t("common.beds")}
+                bathsLabel={t("common.baths")}
+                sqftLabel="वर्ग फिट"
+                viewDetailsLabel="विवरण हेर्नुहोस्"
+              />
+            ))}
+          </div>
         </div>
 
         {/* Form */}

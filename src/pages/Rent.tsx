@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Filter, MapPin, Bed, Bath, Square, Calendar, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -117,6 +116,11 @@ const Rent = () => {
     
     return matchesSearch && matchesType && matchesLocation && matchesPrice;
   });
+
+  // Get translated sqft label based on language
+  const getSqftLabel = () => {
+    return t("common.sqft") || "वर्ग फिट";
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -256,7 +260,7 @@ const Rent = () => {
                   </div>
                   <div className="flex items-center">
                     <Square className="mr-1 h-4 w-4" />
-                    {property.sqft} sq ft
+                    {property.sqft} {getSqftLabel()}
                   </div>
                 </div>
                 <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">

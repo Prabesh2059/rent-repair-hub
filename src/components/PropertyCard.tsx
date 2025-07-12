@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Building, Bed, Bath, LayoutGrid } from 'lucide-react'; // Import icons
 import { Button } from "@/components/ui/button"; // Assuming you use shadcn/ui Button
@@ -18,9 +19,19 @@ interface Property {
 // Define the props interface for the PropertyCard component
 interface PropertyCardProps {
   property: Property;
+  bedsLabel?: string;
+  bathsLabel?: string;
+  sqftLabel?: string;
+  viewDetailsLabel?: string;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ 
+  property, 
+  bedsLabel = "Beds",
+  bathsLabel = "Baths", 
+  sqftLabel = "sqft",
+  viewDetailsLabel = "View Details"
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {/* Property Image */}
@@ -52,21 +63,21 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         <div className="flex items-center justify-between text-gray-600 text-sm mb-4">
           <span className="flex items-center">
             <Bed className="h-4 w-4 mr-1" /> {/* Bed icon */}
-            {property.beds} Beds
+            {property.beds} {bedsLabel}
           </span>
           <span className="flex items-center">
             <Bath className="h-4 w-4 mr-1" /> {/* Bath icon */}
-            {property.baths} Baths
+            {property.baths} {bathsLabel}
           </span>
           <span className="flex items-center">
             <LayoutGrid className="h-4 w-4 mr-1" /> {/* Sqft icon */}
-            {property.sqft} sqft
+            {property.sqft} {sqftLabel}
           </span>
         </div>
 
         {/* View Details Button (optional, you can add a link here) */}
         <Button className="w-full bg-[#006d4e] hover:bg-[006d4e]">
-          View Details
+          {viewDetailsLabel}
         </Button>
       </div>
     </div>
