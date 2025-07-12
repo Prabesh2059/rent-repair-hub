@@ -31,14 +31,20 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log("Login attempt:", { email: formData.email, password: formData.password });
+    console.log("Expected:", { email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+    
     if (formData.email === ADMIN_EMAIL && formData.password === ADMIN_PASSWORD) {
-      localStorage.setItem('adminLoggedIn', 'true');
+      console.log("Login successful, setting auth");
+      sessionStorage.setItem('adminAuth', 'true');
       toast({
         title: "Login Successful!",
         description: "Welcome to the admin dashboard.",
       });
+      console.log("Navigating to admin");
       navigate('/admin');
     } else {
+      console.log("Login failed");
       toast({
         title: "Login Failed",
         description: "Invalid Username or password. Please try again.",
@@ -105,13 +111,13 @@ const Login = () => {
               </Button>
             </form>
 
-            {/* <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+            <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
               <h4 className="font-semibold text-green-800 mb-2">Admin Credentials:</h4>
               <p className="text-sm text-green-700">
-                <strong>Email:</strong> admin@realestate.com<br />
-                <strong>Password:</strong> RealEstate2024!
+                <strong>Username:</strong> admin<br />
+                <strong>Password:</strong> admin123
               </p>
-            </div> */}
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,17 +25,23 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is authenticated (in real app, this would check auth token)
+    console.log("Checking admin authentication...");
+    // Check if user is authenticated
     const isAuth = sessionStorage.getItem('adminAuth') === 'true';
+    console.log("Auth status:", isAuth);
+    
     if (!isAuth) {
+      console.log("Not authenticated, redirecting to login");
       navigate('/login');
     } else {
+      console.log("Authenticated, showing admin panel");
       setIsAuthenticated(true);
     }
     setIsLoading(false);
   }, [navigate]);
 
   const handleLogout = () => {
+    console.log("Logging out...");
     sessionStorage.removeItem('adminAuth');
     navigate('/');
   };
