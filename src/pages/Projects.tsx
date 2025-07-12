@@ -123,8 +123,8 @@ const Projects = () => {
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Trophy className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t("projects.hero.title")}</h1>
-          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t("projects.hero.subtitle")}</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-slide-in-down">{t('projects.title')}</h1>
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in-up animate-delay-300">{t('projects.subtitle')}</p>
         </div>
       </section>
       

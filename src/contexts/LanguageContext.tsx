@@ -1,4 +1,3 @@
-import Projects from '@/pages/Projects';
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 interface LanguageContextProps {
@@ -14,7 +13,7 @@ const translations = {
     nav: {
       home: "Home",
       buy: "Buy",
-      sell: "Sell", 
+      sell: "Sell",
       rent: "Rent",
       others: "Others",
       contact: "Contact",
@@ -68,7 +67,7 @@ const translations = {
       filters: {
         allLocations: "All Locations",
         downtown: "Downtown",
-        uptown: "Uptown", 
+        uptown: "Uptown",
         suburbs: "Suburbs",
         midtown: "Midtown",
         artsDistrict: "Arts District",
@@ -101,29 +100,104 @@ const translations = {
       }
     },
     sell: {
+      hero: { // Added hero section for sell page
+        title: "Sell Your Property with Ease",
+        subtitle: "List your property quickly and reach a wide network of potential buyers."
+      },
       title: "Sell Your Property",
       subtitle: "Get the best value for your property with our professional selling services.",
       form: {
         title: "Property Details",
-        propertyType: "Property Type",
+        propertyTitle: "Property Title", // Added
+        propertyTitlePlaceholder: "e.g., Spacious Family Home", // Added
         location: "Property Location",
+        locationPlaceholder: "e.g., Kathmandu, Nepal", // Added
         price: "Expected Price",
+        pricePlaceholder: "e.g., 1,50,00,000", // Added
+        propertyType: "Property Type",
+        selectType: "Select Property Type", // Added
+        types: { // Added
+          house: "House",
+          apartment: "Apartment",
+          condo: "Condo",
+          townhouse: "Townhouse"
+        },
         bedrooms: "Number of Bedrooms",
         bathrooms: "Number of Bathrooms",
-        area: "Total Area (sq ft)",
+        sqft: "Total Area (sq ft)", // Added
         description: "Property Description",
-        submit: "List Property"
+        descriptionPlaceholder: "Provide a detailed description of your property...", // Added
+        images: "Property Images", // Added
+        upload: { // Added
+          text: "Drag & drop your property images here, or",
+          formats: "Supported formats: JPG, PNG, PDF (Max 5MB each)",
+          button: "Browse Files"
+        },
+        contact: { // Added contact info section
+          title: "Your Contact Information",
+          name: "Full Name",
+          namePlaceholder: "Your Full Name",
+          email: "Email Address",
+          emailPlaceholder: "your@example.com",
+          phone: "Phone Number",
+          phonePlaceholder: "+977-XXXXXXXXXX"
+        },
+        submit: "List Property",
+        success: { // Added success toast messages
+          title: "Property Listed Successfully!",
+          description: "Your property has been submitted for review. We will contact you soon."
+        }
       }
     },
     rent: {
+      hero: {
+        title: "Find Your Ideal Rental",
+        subtitle: "Discover a wide range of rental properties to suit your lifestyle and budget."
+      },
       title: "Rent Property",
       subtitle: "Find your ideal rental property from our carefully curated selection.",
+      search: {
+        placeholder: "Search rentals by title or location..."
+      },
       filters: {
         location: "Location",
         rentRange: "Rent Range",
         propertyType: "Property Type",
         bedrooms: "Bedrooms",
-        search: "Search Rentals"
+        search: "Search Rentals",
+        allLocations: "All Locations",
+        downtown: "Downtown",
+        uptown: "Uptown",
+        suburbs: "Suburbs",
+        midtown: "Midtown",
+        artsDistrict: "Arts District",
+        allPrices: "All Prices",
+        "0-15000": "Under रू 15,000",
+        "15000-25000": "रू 15,000 - रू 25,000",
+        "25000-35000": "रू 25,000 - रू 35,000",
+        "35000+": "रू 35,000+",
+        allTypes: "All Types",
+        apartment: "Apartment",
+        house: "House",
+        studio: "Studio",
+        townhouse: "Townhouse",
+        penthouse: "Penthouse",
+        apply: "Apply Filters"
+      },
+      results: {
+        showing: "Showing",
+        of: "of",
+        properties: "properties"
+      },
+      property: {
+        forRent: "For Rent",
+        bed: "bed",
+        bath: "bath",
+        contact: "Contact Agent"
+      },
+      noResults: {
+        message: "No rental properties found matching your criteria.",
+        clearFilters: "Clear All Filters"
       }
     },
     projects: {
@@ -138,6 +212,38 @@ const translations = {
         location: "Location",
         units: "Total Units",
         completion: "Completion Date"
+      },
+      search: {
+        placeholder: "Search projects by title, location or client..."
+      },
+      filters: {
+        allLocations: "All Locations",
+        downtown: "Downtown",
+        suburb: "Suburb",
+        central: "Central",
+        coastal: "Coastal",
+        historic: "Historic",
+        allStatus: "All Status",
+        completed: "Completed",
+        allTypes: "All Types",
+        apply: "Apply Filters"
+      },
+      results: {
+        showing: "Showing",
+        of: "of",
+        projects: "projects"
+      },
+      project: {
+        completed: "Completed",
+        client: "Client",
+        size: "Size",
+        duration: "Duration",
+        status: "Status",
+        viewDetails: "View Details"
+      },
+      noResults: {
+        message: "No projects found matching your criteria.",
+        clearFilters: "Clear All Filters"
       }
     },
     about: {
@@ -161,7 +267,7 @@ const translations = {
           location: "Thamel, Kathmandu, Nepal"
         },
         branch2: {
-          name: "Pokhara Branch", 
+          name: "Pokhara Branch",
           location: "Lakeside, Pokhara, Nepal"
         },
         branch3: {
@@ -321,7 +427,7 @@ const translations = {
         allLocations: "सबै स्थानहरू",
         downtown: "डाउनटाउन",
         uptown: "अपटाउन",
-        suburbs: "उपनगरहरू", 
+        suburbs: "उपनगरहरू",
         midtown: "मिडटाउन",
         artsDistrict: "कला जिल्ला",
         allPrices: "सबै मूल्यहरू",
@@ -353,29 +459,104 @@ const translations = {
       }
     },
     sell: {
+      hero: { // Added hero section for sell page
+        title: "आफ्नो सम्पत्ति सजिलै बेच्नुहोस्",
+        subtitle: "आफ्नो सम्पत्ति छिटो सूचीबद्ध गर्नुहोस् र सम्भावित खरीददारहरूको विस्तृत सञ्जालमा पुग्नुहोस्।"
+      },
       title: "आफ्नो सम्पत्ति बेच्नुहोस्",
       subtitle: "हाम्रो व्यावसायिक बिक्री सेवाहरूको साथ आफ्नो सम्पत्तिको लागि उत्तम मूल्य प्राप्त गर्नुहोस्।",
       form: {
         title: "सम्पत्ति विवरणहरू",
-        propertyType: "सम्पत्ति प्रकार",
+        propertyTitle: "सम्पत्तिको शीर्षक", // Added
+        propertyTitlePlaceholder: "जस्तै, विशाल पारिवारिक घर", // Added
         location: "सम्पत्ति स्थान",
+        locationPlaceholder: "जस्तै, काठमाडौं, नेपाल", // Added
         price: "अपेक्षित मूल्य",
+        pricePlaceholder: "जस्तै, १,५०,००,०००", // Added
+        propertyType: "सम्पत्ति प्रकार",
+        selectType: "सम्पत्तिको प्रकार छान्नुहोस्", // Added
+        types: { // Added
+          house: "घर",
+          apartment: "अपार्टमेन्ट",
+          condo: "कन्डो",
+          townhouse: "टाउनहाउस"
+        },
         bedrooms: "शयनकक्षहरूको संख्या",
         bathrooms: "बाथरूमहरूको संख्या",
-        area: "कुल क्षेत्रफल (वर्ग फिट)",
+        sqft: "कुल क्षेत्रफल (वर्ग फिट)", // Added
         description: "सम्पत्ति विवरण",
-        submit: "सम्पत्ति सूचीबद्ध गर्नुहोस्"
+        descriptionPlaceholder: "आफ्नो सम्पत्तिको विस्तृत विवरण प्रदान गर्नुहोस्...", // Added
+        images: "सम्पत्तिको छविहरू", // Added
+        upload: { // Added
+          text: "आफ्ना सम्पत्तिका छविहरू यहाँ तान्नुहोस् र छोड्नुहोस्, वा",
+          formats: "समर्थित ढाँचाहरू: JPG, PNG, PDF (प्रत्येक अधिकतम 5MB)",
+          button: "फाइलहरू ब्राउज गर्नुहोस्"
+        },
+        contact: { // Added contact info section
+          title: "तपाईंको सम्पर्क जानकारी",
+          name: "पूरा नाम",
+          namePlaceholder: "तपाईंको पूरा नाम",
+          email: "इमेल ठेगाना",
+          emailPlaceholder: "your@example.com",
+          phone: "फोन नम्बर",
+          phonePlaceholder: "+९७७-XXXXXXXXXX"
+        },
+        submit: "सम्पत्ति सूचीबद्ध गर्नुहोस्",
+        success: { // Added success toast messages
+          title: "सम्पत्ति सफलतापूर्वक सूचीबद्ध भयो!",
+          description: "तपाईंको सम्पत्ति समीक्षाको लागि पेश गरिएको छ। हामी तपाईंलाई चाँडै सम्पर्क गर्नेछौं।"
+        }
       }
     },
     rent: {
+      hero: {
+        title: "आफ्नो आदर्श भाडामा लिने घर खोज्नुहोस्",
+        subtitle: "तपाईंको जीवनशैली र बजेट अनुरूप भाडाका सम्पत्तिहरूको विस्तृत श्रृंखला पत्ता लगाउनुहोस्।"
+      },
       title: "सम्पत्ति भाडामा",
       subtitle: "हाम्रो सावधानीपूर्वक चयन गरिएको संग्रहबाट आफ्नो आदर्श भाडा सम्पत्ति पत्ता लगाउनुहोस्।",
+      search: {
+        placeholder: "शीर्षक वा स्थानद्वारा भाडा खोज्नुहोस्..."
+      },
       filters: {
         location: "स्थान",
         rentRange: "भाडा दायरा",
         propertyType: "सम्पत्ति प्रकार",
         bedrooms: "शयनकक्षहरू",
-        search: "भाडाहरू खोज्नुहोस्"
+        search: "भाडाहरू खोज्नुहोस्",
+        allLocations: "सबै स्थानहरू",
+        downtown: "डाउनटाउन",
+        uptown: "अपटाउन",
+        suburbs: "उपनगरहरू",
+        midtown: "मिडटाउन",
+        artsDistrict: "कला जिल्ला",
+        allPrices: "सबै मूल्यहरू",
+        "0-15000": "रू १५,००० मुनि",
+        "15000-25000": "रू १५,००० - रू २५,०००",
+        "25000-35000": "रू २५,००० - रू ३५,०००",
+        "35000+": "रू ३५,०००+",
+        allTypes: "सबै प्रकारहरू",
+        apartment: "अपार्टमेन्ट",
+        house: "घर",
+        studio: "स्टुडियो",
+        townhouse: "टाउनहाउस",
+        penthouse: "पेन्टहाउस",
+        apply: "फिल्टर लागू गर्नुहोस्"
+      },
+      results: {
+        showing: "देखाइँदै",
+        of: "को",
+        properties: "सम्पत्तिहरू"
+      },
+      property: {
+        forRent: "भाडाको लागि",
+        bed: "शैया",
+        bath: "बाथरूम",
+        contact: "एजेन्टलाई सम्पर्क गर्नुहोस्"
+      },
+      noResults: {
+        message: "तपाईंको मापदण्ड मिल्ने कुनै भाडाका सम्पत्तिहरू फेला परेनन्।",
+        clearFilters: "सबै फिल्टरहरू सफा गर्नुहोस्"
       }
     },
     projects: {
@@ -390,6 +571,38 @@ const translations = {
         location: "स्थान",
         units: "कुल एकाइहरू",
         completion: "पूर्णता मिति"
+      },
+      search: {
+        placeholder: "शीर्षक, स्थान वा क्लाइन्टद्वारा परियोजनाहरू खोज्नुहोस्..."
+      },
+      filters: {
+        allLocations: "सबै स्थानहरू",
+        downtown: "डाउनटाउन",
+        suburb: "उपनगर",
+        central: "केन्द्रीय",
+        coastal: "समुद्र किनार",
+        historic: "ऐतिहासिक",
+        allStatus: "सबै स्थिति",
+        completed: "पूरा भएको",
+        allTypes: "सबै प्रकारहरू",
+        apply: "फिल्टर लागू गर्नुहोस्"
+      },
+      results: {
+        showing: "देखाइँदै",
+        of: "को",
+        projects: "परियोजनाहरू"
+      },
+      project: {
+        completed: "पूरा भयो",
+        client: "क्लाइन्ट",
+        size: "आकार",
+        duration: "अवधि",
+        status: "स्थिति",
+        viewDetails: "विवरण हेर्नुहोस्"
+      },
+      noResults: {
+        message: "तपाईंको मापदण्ड मिल्ने कुनै परियोजना फेला परेन।",
+        clearFilters: "सबै फिल्टरहरू सफा गर्नुहोस्"
       }
     },
     about: {
@@ -457,7 +670,7 @@ const translations = {
         button: "सन्देश पठाउनुहोस्",
       },
       info: {
-        address: "123 रियल एस्टेट सेन्ट, शहर, राज्य 12345",
+        address: "123 Real Estate St, City, State 12345",
         phone: "(555) 123-4567",
         email: "info@realestatecrafters.com",
       },
@@ -465,53 +678,53 @@ const translations = {
     others: {
       hero: {
         title: "व्यावसायिक घर सेवाहरू",
-        subtitle: "हाम्रो विशेषज्ञ नवीकरण र पेन्टिङ सेवाहरूको साथ आफ्नो स्थान परिवर्तन गर्नुहोस्।",
+        subtitle: "Transform your space with our expert renovation and painting services.",
       },
       services: {
-        title: "हाम्रा सेवाहरू",
-        subtitle: "तपाईंको आवश्यकता अनुसार व्यावसायिक घर सुधार सेवाहरू।",
-        houseRenovation: "घर नवीकरण",
-        houseRenovationDesc: "आधुनिक डिजाइन र गुणस्तरीय शिल्पकलाको साथ पूर्ण घर परिवर्तन।",
-        interiorPainting: "भित्री पेन्टिङ",
-        interiorPaintingDesc: "तपाईंको बसोबासको ठाउँहरू ताजा पार्न व्यावसायिक भित्री पेन्टिङ सेवाहरू।",
-        exteriorPainting: "बाहिरी पेन्टिङ",
-        exteriorPaintingDesc: "तपाईंको घरलाई सुरक्षित र सुन्दर बनाउन मौसम प्रतिरोधी बाहिरी पेन्टिङ।",
-        kitchenRenovation: "भान्साकोठा नवीकरण",
-        kitchenRenovationDesc: "प्रिमियम सामग्री र उपकरणहरूको साथ आधुनिक भान्साकोठा डिजाइन।",
-        bathroomRenovation: "बाथरूम नवीकरण",
-        bathroomRenovationDesc: "समकालीन फिक्स्चर र फिनिसिङको साथ विलासी बाथरूम अपग्रेड।",
-        flooring: "फ्लोरिङ सेवाहरू",
-        flooringDesc: "हार्डवुड, टाइल र कार्पेट सहित व्यावसायिक फ्लोरिङ स्थापना।",
+        title: "Our Services",
+        subtitle: "Professional home improvement services tailored to your needs.",
+        houseRenovation: "House Renovation",
+        houseRenovationDesc: "Complete home transformation with modern design and quality craftsmanship.",
+        interiorPainting: "Interior Painting",
+        interiorPaintingDesc: "Professional interior painting services to refresh your living spaces.",
+        exteriorPainting: "Exterior Painting",
+        exteriorPaintingDesc: "Weather-resistant exterior painting to protect and beautify your home.",
+        kitchenRenovation: "Kitchen Renovation",
+        kitchenRenovationDesc: "Modern kitchen designs with premium materials and appliances.",
+        bathroomRenovation: "Bathroom Renovation",
+        bathroomRenovationDesc: "Luxurious bathroom upgrades with contemporary fixtures and finishes.",
+        flooring: "Flooring Services",
+        flooringDesc: "Professional flooring installation including hardwood, tile, and carpet.",
       },
       form: {
-        title: "सेवा कोट अनुरोध गर्नुहोस्",
-        name: "पूरा नाम",
-        phone: "फोन नम्बर",
-        email: "इमेल ठेगाना",
-        address: "सम्पत्ति ठेगाना",
-        serviceType: "सेवा प्रकार",
-        urgency: "परियोजना तत्काल",
-        preferredDate: "मनपर्ने सुरुवात मिति",
-        description: "परियोजना विवरण",
-        upload: "छविहरू अपलोड गर्नुहोस्",
-        uploadDesc: "तपाईंको परियोजनालाई राम्रोसँग बुझ्न मद्दत गर्न तपाईंको स्थानका छविहरू अपलोड गर्नुहोस्",
-        uploadFormat: "समर्थित ढाँचाहरू: JPG, PNG, PDF (प्रत्येक अधिकतम 5MB)",
-        chooseImages: "छविहरू छनौट गर्नुहोस्",
-        submit: "अनुरोध पेश गर्नुहोस्",
+        title: "Request Service Quote",
+        name: "Full Name",
+        phone: "Phone Number",
+        email: "Email Address",
+        address: "Property Address",
+        serviceType: "Service Type",
+        urgency: "Project Urgency",
+        preferredDate: "Preferred Start Date",
+        description: "Project Description",
+        upload: "Upload Images",
+        uploadDesc: "Upload images of your space to help us better understand your project",
+        uploadFormat: "Supported formats: JPG, PNG, PDF (Max 5MB each)",
+        chooseImages: "Choose Images",
+        submit: "Submit Request",
       },
       toast: {
-        title: "सेवा अनुरोध पेश गरियो!",
-        description: "हामी तपाईंको परियोजनाको बारेमा छलफल गर्न 24 घण्टा भित्र तपाईंलाई सम्पर्क गर्नेछौं।",
+        title: "Service Request Submitted!",
+        description: "We'll contact you within 24 hours to discuss your project.",
       },
     },
     common: {
-      company: "रियल एस्टेट क्राफ्टर्स इन्टरनेशनल प्राइभेट लिमिटेड",
-      tagline: "रियल एस्टेट समाधानमा तपाईंको विश्वसनीय साझेदार",
-      featured: "विशेष",
-      beds: "शैया",
-      baths: "बाथरूम",
-      callNow: "अहिले कल गर्नुहोस्",
-      phone: "फोन"
+      company: "Real Estate Crafters International Private Limited",
+      tagline: "Your trusted partner in real estate solutions",
+      featured: "Featured",
+      beds: "Beds",
+      baths: "Baths",
+      callNow: "Call Now",
+      phone: "Phone"
     },
   }
 };
@@ -536,7 +749,19 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (value && typeof value === 'object' && k in value) {
         value = value[k];
       } else {
-        return key;
+        // Fallback to English if key not found in current language,
+        // or return the key itself if not found in English either
+        let fallbackValue: any = translations['en'];
+        let foundInEnglish = true;
+        for (const ek of keys) {
+            if (fallbackValue && typeof fallbackValue === 'object' && ek in fallbackValue) {
+                fallbackValue = fallbackValue[ek];
+            } else {
+                foundInEnglish = false;
+                break;
+            }
+        }
+        return foundInEnglish && typeof fallbackValue === 'string' ? fallbackValue : key;
       }
     }
     return typeof value === 'string' ? value : key;
