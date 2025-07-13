@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -60,10 +59,10 @@ const Navigation = () => {
             <div className="leading-tight">
             <p className="text-lg font-bold text-[#006d4e] animate-entrance-text">
             Real Estate Crafters
-             </p>
+              </p>
             <p className="text-xs text-brand animate-entrance-text">
-             International Private Limited
-             </p>
+            International Private Limited
+              </p>
             </div>
           </Link>
 
@@ -73,14 +72,18 @@ const Navigation = () => {
               <Link
                 key={path}
                 to={path}
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md hover:scale-105 transform ${
+                className={`relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md hover:scale-105 transform ${
                   isActive(path)
-                    ? "text-brand-green bg-green-50 border-b-2 border-brand-green"
-                    : "text-gray-600 hover:text-brand-green hover:bg-gray-50"
+                    ? "text-[#006d4e]" // Active link text color
+                    : "text-gray-600 hover:text-[#006d4e] hover:bg-gray-50"
                 }`}
               >
                 <Icon className="h-4 w-4" />
                 {name}
+                {/* Green line below */}
+                {isActive(path) && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#006d4e] rounded-full"></span>
+                )}
               </Link>
             ))}
             
@@ -89,7 +92,11 @@ const Navigation = () => {
               variant="outline"
               size="sm"
               onClick={toggleLanguage}
-              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-all duration-200 h-8 px-2 text-xs hover:scale-105 transform"
+              // Updated classes to always show the green background and white text
+              className="flex items-center gap-1 border-[#006d4e] bg-[#006d4e] text-white transition-all duration-200 h-8 px-2 text-xs hover:scale-105 transform
+                hover:bg-opacity-90 // Slightly dim on hover
+                focus:bg-opacity-90 // Slightly dim on focus
+              "
             >
               <Languages className="h-3 w-3" />
               <span className="font-medium">
@@ -105,7 +112,11 @@ const Navigation = () => {
               variant="outline"
               size="sm"
               onClick={toggleLanguage}
-              className="flex items-center gap-1 border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-all duration-200 h-7 px-1.5 text-xs hover:scale-105 transform"
+              // Updated classes to always show the green background and white text
+              className="flex items-center gap-1 border-[#006d4e] bg-[#006d4e] text-white transition-all duration-200 h-7 px-1.5 text-xs hover:scale-105 transform
+                hover:bg-opacity-90 // Slightly dim on hover
+                focus:bg-opacity-90 // Slightly dim on focus
+              "
             >
               <Languages className="h-3 w-3" />
               <span className="text-xs font-medium">
@@ -115,7 +126,7 @@ const Navigation = () => {
             
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-brand-green transition-all duration-200 p-1 hover:scale-110 transform"
+              className="text-gray-600 hover:text-[#006d4e] transition-all duration-200 p-1 hover:scale-110 transform"
             >
               {isMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -137,8 +148,8 @@ const Navigation = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md hover:scale-105 transform ${
                     isActive(path)
-                      ? "text-brand-green bg-green-50"
-                      : "text-gray-600 hover:text-brand-green hover:bg-gray-50"
+                      ? "text-[#006d4e] bg-green-50"
+                      : "text-gray-600 hover:text-[#006d4e] hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="h-4 w-4" />
