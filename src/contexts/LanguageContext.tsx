@@ -385,7 +385,8 @@ const translations = {
       baths: "Baths",
       sqft: "sq ft",
       callNow: "Call Now",
-      phone: "Phone"
+      phone: "Phone",
+      viewDetails: "View Details", // Added for common
     },
   },
   np: {
@@ -618,7 +619,7 @@ const translations = {
         size: "आकार",
         duration: "अवधि",
         status: "स्थिति",
-        viewDetails: "विवरण हेर्नुहोस्"
+        viewDetails: "विवरण हेर्नुहोस्" // Added for projects.project
       },
       noResults: {
         message: "तपाईंको मापदण्ड मिल्ने कुनै परियोजनाहरू फेला परेनन्।",
@@ -764,7 +765,8 @@ const translations = {
       baths: "बाथरूमहरू",
       sqft: "वर्ग फिट",
       callNow: "अहिले कल गर्नुहोस्",
-      phone: "फोन"
+      phone: "फोन",
+      viewDetails: "विवरण हेर्नुहोस्", // Added for common
     },
   },
 };

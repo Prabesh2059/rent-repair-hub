@@ -17,7 +17,7 @@ const Rent = () => {
   const rentalProperties = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab", // Image from Projects.tsx
       title: "Spacious Downtown Apartment",
       location: "123 Main Street, Downtown",
       price: "रू 22,000/month",
@@ -29,7 +29,7 @@ const Rent = () => {
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00", // Image from Projects.tsx
       title: "Modern Studio Loft",
       location: "456 Oak Avenue, Arts District",
       price: "रू 18,000/month",
@@ -41,7 +41,7 @@ const Rent = () => {
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c", // Image from Projects.tsx
       title: "Family House with Yard",
       location: "789 Pine Street, Suburbs",
       price: "रू 35,000/month",
@@ -53,7 +53,7 @@ const Rent = () => {
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43", // Image from Projects.tsx
       title: "Luxury Penthouse",
       location: "321 Tower Drive, Uptown",
       price: "रू 42,000/month",
@@ -65,7 +65,7 @@ const Rent = () => {
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      image: "https://images.unsplash.com/photo-1590725140246-20acdee442be", // Image from Projects.tsx
       title: "Cozy One Bedroom",
       location: "654 Elm Street, Midtown",
       price: "रू 16,000/month",
@@ -77,7 +77,7 @@ const Rent = () => {
     },
     {
       id: 6,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
+      image: "https://images.unsplash.com/photo-1516156008625-3a9d6067fab5", // Image from Projects.tsx
       title: "Shared Townhouse",
       location: "987 Cedar Lane, West Side",
       price: "रू 28,000/month",
@@ -249,6 +249,7 @@ const Rent = () => {
                   <MapPin className="mr-1 h-4 w-4" />
                   {property.location}
                 </p>
+                <p className="text-2xl font-bold text-[#006d4e] mb-4">{property.price}</p>
                 <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
                   <div className="flex items-center">
                     <Bed className="mr-1 h-4 w-4" />
