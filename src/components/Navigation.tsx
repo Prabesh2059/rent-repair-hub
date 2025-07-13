@@ -52,19 +52,18 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section - Adjusted positioning */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0 hover:scale-105 transition-transform duration-200">
-            <img
-              src="/images/realstate-removebg-preview.png"
-              alt="Real Estate Crafters Logo"
-              className="h-10 w-auto object-contain"
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <img src="/images/realstate-removebg-preview.png"
+            alt="Real Estate Crafters Logo"
+            className="h-10 w-auto object-contain animate-entrance-logo"
             />
             <div className="leading-tight">
-              <p className="text-lg font-bold text-[#006d4e]">
-                Real Estate Crafters
-              </p>
-              <p className="text-xs text-brand">
-                International Private Limited
-              </p>
+            <p className="text-lg font-bold text-[#006d4e] animate-entrance-text">
+            Real Estate Crafters
+             </p>
+            <p className="text-xs text-brand animate-entrance-text">
+             International Private Limited
+             </p>
             </div>
           </Link>
 
