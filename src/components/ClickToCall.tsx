@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,8 +33,8 @@ const ClickToCall = () => {
         onClick={handleCall}
         className={`h-14 w-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${
           isScrolled 
-            ? 'bg-brand-green hover:bg-[#CFCB11]' 
-            : 'bg-[#CFCB11] hover:bg-brand-green/90'
+            ? 'bg-[#006d4e] hover:bg-[#CFCB11]' // Color when scrolled: background #006d4e, hover #CFCB11
+            : 'bg-[#CFCB11] hover:bg-brand-green/90' // Initial color: background #CFCB11, hover brand-green/90
         }`}
         size="icon"
       >

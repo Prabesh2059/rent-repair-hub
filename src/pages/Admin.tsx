@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, Clock, Phone, Eye, Trophy, Wrench } from "lucide-react"; // Removed XCircle, added Trash2
+import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, Clock, Phone, Eye, Trophy, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -8,9 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"; // Removed DialogTrigger
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-// Removed: import Navigation from "@/components/Navigation";
 import * as LucideIcons from "lucide-react";
 
 interface ContactMessage {
@@ -51,6 +50,7 @@ interface PendingProperty {
   contactPhone: string;
   submissionDate: string;
   status: 'pending' | 'approved' | 'rejected';
+  image: string; // Added image field
 }
 
 interface Project {
@@ -168,7 +168,8 @@ const Admin = () => {
       contactEmail: "alice@example.com",
       contactPhone: "(555) 123-4567",
       submissionDate: "2024-01-16",
-      status: 'pending'
+      status: 'pending',
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9" // Placeholder image
     },
     {
       id: 2,
@@ -184,7 +185,8 @@ const Admin = () => {
       contactEmail: "bob@example.com",
       contactPhone: "(555) 987-6543",
       submissionDate: "2024-01-15",
-      status: 'pending'
+      status: 'pending',
+      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2" // Placeholder image
     }
   ]);
 
@@ -275,7 +277,7 @@ const Admin = () => {
     status: 'active' as 'active' | 'inactive'
   });
 
-  const [newPendingProperty, setNewPendingProperty] = useState<Omit<PendingProperty, 'id' | 'status' | 'submissionDate'>>({
+  const initialNewPendingPropertyState = {
     title: "",
     location: "",
     price: "",
@@ -286,8 +288,10 @@ const Admin = () => {
     sqft: "",
     contactName: "",
     contactEmail: "",
-    contactPhone: ""
-  });
+    contactPhone: "",
+    image: ""
+  };
+  const [newPendingProperty, setNewPendingProperty] = useState<Omit<PendingProperty, 'id' | 'status' | 'submissionDate'>>(initialNewPendingPropertyState);
 
   const [newProject, setNewProject] = useState({
     title: "",
@@ -314,9 +318,9 @@ const Admin = () => {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingService, setEditingService] = useState<Service | null>(null);
 
-  const [showPropertyDialog, setShowPropertyDialog] = useState(false);
-  const [showPendingPropertyDialog, setShowPendingPropertyDialog] = useState(false);
-  const [showAddPendingPropertyDialog, setShowAddPendingPropertyDialog] = useState(false); // New state for add pending property dialog
+  const [showPropertyDialog, setShowPropertyDialog] = useState(false); // For editing existing active properties
+  const [showPendingPropertyDialog, setShowPendingPropertyDialog] = useState(false); // For editing existing pending properties
+  const [showAddPendingPropertyDialog, setShowAddPendingPropertyDialog] = useState(false); // For adding new pending properties
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showServiceDialog, setShowServiceDialog] = useState(false);
 
@@ -364,19 +368,11 @@ const Admin = () => {
     });
   };
 
-  const handleUpdateProperty = () => { // Renamed from handleAddProperty
+  const handleUpdateProperty = () => {
     if (editingProperty) {
       setProperties(properties.map(p => p.id === editingProperty.id ? { ...newProperty, id: editingProperty.id } : p));
       toast({ title: "Property Updated", description: "Property has been updated successfully." });
-    } else {
-      // This part should ideally not be reached if the add button is removed.
-      // But keeping it for robustness or if an "Add Property" feature is re-added elsewhere.
-      const newId = properties.length > 0 ? Math.max(...properties.map(p => p.id)) + 1 : 1;
-      setProperties([...properties, { ...newProperty, id: newId }]);
-      toast({ title: "Property Added", description: "New property has been added successfully." });
     }
-    
-    setNewProperty({ title: "", location: "", price: "", beds: 1, baths: 1, sqft: "", type: 'buy', image: "", phone: "", status: 'active' });
     setEditingProperty(null);
     setShowPropertyDialog(false);
   };
@@ -415,7 +411,7 @@ const Admin = () => {
       baths: pendingProperty.bathrooms,
       sqft: `${pendingProperty.sqft} sq ft`,
       type: pendingProperty.propertyType === 'apartment' ? 'rent' : 'buy',
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
+      image: pendingProperty.image, // Use image from pending property
       phone: pendingProperty.contactPhone,
       status: 'active'
     };
@@ -440,7 +436,7 @@ const Admin = () => {
   const handleEditPendingProperty = (property: PendingProperty) => {
     setEditingPendingProperty(property);
     // Populate newPendingProperty for editing purposes
-    setNewPendingProperty({
+    setNewPendingProperty({ 
       title: property.title,
       location: property.location,
       price: property.price,
@@ -452,41 +448,44 @@ const Admin = () => {
       contactName: property.contactName,
       contactEmail: property.contactEmail,
       contactPhone: property.contactPhone,
+      image: property.image
     });
     setShowPendingPropertyDialog(true);
   };
 
   const handleAddPendingProperty = () => {
     const newId = pendingProperties.length > 0 ? Math.max(...pendingProperties.map(p => p.id)) + 1 : 1;
-    const currentDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
     setPendingProperties([...pendingProperties, { 
-      ...newPendingProperty, 
-      id: newId, 
-      status: 'pending', 
-      submissionDate: currentDate 
+        ...newPendingProperty, 
+        id: newId, 
+        status: 'pending', 
+        submissionDate: currentDate 
     }]);
-    toast({ title: "Pending Property Added", description: "New pending property has been added successfully." });
-    
-    setNewPendingProperty({ 
-      title: "", 
-      location: "", 
-      price: "", 
-      description: "", 
-      propertyType: "house", 
-      bedrooms: 1, 
-      bathrooms: 1, 
-      sqft: "", 
-      contactName: "", 
-      contactEmail: "", 
-      contactPhone: "" 
-    });
+    toast({ title: "Pending Property Added", description: "New pending property has been added for review." });
+    setNewPendingProperty(initialNewPendingPropertyState); // Reset form
     setShowAddPendingPropertyDialog(false);
   };
+
 
   const handleUpdatePendingProperty = () => {
     if (editingPendingProperty) {
       setPendingProperties(pendingProperties.map(p => 
-        p.id === editingPendingProperty.id ? { ...newPendingProperty, id: editingPendingProperty.id, status: editingPendingProperty.status, submissionDate: editingPendingProperty.submissionDate } : p
+        p.id === editingPendingProperty.id ? { 
+          ...p, // Keep existing status and submissionDate
+          title: newPendingProperty.title,
+          location: newPendingProperty.location,
+          price: newPendingProperty.price,
+          description: newPendingProperty.description,
+          propertyType: newPendingProperty.propertyType,
+          bedrooms: newPendingProperty.bedrooms,
+          bathrooms: newPendingProperty.bathrooms,
+          sqft: newPendingProperty.sqft,
+          contactName: newPendingProperty.contactName,
+          contactEmail: newPendingProperty.contactEmail,
+          contactPhone: newPendingProperty.contactPhone,
+          image: newPendingProperty.image
+        } : p
       ));
       toast({
         title: "Property Updated",
@@ -597,8 +596,6 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Removed: <Navigation /> */}
-      
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -667,8 +664,8 @@ const Admin = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl sm:text-2xl font-bold">Services Management</h2>
               <Dialog open={showServiceDialog} onOpenChange={setShowServiceDialog}>
-                <Button onClick={() => { setEditingService(null); setNewService({ title: "", description: "", icon: "Home", category: "", status: 'active' }); }}
-                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90" // Applied new color
+                <Button onClick={() => { setNewService({ title: "", description: "", icon: "Home", category: "", status: 'active' }); setEditingService(null); setShowServiceDialog(true); }}
+                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90"
                 >
                     <Plus className="mr-2 h-4 w-4" />
                     <span className="hidden sm:inline">Add Service</span>
@@ -740,7 +737,7 @@ const Admin = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button onClick={handleAddService} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90"> {/* Applied new color */}
+                    <Button onClick={handleAddService} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
                       {editingService ? 'Update Service' : 'Add Service'}
                     </Button>
                   </div>
@@ -869,7 +866,119 @@ const Admin = () => {
           <div>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl sm:text-2xl font-bold">All Property Listings</h2>
-              {/* Add Property button removed */}
+              {/* Removed Add Property Button as per user request */}
+              <Dialog open={showPropertyDialog} onOpenChange={setShowPropertyDialog}>
+                {/* No button to open this dialog for "Add Property" anymore */}
+                <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    {/* Title for editing remains */}
+                    <DialogTitle>{editingProperty ? 'Edit Property' : 'Add New Property'}</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Title</Label>
+                      <Input
+                        id="title"
+                        value={newProperty.title}
+                        onChange={(e) => setNewProperty({ ...newProperty, title: e.target.value })}
+                        placeholder="Property title"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="location">Location</Label>
+                      <Input
+                        id="location"
+                        value={newProperty.location}
+                        onChange={(e) => setNewProperty({ ...newProperty, location: e.target.value })}
+                        placeholder="Property location"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="price">Price</Label>
+                      <Input
+                        id="price"
+                        value={newProperty.price}
+                        onChange={(e) => setNewProperty({ ...newProperty, price: e.target.value })}
+                        placeholder="$450,000 or $2,500/month"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="beds">Bedrooms</Label>
+                        <Input
+                          id="beds"
+                          type="number"
+                          value={newProperty.beds}
+                          onChange={(e) => setNewProperty({ ...newProperty, beds: parseInt(e.target.value) })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="baths">Bathrooms</Label>
+                        <Input
+                          id="baths"
+                          type="number"
+                          value={newProperty.baths}
+                          onChange={(e) => setNewProperty({ ...newProperty, baths: parseInt(e.target.value) })}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="sqft">Square Feet</Label>
+                      <Input
+                        id="sqft"
+                        value={newProperty.sqft}
+                        onChange={(e) => setNewProperty({ ...newProperty, sqft: e.target.value })}
+                        placeholder="2,100 sq ft"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone">Contact Phone</Label>
+                      <Input
+                        id="phone"
+                        value={newProperty.phone}
+                        onChange={(e) => setNewProperty({ ...newProperty, phone: e.target.value })}
+                        placeholder="(555) 123-4567"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="type">Type</Label>
+                      <Select value={newProperty.type} onValueChange={(value: 'buy' | 'rent') => setNewProperty({ ...newProperty, type: value })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="buy">Buy</SelectItem>
+                          <SelectItem value="rent">Rent</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="status">Status</Label>
+                      <Select value={newProperty.status} onValueChange={(value: 'active' | 'inactive') => setNewProperty({ ...newProperty, status: value })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="active">Active</SelectItem>
+                          <SelectItem value="inactive">Inactive</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="image">Image URL</Label>
+                      <Input
+                        id="image"
+                        value={newProperty.image}
+                        onChange={(e) => setNewProperty({ ...newProperty, image: e.target.value })}
+                        placeholder="https://images.unsplash.com/..."
+                      />
+                    </div>
+                    <Button onClick={handleUpdateProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
+                      Update Property
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
             <Card>
               <CardContent className="p-0 overflow-x-auto">
@@ -938,145 +1047,19 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Property Edit Dialog (now only for editing, moved outside conditional tab rendering) */}
-        <Dialog open={showPropertyDialog} onOpenChange={setShowPropertyDialog}>
-          <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>{editingProperty ? 'Edit Property' : 'Add New Property'}</DialogTitle> {/* Title kept for consistency, but only 'Edit Property' will be effectively used here now */}
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={newProperty.title}
-                  onChange={(e) => setNewProperty({ ...newProperty, title: e.target.value })}
-                  placeholder="Property title"
-                />
-              </div>
-              <div>
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  value={newProperty.location}
-                  onChange={(e) => setNewProperty({ ...newProperty, location: e.target.value })}
-                  placeholder="Property location"
-                />
-              </div>
-              <div>
-                <Label htmlFor="price">Price</Label>
-                <Input
-                  id="price"
-                  value={newProperty.price}
-                  onChange={(e) => setNewProperty({ ...newProperty, price: e.target.value })}
-                  placeholder="$450,000 or $2,500/month"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="beds">Bedrooms</Label>
-                  <Input
-                    id="beds"
-                    type="number"
-                    value={newProperty.beds}
-                    onChange={(e) => setNewProperty({ ...newProperty, beds: parseInt(e.target.value) })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="baths">Bathrooms</Label>
-                  <Input
-                    id="baths"
-                    type="number"
-                    value={newProperty.baths}
-                    onChange={(e) => setNewProperty({ ...newProperty, baths: parseInt(e.target.value) })}
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="sqft">Square Feet</Label>
-                <Input
-                  id="sqft"
-                  value={newProperty.sqft}
-                  onChange={(e) => setNewProperty({ ...newProperty, sqft: e.target.value })}
-                  placeholder="2,100 sq ft"
-                />
-              </div>
-              <div>
-                <Label htmlFor="phone">Contact Phone</Label>
-                <Input
-                  id="phone"
-                  value={newProperty.phone}
-                  onChange={(e) => setNewProperty({ ...newProperty, phone: e.target.value })}
-                  placeholder="(555) 123-4567"
-                />
-              </div>
-              <div>
-                <Label htmlFor="type">Type</Label>
-                <Select value={newProperty.type} onValueChange={(value: 'buy' | 'rent') => setNewProperty({ ...newProperty, type: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="buy">Buy</SelectItem>
-                    <SelectItem value="rent">Rent</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="status">Status</Label>
-                <Select value={newProperty.status} onValueChange={(value: 'active' | 'inactive') => setNewProperty({ ...newProperty, status: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="image">Image URL</Label>
-                <Input
-                  id="image"
-                  value={newProperty.image}
-                  onChange={(e) => setNewProperty({ ...newProperty, image: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                />
-              </div>
-              <Button onClick={handleUpdateProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90"> {/* Applied new color */}
-                {editingProperty ? 'Update Property' : 'Add Property'}
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-
         {/* Pending Properties Tab */}
         {activeTab === 'pending' && (
           <div>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl sm:text-2xl font-bold">Pending Property Submissions</h2>
               <Dialog open={showAddPendingPropertyDialog} onOpenChange={setShowAddPendingPropertyDialog}>
-                <Button onClick={() => { 
-                  setNewPendingProperty({ 
-                    title: "", 
-                    location: "", 
-                    price: "", 
-                    description: "", 
-                    propertyType: "house", 
-                    bedrooms: 1, 
-                    bathrooms: 1, 
-                    sqft: "", 
-                    contactName: "", 
-                    contactEmail: "", 
-                    contactPhone: "" 
-                  }); 
-                }}
-                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90" // Applied new color
+                <Button onClick={() => { setNewPendingProperty(initialNewPendingPropertyState); setShowAddPendingPropertyDialog(true); }}
+                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
-                  <span className="hidden sm:inline">Add Property</span> {/* Changed text */}
-                  <span className="sm:hidden">Add</span>
-                </Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    <span className="hidden sm:inline">Add Property</span>
+                    <span className="sm:hidden">Add</span>
+                  </Button>
                 <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle>Add New Pending Property</DialogTitle>
@@ -1106,7 +1089,7 @@ const Admin = () => {
                         id="pending-price"
                         value={newPendingProperty.price}
                         onChange={(e) => setNewPendingProperty({ ...newPendingProperty, price: e.target.value })}
-                        placeholder="e.g., 450000 (no currency symbol)"
+                        placeholder="e.g., 450000 or 2500"
                       />
                     </div>
                     <div>
@@ -1168,17 +1151,16 @@ const Admin = () => {
                         id="pending-contactName"
                         value={newPendingProperty.contactName}
                         onChange={(e) => setNewPendingProperty({ ...newPendingProperty, contactName: e.target.value })}
-                        placeholder="Contact Person's Name"
+                        placeholder="Contact person's name"
                       />
                     </div>
                     <div>
                       <Label htmlFor="pending-contactEmail">Contact Email</Label>
                       <Input
                         id="pending-contactEmail"
-                        type="email"
                         value={newPendingProperty.contactEmail}
                         onChange={(e) => setNewPendingProperty({ ...newPendingProperty, contactEmail: e.target.value })}
-                        placeholder="Contact Person's Email"
+                        placeholder="Contact person's email"
                       />
                     </div>
                     <div>
@@ -1190,8 +1172,17 @@ const Admin = () => {
                         placeholder="(555) 123-4567"
                       />
                     </div>
-                    <Button onClick={handleAddPendingProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90"> {/* Applied new color */}
-                      Add Property
+                    <div>
+                      <Label htmlFor="pending-image">Image URL</Label>
+                      <Input
+                        id="pending-image"
+                        value={newPendingProperty.image}
+                        onChange={(e) => setNewPendingProperty({ ...newPendingProperty, image: e.target.value })}
+                        placeholder="https://images.unsplash.com/..."
+                      />
+                    </div>
+                    <Button onClick={handleAddPendingProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
+                      Add Pending Property
                     </Button>
                   </div>
                 </DialogContent>
@@ -1202,6 +1193,7 @@ const Admin = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="hidden sm:table-cell">Image</TableHead> {/* Added image column */}
                       <TableHead>Title</TableHead>
                       <TableHead className="hidden md:table-cell">Location</TableHead>
                       <TableHead>Price</TableHead>
@@ -1213,6 +1205,9 @@ const Admin = () => {
                   <TableBody>
                     {pendingProperties.map((property) => (
                       <TableRow key={property.id}>
+                        <TableCell className="hidden sm:table-cell">
+                          <img src={property.image} alt={property.title} className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded" />
+                        </TableCell>
                         <TableCell className="font-medium">{property.title}</TableCell>
                         <TableCell className="hidden md:table-cell">{property.location}</TableCell>
                         <TableCell className="font-semibold text-brand-green">
@@ -1246,7 +1241,7 @@ const Admin = () => {
                               size="sm"
                               onClick={() => handleRejectPendingProperty(property.id)}
                             >
-                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" /> {/* Changed icon to Trash2 */}
+                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </div>
                         </TableCell>
@@ -1256,6 +1251,135 @@ const Admin = () => {
                 </Table>
               </CardContent>
             </Card>
+            {/* Dialog for editing existing pending properties */}
+            <Dialog open={showPendingPropertyDialog} onOpenChange={setShowPendingPropertyDialog}>
+              <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Edit Pending Property</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="edit-pending-title">Title</Label>
+                    <Input
+                      id="edit-pending-title"
+                      value={newPendingProperty.title}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, title: e.target.value })}
+                      placeholder="Property title"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-location">Location</Label>
+                    <Input
+                      id="edit-pending-location"
+                      value={newPendingProperty.location}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, location: e.target.value })}
+                      placeholder="Property location"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-price">Price</Label>
+                    <Input
+                      id="edit-pending-price"
+                      value={newPendingProperty.price}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, price: e.target.value })}
+                      placeholder="e.g., 450000 or 2500"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-description">Description</Label>
+                    <Textarea
+                      id="edit-pending-description"
+                      value={newPendingProperty.description}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, description: e.target.value })}
+                      placeholder="Property description"
+                      rows={3}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-propertyType">Property Type</Label>
+                    <Select value={newPendingProperty.propertyType} onValueChange={(value) => setNewPendingProperty({ ...newPendingProperty, propertyType: value })}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="house">House</SelectItem>
+                        <SelectItem value="apartment">Apartment</SelectItem>
+                        <SelectItem value="land">Land</SelectItem>
+                        <SelectItem value="commercial">Commercial</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="edit-pending-bedrooms">Bedrooms</Label>
+                      <Input
+                        id="edit-pending-bedrooms"
+                        type="number"
+                        value={newPendingProperty.bedrooms}
+                        onChange={(e) => setNewPendingProperty({ ...newPendingProperty, bedrooms: parseInt(e.target.value) })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-pending-bathrooms">Bathrooms</Label>
+                      <Input
+                        id="edit-pending-bathrooms"
+                        type="number"
+                        value={newPendingProperty.bathrooms}
+                        onChange={(e) => setNewPendingProperty({ ...newPendingProperty, bathrooms: parseInt(e.target.value) })}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-sqft">Square Feet</Label>
+                    <Input
+                      id="edit-pending-sqft"
+                      value={newPendingProperty.sqft}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, sqft: e.target.value })}
+                      placeholder="e.g., 2400"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-contactName">Contact Name</Label>
+                    <Input
+                      id="edit-pending-contactName"
+                      value={newPendingProperty.contactName}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, contactName: e.target.value })}
+                      placeholder="Contact person's name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-contactEmail">Contact Email</Label>
+                    <Input
+                      id="edit-pending-contactEmail"
+                      value={newPendingProperty.contactEmail}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, contactEmail: e.target.value })}
+                      placeholder="Contact person's email"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-contactPhone">Contact Phone</Label>
+                    <Input
+                      id="edit-pending-contactPhone"
+                      value={newPendingProperty.contactPhone}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, contactPhone: e.target.value })}
+                      placeholder="(555) 123-4567"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-pending-image">Image URL</Label>
+                    <Input
+                      id="edit-pending-image"
+                      value={newPendingProperty.image}
+                      onChange={(e) => setNewPendingProperty({ ...newPendingProperty, image: e.target.value })}
+                      placeholder="https://images.unsplash.com/..."
+                    />
+                  </div>
+                  <Button onClick={handleUpdatePendingProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
+                    Update Pending Property
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
 
@@ -1267,6 +1391,7 @@ const Admin = () => {
             </DialogHeader>
             {viewingPendingProperty && (
               <div className="space-y-4">
+                <img src={viewingPendingProperty.image} alt={viewingPendingProperty.title} className="w-full h-48 object-cover rounded-md mb-4" /> {/* Display image */}
                 <h3 className="text-xl font-semibold">{viewingPendingProperty.title}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -1356,7 +1481,7 @@ const Admin = () => {
                     }}
                     variant="destructive"
                   >
-                    <Trash2 className="mr-2 h-4 w-4" /> {/* Changed icon to Trash2 */}
+                    <Trash2 className="mr-2 h-4 w-4" />
                     Reject
                   </Button>
                 </div>
@@ -1371,8 +1496,8 @@ const Admin = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl sm:text-2xl font-bold">Projects Management</h2>
               <Dialog open={showProjectDialog} onOpenChange={setShowProjectDialog}>
-                <Button onClick={() => { setNewProject({ title: "", location: "", completedDate: "", projectType: "", client: "", size: "", duration: "", status: 'completed', image: "" }); setEditingProject(null); }}
-                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90" // Applied new color
+                <Button onClick={() => { setNewProject({ title: "", location: "", completedDate: "", projectType: "", client: "", size: "", duration: "", status: 'completed', image: "" }); setEditingProject(null); setShowProjectDialog(true); }}
+                  className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90"
                 >
                     <Plus className="mr-2 h-4 w-4" />
                     <span className="hidden sm:inline">Add Project</span>
@@ -1455,7 +1580,7 @@ const Admin = () => {
                         placeholder="https://images.unsplash.com/..."
                       />
                     </div>
-                    <Button onClick={handleAddProject} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90"> {/* Applied new color */}
+                    <Button onClick={handleAddProject} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
                       {editingProject ? 'Update Project' : 'Add Project'}
                     </Button>
                   </div>
