@@ -5,9 +5,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import Navigation from "@/components/Navigation";
 import ClickToCall from "@/components/ClickToCall";
 import Chatbot from "@/components/Chatbot";
+import Navigation from "@/components/Navigation";
 import Index from "./pages/Index";
 import Buy from "./pages/Buy";
 import Sell from "./pages/Sell";
@@ -24,11 +24,11 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminPanel = location.pathname === '/admin';
 
   return (
     <>
-      {!isAdminRoute && <Navigation />}
+      {!isAdminPanel && <Navigation />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/buy" element={<Buy />} />
@@ -43,12 +43,8 @@ const AppContent = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isAdminRoute && (
-        <>
-          <ClickToCall />
-          <Chatbot />
-        </>
-      )}
+      <ClickToCall />
+      <Chatbot />
     </>
   );
 };

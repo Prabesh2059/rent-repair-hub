@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import { toast } from "@/hooks/use-toast";
@@ -72,8 +71,6 @@ const Sell = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navigation />
-      
       {/* Hero Section with Bubble Effect */}
       <section className="relative h-64 sm:h-80 lg:h-96 bg-[#006d4e] flex items-center justify-center animate-fade-in-up overflow-hidden">
         {/* Floating Bubbles */}

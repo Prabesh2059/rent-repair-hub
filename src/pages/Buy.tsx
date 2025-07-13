@@ -1,4 +1,3 @@
-
 // src/pages/buy.tsx
 'use client'; // This directive is crucial for Next.js App Router for client-side interactivity.
 
@@ -6,7 +5,6 @@ import { useState, useMemo } from "react";
 import { Search, Filter, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -129,8 +127,6 @@ const Buy = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navigation />
-
       {/* Hero Section with Bubble Effect */}
       <section className="relative h-64 sm:h-80 lg:h-96 bg-[#006d4e] flex items-center justify-center animate-fade-in-up overflow-hidden">
         {/* Floating Bubbles */}

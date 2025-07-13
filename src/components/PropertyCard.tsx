@@ -1,9 +1,9 @@
 
-import React from 'react';
-import { Building, Bed, Bath, LayoutGrid } from 'lucide-react'; // Import icons
-import { Button } from "@/components/ui/button"; // Assuming you use shadcn/ui Button
+import { Bed, Bath, Square, Heart } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
-// Define the interface for a single property object
 interface Property {
   id: number;
   image: string;
@@ -16,7 +16,6 @@ interface Property {
   type: string;
 }
 
-// Define the props interface for the PropertyCard component
 interface PropertyCardProps {
   property: Property;
   bedsLabel?: string;
@@ -25,66 +24,65 @@ interface PropertyCardProps {
   viewDetailsLabel?: string;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ 
+const PropertyCard = ({ 
   property, 
-  bedsLabel = "Beds",
-  bathsLabel = "Baths", 
+  bedsLabel = "beds", 
+  bathsLabel = "baths", 
   sqftLabel = "sqft",
   viewDetailsLabel = "View Details"
-}) => {
+}: PropertyCardProps) => {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full max-w-sm mx-auto sm:max-w-none">
-      {/* Property Image */}
-      <div className="relative overflow-hidden">
+    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-105 transform bg-white">
+      <div className="relative">
         <img
           src={property.image}
           alt={property.title}
-          className="w-full h-48 sm:h-52 lg:h-56 object-cover transition-transform duration-300 hover:scale-110"
-          loading="lazy"
+          className="w-full h-48 sm:h-56 object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+        <button
+          onClick={() => setIsLiked(!isLiked)}
+          className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-200 ${
+            isLiked
+              ? "bg-red-500 text-white"
+              : "bg-white/80 text-gray-600 hover:bg-white"
+          }`}
+        >
+          <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
+        </button>
       </div>
-
-      {/* Property Details */}
-      <div className="p-4 sm:p-5">
-        {/* Title */}
-        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 line-clamp-2 leading-tight">
+      <CardContent className="p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 line-clamp-1">
           {property.title}
         </h3>
-
-        {/* Location */}
-        <p className="text-gray-600 flex items-center mb-3 text-sm sm:text-base">
-          <Building className="h-4 w-4 mr-2 flex-shrink-0" /> {/* Location icon */}
-          <span className="truncate">{property.location}</span>
+        <p className="text-gray-600 text-sm mb-3 sm:mb-4 line-clamp-1">
+          {property.location}
         </p>
-
-        {/* Price - Now in plain bold text */}
-        <p className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+        <p className="text-xl sm:text-2xl font-bold text-[#006d4e] mb-3 sm:mb-4">
           {property.price}
         </p>
-
-        {/* Beds, Baths, Sqft */}
-        <div className="flex items-center justify-between text-gray-600 text-xs sm:text-sm mb-4 gap-2">
-          <span className="flex items-center min-w-0">
-            <Bed className="h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" /> {/* Bed icon */}
-            <span className="truncate">{property.beds} {bedsLabel}</span>
-          </span>
-          <span className="flex items-center min-w-0">
-            <Bath className="h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" /> {/* Bath icon */}
-            <span className="truncate">{property.baths} {bathsLabel}</span>
-          </span>
-          <span className="flex items-center min-w-0">
-            <LayoutGrid className="h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" /> {/* Sqft icon */}
-            <span className="truncate">{property.sqft} {sqftLabel}</span>
-          </span>
+        
+        <div className="flex items-center gap-3 sm:gap-4 text-gray-600 text-xs sm:text-sm mb-4 sm:mb-6">
+          <div className="flex items-center gap-1">
+            <Bed className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span>{property.beds} {bedsLabel}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Bath className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span>{property.baths} {bathsLabel}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Square className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span>{property.sqft} {sqftLabel}</span>
+          </div>
         </div>
-
-        {/* View Details Button */}
-        <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base py-2 sm:py-2.5 transition-all duration-200 transform hover:scale-105">
+        
+        <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-white transition-all duration-200 hover:scale-105 transform text-sm sm:text-base">
           {viewDetailsLabel}
         </Button>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
