@@ -55,7 +55,7 @@ const Contact = () => {
         <div className="bubble"></div>
 
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-[#006d4e]"></div>
 
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Mail className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />

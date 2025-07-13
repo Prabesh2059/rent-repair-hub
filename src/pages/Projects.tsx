@@ -119,7 +119,7 @@ const Projects = () => {
         <div className="bubble"></div>
         
         {/* Overlay for better text readibility */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-[#006D4E]"></div>
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <Trophy className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-bounce" />
