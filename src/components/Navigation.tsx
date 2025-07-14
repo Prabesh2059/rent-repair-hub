@@ -54,13 +54,13 @@ const Navigation = () => {
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <img src="/images/realstate-removebg-preview.png"
             alt="Real Estate Crafters Logo"
-            className="h-10 w-auto object-contain animate-entrance-logo"
-            />
+            className="h-24 w-auto object-contain animate-entrance-logo"
+          />
             <div className="leading-tight">
-            <p className="text-lg font-bold text-[#006d4e] animate-entrance-text">
+            <p className="text-xl font-bold text-[#006d4e] animate-entrance-text">
             Real Estate Crafters
               </p>
-            <p className="text-xs text-brand animate-entrance-text">
+            <p className="text-l text-brand animate-entrance-text">
             International Private Limited
               </p>
             </div>
