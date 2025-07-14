@@ -134,7 +134,7 @@ const Index = () => {
       <Navigation />
 
       {/* Hero Section with Green Scenery and Rain */}
-      <section className="relative h-[700px] flex items-center justify-center overflow-hidden bg-[#006d4e]">
+      <section className="relative h-[700px] lg:h-[800px] xl:h-[900px] 2xl:h-[1000px] flex items-center justify-center overflow-hidden bg-[#006d4e]">
         {/* Beautiful Green Scenery Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -165,17 +165,17 @@ const Index = () => {
           ))}
         </div>
 
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg drop-shadow-2xl animate-slide-in-down">
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto animate-fade-in-up">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] font-bold mb-6 lg:mb-8 xl:mb-10 text-shadow-lg drop-shadow-2xl animate-slide-in-down">
             {t('home.hero.title')}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-green-100 drop-shadow-lg animate-fade-in-up animate-delay-300">
+          <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl mb-8 lg:mb-10 xl:mb-12 text-green-100 drop-shadow-lg animate-fade-in-up animate-delay-300">
             {t('home.hero.subtitle')}
           </p>
 
         {/* Enhanced Search Bar */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20 animate-scale-in animate-delay-500">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-10 xl:p-12 shadow-2xl max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl border border-white/20 animate-scale-in animate-delay-500">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8 xl:gap-10">
             <div className="relative">
               <MapPin className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
               <Input
@@ -185,9 +185,9 @@ const Index = () => {
                 // IMPORTANT: Ensure these focus classes are applied.
                 // Shadcn's input might use focus-visible, so ensure your globals.css
                 // or base styles don't override this with a blue color.
-                className="w-full pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-[#006d4e]
+                className="w-full pl-12 h-12 lg:h-14 xl:h-16 text-gray-700 border-2 border-green-200 focus:border-[#006d4e]
                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
-                          rounded-xl smooth-transition"
+                          rounded-xl smooth-transition text-base lg:text-lg xl:text-xl"
               />
             </div>
             <div className="relative">
@@ -195,9 +195,9 @@ const Index = () => {
               <select
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="w-full h-12 pl-12 border-2 border-green-200 focus:border-[#006d4e]
+                className="w-full h-12 lg:h-14 xl:h-16 pl-12 border-2 border-green-200 focus:border-[#006d4e]
                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
-                          rounded-xl text-gray-700 smooth-transition"
+                          rounded-xl text-gray-700 smooth-transition text-base lg:text-lg xl:text-xl"
               >
                 <option value="">{t('home.search.price')}</option>
                 <option value="0-2000000">रू 0 - रू 20,00,000</option>
@@ -210,9 +210,9 @@ const Index = () => {
               <select
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
-                className="w-full h-12 pl-12 border-2 border-green-200 focus:border-[#006d4e]
+                className="w-full h-12 lg:h-14 xl:h-16 pl-12 border-2 border-green-200 focus:border-[#006d4e]
                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
-                          rounded-xl text-gray-700 smooth-transition"
+                          rounded-xl text-gray-700 smooth-transition text-base lg:text-lg xl:text-xl"
               >
                 <option value="">{t('home.search.type')}</option>
                 <option value="house">House</option>
@@ -222,7 +222,7 @@ const Index = () => {
             </div>
             <Button
               onClick={handleSearch}
-              className="bg-[#006d4e] hover:bg-[#005a3f] h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl smooth-transition hover-lift"
+              className="bg-[#006d4e] hover:bg-[#005a3f] h-12 lg:h-14 xl:h-16 text-lg lg:text-xl xl:text-2xl font-semibold rounded-xl shadow-lg hover:shadow-xl smooth-transition hover-lift"
             >
               <Search className="mr-2 h-5 w-5" />
               {t('home.search.button')}
@@ -233,13 +233,13 @@ const Index = () => {
       </section>
 
       {/* Featured Listings */}
-      <section className="py-20 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-5xl font-bold  mb-6">{t('home.featured.title')}</h2>
-          <p className="text text-xl">{t('home.featured.subtitle')}</p>
+      <section className="py-20 lg:py-24 xl:py-28 2xl:py-32 px-4 max-w-7xl xl:max-w-8xl 2xl:max-w-9xl mx-auto">
+        <div className="text-center mb-16 lg:mb-20 xl:mb-24 animate-fade-in-up">
+          <h2 className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold mb-6 lg:mb-8 xl:mb-10">{t('home.featured.title')}</h2>
+          <p className="text text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl">{t('home.featured.subtitle')}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10 lg:gap-12 xl:gap-14 2xl:gap-16">
           {featuredProperties.map((property, index) => (
             <Card key={property.id} className={`group hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 rounded-2xl overflow-hidden border-2 border-green-100 hover:border-green-300 hover-lift animate-scale-in animate-delay-${200 + index * 100}`}>
               <div className="relative overflow-hidden">
@@ -278,9 +278,9 @@ const Index = () => {
       </section>
 
       {/* Action Boxes */}
-      <section className="py-20 bg-gradient-to-br">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <section className="py-20 lg:py-24 xl:py-28 2xl:py-32 bg-gradient-to-br">
+        <div className="max-w-7xl xl:max-w-8xl 2xl:max-w-9xl mx-auto px-4 lg:px-8 xl:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 xl:gap-14 2xl:gap-16">
             <Link to="/buy" className="group animate-fade-in-left">
               <Card className="h-80 relative overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-4 rounded-2xl border-2 border-green-200 hover:border-green-400 hover-lift">
                 <div

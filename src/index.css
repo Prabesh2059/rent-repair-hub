@@ -102,6 +102,48 @@
   }
 }
 
+/* Laptop adjustments */
+@media (min-width: 1025px) and (max-width: 1536px) {
+  .container {
+    @apply px-8;
+  }
+  
+  /* Optimized typography for laptops */
+  h1 {
+    @apply text-4xl lg:text-5xl leading-tight;
+  }
+  h2 {
+    @apply text-3xl lg:text-4xl leading-tight;
+  }
+  h3 {
+    @apply text-2xl lg:text-3xl leading-tight;
+  }
+}
+
+/* Desktop/PC adjustments */
+@media (min-width: 1537px) {
+  .container {
+    @apply px-12;
+  }
+  
+  /* Enhanced typography for large screens */
+  h1 {
+    @apply text-5xl xl:text-6xl 2xl:text-7xl leading-tight;
+  }
+  h2 {
+    @apply text-4xl xl:text-5xl 2xl:text-6xl leading-tight;
+  }
+  h3 {
+    @apply text-3xl xl:text-4xl 2xl:text-5xl leading-tight;
+  }
+  
+  /* Larger interactive elements for desktop */
+  button {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
 /* Animation Utilities - Optimized for mobile performance */
 @keyframes fade-in {
   0% {
