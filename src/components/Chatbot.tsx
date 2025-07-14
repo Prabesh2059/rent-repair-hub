@@ -132,25 +132,25 @@ const Chatbot = () => {
         <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out
           ${isMinimized ? 'w-80 h-16' : 'w-80 sm:w-96 h-[400px]'}`}> {/* Added a fixed height for full view */}
           <Card className="shadow-xl border border-gray-200 h-full flex flex-col"> {/* Ensure card takes full height and uses flex for layout */}
-            <CardHeader className="bg-brand-green text-white rounded-t-lg flex-shrink-0"> {/* flex-shrink-0 to prevent header from shrinking */}
+            <CardHeader className="bg-[#006d4e] text-white rounded-t-lg flex-shrink-0"> {/* flex-shrink-0 to prevent header from shrinking */}
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg">Real Estate Assistant</CardTitle>
                 <div className="flex gap-1"> {/* Group minimize and close buttons */}
                   {/* Minimize/Maximize Button */}
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="icon"
                     onClick={toggleMinimize}
-                    className="text-white hover:bg-white/20 h-8 w-8"
+                    className="text-black hover:bg-black/20 h-8 w-8"
                   >
                     {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minus className="h-4 w-4" />} {/* Toggle icon based on state */}
                   </Button>
                   {/* Close Button */}
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="icon"
                     onClick={closeChatbot} // Use the dedicated close function
-                    className="text-white hover:bg-white/20 h-8 w-8"
+                    className="text-black hover:bg-[#DC143C] h-8 w-8"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -179,16 +179,6 @@ const Chatbot = () => {
                       </div>
                     </div>
                   ))}
-                </div>
-
-                {/* Contact Form Button */}
-                <div className="p-4 border-t bg-green-50 flex-shrink-0"> {/* flex-shrink-0 to prevent button from shrinking */}
-                  <Button
-                    onClick={handleContactFormRedirect}
-                    className="w-full bg-[#006d4e] hover:bg-[#006d4e]/90 text-white mb-3 h-12 text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200"
-                  >
-                    📞 Go to Contact Form
-                  </Button>
                 </div>
 
                 {/* Input Area */}
