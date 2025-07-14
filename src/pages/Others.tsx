@@ -102,7 +102,14 @@ const Others = () => {
           
           <ResponsiveCardGrid columns={3}>
             {services.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+              <Card 
+                key={index} 
+                className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
+                onClick={() => {
+                  console.log(`Selected service: ${service.title}`);
+                  // Add service selection logic here
+                }}
+              >
                 <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
                   <div className={`${service.color} w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
                     <service.icon className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
@@ -264,7 +271,11 @@ const Others = () => {
 
               {/* Submit Button */}
               <div className="pt-4 sm:pt-6">
-                <Button type="submit" className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 hover:scale-105 transform">
+                <Button 
+                  type="submit" 
+                  onClick={handleSubmit}
+                  className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 hover:scale-105 transform cursor-pointer"
+                >
                   {t('others.form.submit')}
                 </Button>
               </div>

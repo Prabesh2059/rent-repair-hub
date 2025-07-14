@@ -184,7 +184,14 @@ const Projects = () => {
         {/* Projects Grid */}
         <ResponsiveCardGrid columns={3}>
           {filteredProjects.map((project) => (
-            <Card key={project.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+            <Card 
+              key={project.id} 
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
+              onClick={() => {
+                console.log(`Viewing project details for: ${project.title}`);
+                // Add navigation logic here
+              }}
+            >
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={project.image}
@@ -227,7 +234,13 @@ const Projects = () => {
                     <span className="text-[#006d4e] font-semibold">✓ {t("projects.project.completed")}</span>
                   </div>
                 </div>
-                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log(`Viewing project details for: ${project.title}`);
+                  }}
+                  className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base"
+                >
                   {t("projects.project.viewDetails")}
                 </Button>
               </CardContent>
