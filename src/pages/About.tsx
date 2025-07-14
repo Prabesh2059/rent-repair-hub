@@ -1,4 +1,3 @@
-
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -8,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const About = () => {
   const { t } = useLanguage();
-  
+
   // Animation states for statistics
   const [experienceCount, setExperienceCount] = useState(0);
   const [projectsCount, setProjectsCount] = useState(0);
@@ -20,7 +19,7 @@ const About = () => {
   const targetProjects = 500;
   const targetClients = 1200;
 
-  // Animation effect
+  // Animation effect for statistics
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -66,26 +65,27 @@ const About = () => {
     return () => clearInterval(timer);
   }, [isVisible]);
 
+  // Branch data with specific names, locations, and your provided image paths
   const branches = [
     {
-      name: t("about.branches.branch1.name"),
-      location: t("about.branches.branch1.location"),
-      image: "/images/branch1.jpg"
+      name: "Kathmandu Branch",
+      location: "Kathmandu, Bagmati Province", // Example specific location
+      image: "/images/kathmandu.jpg" // Using your uploaded 'kathmandu.jpg'
     },
     {
-      name: t("about.branches.branch2.name"),
-      location: t("about.branches.branch2.location"),
-      image: "/images/branch2.jpg"
+      name: "Pokhara Branch",
+      location: "Pokhara, Gandaki Province", // Example specific location
+      image: "/images/pokhara.jpg" // Using your uploaded 'pokhara.jpg'
     },
     {
-      name: t("about.branches.branch3.name"),
-      location: t("about.branches.branch3.location"),
-      image: "/images/branch3.jpg"
+      name: "Bardibas Branch",
+      location: "Bardibas-1, Mahottari",
+      image: "/images/bardibas.jpg" // Using your uploaded 'bardibas.jpg'
     },
     {
-      name: t("about.branches.branch4.name"),
-      location: t("about.branches.branch4.location"),
-      image: "/images/branch4.jpg"
+      name: "Janakpur Branch",
+      location: "Janakpurdham, Dhanusha",
+      image: "/images/janakpur.jpg" // Using your uploaded 'janakpur.jpg'
     }
   ];
 
@@ -96,28 +96,28 @@ const About = () => {
       name: t("about.reviews.client1.name"),
       rating: 5,
       review: t("about.reviews.client1.review"),
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      image: "public/images/Aashu.jpg" // Assuming you have a generic client image in public/images
     },
     {
       id: 2,
       name: t("about.reviews.client2.name"),
       rating: 5,
       review: t("about.reviews.client2.review"),
-      image: "https://images.unsplash.com/photo-1494790108755-2616b4cf9c85?w=150&h=150&fit=crop&crop=face"
+      image: "public/images/Prabesh.JPG"
     },
     {
       id: 3,
       name: t("about.reviews.client3.name"),
       rating: 4,
       review: t("about.reviews.client3.review"),
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      image: "public/images/Aj.jpg" // Assuming you have a generic client image in public/images
     }
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
+
       {/* Hero Section with Animations */}
       <section className="bg-[#006d4e] text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#006d4e] via-[#005a41] to-[#004d37]"></div>
@@ -127,7 +127,7 @@ const About = () => {
           <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white rounded-full animate-pulse delay-2000"></div>
           <div className="absolute bottom-32 right-1/3 w-8 h-8 bg-white rounded-full animate-pulse delay-3000"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in opacity-0 animation-delay-300">
             {t("about.title")}
@@ -136,7 +136,7 @@ const About = () => {
             {t("about.subtitle")}
           </p>
         </div>
-        
+
         {/* Floating Animation Elements */}
         <div className="absolute top-1/2 left-0 w-4 h-4 bg-green-300 rounded-full animate-bounce opacity-30"></div>
         <div className="absolute top-1/3 right-0 w-6 h-6 bg-green-200 rounded-full animate-bounce opacity-40 delay-500"></div>
@@ -225,7 +225,7 @@ const About = () => {
                     alt={branch.name}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     onError={(e) => {
-                      e.currentTarget.src = "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=300&fit=crop";
+                      e.currentTarget.src = "/images/default_branch.jpg"; // Fallback image if one isn't found
                     }}
                   />
                 </div>
@@ -255,7 +255,6 @@ const About = () => {
               {t("about.ceo.title")}
             </h2>
           </div>
-
           <div className="max-w-4xl mx-auto">
             <Card className="overflow-hidden">
               <CardContent className="p-8">
@@ -263,7 +262,7 @@ const About = () => {
                   <div className="flex-shrink-0">
                     <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-green-200">
                       <img
-                        src="/images/ceo.jpg"
+                        src="public/images/CEO.png" // Assuming you have a generic CEO image in public/images
                         alt={t("about.ceo.name")}
                         className="w-full h-full object-cover"
                         onError={(e) => {

@@ -288,15 +288,15 @@ const translations = {
         title: "What Our Clients Say",
         subtitle: "Read testimonials from our satisfied customers who have experienced our exceptional service.",
         client1: {
-          name: "John Smith",
+          name: "Aashutosh Bhattarai",
           review: "Excellent service! They helped me find my dream home within my budget. Highly professional and reliable."
         },
         client2: {
-          name: "Sarah Johnson",
+          name: "Prabesh Ojha",
           review: "Outstanding experience selling my property. The team was very supportive throughout the entire process."
         },
         client3: {
-          name: "Michael Brown",
+          name: "Arjun Dahal",
           review: "Great rental service! Found the perfect apartment in my preferred location. Very responsive team."
         }
       }
@@ -668,16 +668,16 @@ const translations = {
         title: "हाम्रा ग्राहकहरू के भन्छन्",
         subtitle: "हाम्रो असाधारण सेवा अनुभव गरेका सन्तुष्ट ग्राहकहरूका प्रशंसापत्रहरू पढ्नुहोस्।",
         client1: {
-          name: "जोन स्मिथ",
-          review: "उत्कृष्ट सेवा! उनीहरूले मलाई मेरो बजेट भित्र मेरो सपनाको घर फेला पार्न मद्दत गरे। उच्च व्यावसायिक र विश्वसनीय।"
+          name: "आशुतोष भट्टराई",
+          review: "उत्कृष्ट सेवा! उनीहरूले मलाई मेरो बजेट भित्र मेरो सपनाको घर फेला पार्न मद्दत गरे। निकै व्यावसायिक र विश्वसनीय।"
         },
         client2: {
-          name: "सारा जोनसन",
+          name: "प्रवेश ओझा",
           review: "मेरो सम्पत्ति बेच्नमा उत्कृष्ट अनुभव। टोलीले पूरै प्रक्रियामा धेरै सहयोग गर्यो।"
         },
         client3: {
-          name: "माइकल ब्राउन",
-          review: "महान भाडा सेवा! मैले मेरो मनपर्ने स्थानमा उत्तम अपार्टमेन्ट फेला पारे। धेरै प्रतिक्रियाशील टोली।"
+          name: "अर्जुन दाहाल",
+          review: "मैले मेरो मनपर्ने स्थानमा उत्तम अपार्टमेन्ट फेला पारे। धेरै प्रतिक्रियाशील टोली अनि उस्तै उत्कृष्ट सेवा ।"
         }
       }
     },

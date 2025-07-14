@@ -173,53 +173,62 @@ const Index = () => {
             {t('home.hero.subtitle')}
           </p>
 
-          {/* Enhanced Search Bar */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20 animate-scale-in animate-delay-500">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="relative">
-                <MapPin className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
-                <Input
-                  placeholder={t('home.search.location')}
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
-                  className="pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-[#006d4e] rounded-xl smooth-transition"
-                />
-              </div>
-              <div className="relative">
-                <DollarSign className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
-                <select
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-[#006d4e] rounded-xl text-gray-700 smooth-transition"
-                >
-                  <option value="">{t('home.search.price')}</option>
-                  <option value="0-2000000">रू 0 - रू 20,00,000</option>
-                  <option value="2000000-5000000">रू 20,00,000 - रू 50,00,000</option>
-                  <option value="5000000+">रू 50,00,000+</option>
-                </select>
-              </div>
-              <div className="relative">
-                <Home className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
-                <select
-                  value={propertyType}
-                  onChange={(e) => setPropertyType(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 border-2 border-green-200 focus:border-[#006d4e] rounded-xl text-gray-700 smooth-transition"
-                >
-                  <option value="">{t('home.search.type')}</option>
-                  <option value="house">House</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="condo">Condo</option>
-                </select>
-              </div>
-              <Button
-                onClick={handleSearch}
-                className="bg-[#006d4e] hover:bg-[#005a3f] h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl smooth-transition hover-lift"
-              >
-                <Search className="mr-2 h-5 w-5" />
-                {t('home.search.button')}
-              </Button>
+        {/* Enhanced Search Bar */}
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl max-w-4xl border border-white/20 animate-scale-in animate-delay-500">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="relative">
+              <MapPin className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
+              <Input
+                placeholder={t('home.search.location')}
+                value={searchLocation}
+                onChange={(e) => setSearchLocation(e.target.value)}
+                // IMPORTANT: Ensure these focus classes are applied.
+                // Shadcn's input might use focus-visible, so ensure your globals.css
+                // or base styles don't override this with a blue color.
+                className="w-full pl-12 h-12 text-gray-700 border-2 border-green-200 focus:border-[#006d4e]
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
+                          rounded-xl smooth-transition"
+              />
             </div>
+            <div className="relative">
+              <DollarSign className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
+              <select
+                value={priceRange}
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="w-full h-12 pl-12 border-2 border-green-200 focus:border-[#006d4e]
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
+                          rounded-xl text-gray-700 smooth-transition"
+              >
+                <option value="">{t('home.search.price')}</option>
+                <option value="0-2000000">रू 0 - रू 20,00,000</option>
+                <option value="2000000-5000000">रू 20,00,000 - रू 50,00,000</option>
+                <option value="5000000+">रू 50,00,000+</option>
+              </select>
+            </div>
+            <div className="relative">
+              <Home className="absolute left-4 top-4 h-5 w-5 text-[#006d4e]" />
+              <select
+                value={propertyType}
+                onChange={(e) => setPropertyType(e.target.value)}
+                className="w-full h-12 pl-12 border-2 border-green-200 focus:border-[#006d4e]
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006d4e] focus-visible:ring-offset-2
+                          rounded-xl text-gray-700 smooth-transition"
+              >
+                <option value="">{t('home.search.type')}</option>
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="condo">Condo</option>
+              </select>
+            </div>
+            <Button
+              onClick={handleSearch}
+              className="bg-[#006d4e] hover:bg-[#005a3f] h-12 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl smooth-transition hover-lift"
+            >
+              <Search className="mr-2 h-5 w-5" />
+              {t('home.search.button')}
+            </Button>
           </div>
+        </div>
         </div>
       </section>
 
