@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Building, Bed, Bath, LayoutGrid } from 'lucide-react'; // Import icons
 import { Button } from "@/components/ui/button"; // Assuming you use shadcn/ui Button
 
@@ -32,8 +33,20 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   sqftLabel = "sqft",
   viewDetailsLabel = "View Details"
 }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate(`/property/${property.id}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/property/${property.id}`);
+  };
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full max-w-sm mx-auto sm:max-w-none">
+    <div 
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full max-w-sm mx-auto sm:max-w-none cursor-pointer"
+      onClick={handleCardClick}
+    >
       {/* Property Image */}
       <div className="relative overflow-hidden">
         <img
@@ -80,7 +93,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </div>
 
         {/* View Details Button */}
-        <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base py-2 sm:py-2.5 transition-all duration-200 transform hover:scale-105">
+        <Button 
+          onClick={(e) => {
+            e.stopPropagation();
+            handleViewDetails();
+          }}
+          className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base py-2 sm:py-2.5 transition-all duration-200 transform hover:scale-105"
+        >
           {viewDetailsLabel}
         </Button>
       </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Filter, MapPin, Calendar, CheckCircle, Users, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const Projects = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
@@ -198,7 +200,11 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Card key={project.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+            <Card 
+              key={project.id} 
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
+              onClick={() => navigate(`/project/${project.id}`)}
+            >
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={project.image}
@@ -241,7 +247,13 @@ const Projects = () => {
                     <span className="text-[#006d4e] font-semibold">✓ {t("projects.project.completed")}</span>
                   </div>
                 </div>
-                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/project/${project.id}`);
+                  }}
+                  className="w-full bg-[#006d4e] hover:bg-[#005a3f]"
+                >
                   {t("projects.project.viewDetails")}
                 </Button>
               </CardContent>
