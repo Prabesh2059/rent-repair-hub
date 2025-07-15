@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Minus, Maximize2 } from "lucide-react"; // Import Minus and Maximize2 icons
+import { MessageCircle, X, Send, Minus, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,7 @@ interface ChatMessage {
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false); // New state for minimize functionality
+  const [isMinimized, setIsMinimized] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -27,14 +27,12 @@ const Chatbot = () => {
   const [inputMessage, setInputMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref for scrolling messages
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Hide chatbot on admin panel
   if (location.pathname === '/admin') {
     return null;
   }
 
-  // Effect for handling scroll to update button color
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -45,17 +43,15 @@ const Chatbot = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Effect for scrolling to the latest message in the chat window
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
-  }, [messages, isMinimized]); // Re-scroll when messages change or minimization state changes
+  }, [messages, isMinimized]);
 
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
 
-    // Add user message
     const userMessage: ChatMessage = {
       id: Date.now(),
       text: inputMessage,
@@ -66,7 +62,6 @@ const Chatbot = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputMessage("");
 
-    // Add bot response after a short delay
     setTimeout(() => {
       const botResponse: ChatMessage = {
         id: Date.now() + 1,
@@ -80,7 +75,7 @@ const Chatbot = () => {
 
   const handleContactFormRedirect = () => {
     setIsOpen(false);
-    setIsMinimized(false); // Reset minimize state when closing or redirecting
+    setIsMinimized(false);
     navigate('/contact');
   };
 
@@ -90,34 +85,30 @@ const Chatbot = () => {
     }
   };
 
-  // Function to toggle between minimized and full chat window
   const toggleMinimize = () => {
     setIsMinimized(prev => !prev);
   };
 
-  // Function to close the chatbot entirely
   const closeChatbot = () => {
     setIsOpen(false);
-    setIsMinimized(false); // Ensure minimize state is reset when closing
+    setIsMinimized(false);
   };
 
-  // Function to open the chatbot, ensuring it starts in a full (non-minimized) view
   const openChatbot = () => {
     setIsOpen(true);
-    setIsMinimized(false); // Open to full view by default
+    setIsMinimized(false);
   };
 
   return (
     <>
-      {/* Chat Button (Visible only when the chatbot window is closed) */}
       {!isOpen && (
         <div className="fixed bottom-6 right-6 z-50">
           <Button
-            onClick={openChatbot} // Use openChatbot to handle state
+            onClick={openChatbot}
             className={`h-14 w-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${
               isScrolled
-                ? 'bg-[#006d4e] hover:bg-[#CFCB11]' // Color when scrolled
-                : 'bg-[#CFCB11] hover:bg-brand-green/90' // Initial color
+                ? 'bg-[#006d4e] hover:bg-[#CFCB11]'
+                : 'bg-[#CFCB11] hover:bg-brand-green/90'
             }`}
             size="icon"
           >
@@ -126,30 +117,26 @@ const Chatbot = () => {
         </div>
       )}
 
-      {/* Chat Window (Visible when isOpen is true) */}
       {isOpen && (
-        // Adjust the container's size dynamically based on isMinimized state
         <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out
-          ${isMinimized ? 'w-80 h-16' : 'w-80 sm:w-96 h-[400px]'}`}> {/* Added a fixed height for full view */}
-          <Card className="shadow-xl border border-gray-200 h-full flex flex-col"> {/* Ensure card takes full height and uses flex for layout */}
-            <CardHeader className="bg-[#006d4e] text-white rounded-t-lg flex-shrink-0"> {/* flex-shrink-0 to prevent header from shrinking */}
+          ${isMinimized ? 'w-80 h-16' : 'w-80 sm:w-96 h-[400px]'}`}>
+          <Card className="shadow-xl border border-gray-200 h-full flex flex-col">
+            <CardHeader className="bg-[#006d4e] text-white rounded-t-lg flex-shrink-0">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg">Real Estate Assistant</CardTitle>
-                <div className="flex gap-1"> {/* Group minimize and close buttons */}
-                  {/* Minimize/Maximize Button */}
+                <div className="flex gap-1">
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={toggleMinimize}
                     className="text-black hover:bg-black/20 h-8 w-8"
                   >
-                    {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minus className="h-4 w-4" />} {/* Toggle icon based on state */}
+                    {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minus className="h-4 w-4" />}
                   </Button>
-                  {/* Close Button */}
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={closeChatbot} // Use the dedicated close function
+                    onClick={closeChatbot}
                     className="text-black hover:bg-[#DC143C] h-8 w-8"
                   >
                     <X className="h-4 w-4" />
@@ -158,11 +145,9 @@ const Chatbot = () => {
               </div>
             </CardHeader>
 
-            {/* Conditionally render chat content based on minimized state */}
             {!isMinimized && (
-              <CardContent className="p-0 flex-grow flex flex-col"> {/* flex-grow to take remaining space */}
-                {/* Messages Container */}
-                <div ref={messagesEndRef} className="h-64 overflow-y-auto p-4 space-y-3 flex-grow"> {/* flex-grow for message area */}
+              <CardContent className="p-0 flex-grow flex flex-col">
+                <div ref={messagesEndRef} className="h-64 overflow-y-auto p-4 space-y-3 flex-grow">
                   {messages.map((message) => (
                     <div
                       key={message.id}
@@ -172,7 +157,7 @@ const Chatbot = () => {
                         className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
                           message.isBot
                             ? 'bg-gray-100 text-gray-800'
-                            : 'bg-[#006d4e] text-white' // User messages in brand green
+                            : 'bg-[#006d4e] text-white'
                         }`}
                       >
                         {message.text}
@@ -181,15 +166,22 @@ const Chatbot = () => {
                   ))}
                 </div>
 
-                {/* Input Area */}
-                <div className="p-4 pt-0 border-t flex-shrink-0"> {/* flex-shrink-0 to keep input stable */}
+                <div className="p-4 pt-0 border-t flex-shrink-0">
                   <div className="flex gap-2">
                     <Input
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type your message..."
-                      className="flex-1"
+                      className="flex-1
+                        border              // Ensure a border is present
+                        border-[#006d4e]    // Set the border color to your green
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-[#006d4e]
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-background
+                      "
                     />
                     <Button
                       onClick={handleSendMessage}

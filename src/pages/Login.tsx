@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
@@ -18,7 +17,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Specific admin credentials
   const ADMIN_EMAIL = "admin";
   const ADMIN_PASSWORD = "admin123";
 
@@ -32,24 +30,21 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Small delay to show loading state
+
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     if (formData.email === ADMIN_EMAIL && formData.password === ADMIN_PASSWORD) {
-      // Set admin login status
       localStorage.setItem('adminLoggedIn', 'true');
       localStorage.setItem('adminUser', JSON.stringify({
         username: ADMIN_EMAIL,
         loginTime: new Date().toISOString()
       }));
-      
+
       toast({
         title: "Login Successful!",
         description: "Welcome to the admin dashboard.",
       });
-      
-      // Navigate to admin panel immediately
+
       navigate('/admin', { replace: true });
     } else {
       toast({
@@ -58,14 +53,14 @@ const Login = () => {
         variant: "destructive",
       });
     }
-    
+
     setIsLoading(false);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
+
       <div className="max-w-md mx-auto px-4 py-16">
         <Card className="shadow-xl animate-fade-in">
           <CardHeader className="text-center">
@@ -86,7 +81,7 @@ const Login = () => {
                     onChange={handleInputChange}
                     placeholder="Username"
                     required
-                    className="pl-10 transition-colors duration-200 focus:border-[#006d4e]"
+                    className="pl-10 pr-10 border !border-[#006d4e] hover:!border-[#006d4e] focus:!border-[#006d4e] focus:ring-1 focus:ring-[#006d4e] focus:outline-none transition-colors duration-200"
                     disabled={isLoading}
                   />
                 </div>
@@ -104,7 +99,7 @@ const Login = () => {
                     onChange={handleInputChange}
                     placeholder="Enter your password"
                     required
-                    className="pl-10 pr-10 transition-colors duration-200 focus:border-[#006d4e]"
+                    className="pl-10 pr-10 border !border-[#006d4e] hover:!border-[#006d4e] focus:!border-[#006d4e] focus:ring-1 focus:ring-[#006d4e] focus:outline-none transition-colors duration-200"
                     disabled={isLoading}
                   />
                   <button
@@ -118,8 +113,8 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-lg py-3 transition-all duration-200 hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
