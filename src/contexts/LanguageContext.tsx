@@ -271,12 +271,12 @@ const translations = {
           location: "Lakeside, Pokhara, Nepal"
         },
         branch3: {
-          name: "Chitwan Branch",
-          location: "Bharatpur, Chitwan, Nepal"
+          name: "Bardibas Branch",
+          location: "Bardibas-1,Mahottari, Nepal"
         },
         branch4: {
-          name: "Butwal Branch",
-          location: "Traffic Chowk, Butwal, Nepal"
+          name: "Janakpur Branch",
+          location: "Janakpurdham, Dhanusha, Nepal"
         }
       },
       ceo: {
@@ -392,13 +392,13 @@ const translations = {
   np: {
     nav: {
       home: "गृह",
-      buy: "किन्नुहोस्",
-      sell: "बेच्नुहोस्",
+      buy: "खरिद",
+      sell: "बिक्री",
       rent: "भाडामा",
       others: "अन्य",
       contact: "सम्पर्क",
       Projects: "परियोजनाहरू",
-      about: "हाम्रो बारेमा",
+      about: "हाम्रो बारे",
     },
     home: {
       hero: {
@@ -651,12 +651,12 @@ const translations = {
           location: "लेकसाइड, पोखरा, नेपाल"
         },
         branch3: {
-          name: "चितवन शाखा",
-          location: "भरतपुर, चितवन, नेपाल"
+          name: "बर्दिबास शाखा",
+          location: "बर्दिबास-१, महोत्तरी, नेपाल"
         },
         branch4: {
-          name: "बुटवल शाखा",
-          location: "ट्राफिक चोक, बुटवल, नेपाल"
+          name: "जनकपुर शाखा",
+          location: "जनकपुरधाम, धनुषा, नेपाल"
         }
       },
       ceo: {

@@ -222,8 +222,7 @@ const Contact = () => {
                 <div className="animate-fade-in-up animate-delay-500 pt-4">
                   <Button
                     type="submit"
-                    onClick={handleSubmit}
-                    className="w-full h-14 bg-[#006D4E] hover:bg-[#006D4E] text-lg font-semibold py-4 smooth-transition hover-lift shadow-lg hover:shadow-xl rounded-lg cursor-pointer"
+                    className="w-full h-14 bg-[#006D4E] hover:bg-[#006D4E] text-lg font-semibold py-4 smooth-transition hover-lift shadow-lg hover:shadow-xl rounded-lg"
                   >
                     {t('contact.form.button')}
                   </Button>

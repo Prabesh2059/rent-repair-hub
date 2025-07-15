@@ -3,11 +3,8 @@ import { Search, Filter, MapPin, Calendar, CheckCircle, Users, Trophy } from "lu
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import MobileNavigation from "@/components/MobileNavigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import ResponsiveHero from "@/components/ResponsiveHero";
-import ResponsiveCardGrid from "@/components/ResponsiveCardGrid";
-import ResponsiveFilters from "@/components/ResponsiveFilters";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Projects = () => {
@@ -105,122 +102,132 @@ const Projects = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <MobileNavigation />
+      <Navigation />
       
-      {/* Hero Section */}
-      <ResponsiveHero
-        icon={<Trophy className="mx-auto h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16" />}
-        title={t('projects.title')}
-        subtitle={t('projects.subtitle')}
-      />
+      {/* Hero Section with Animations (Updated) */}
+      <section className="bg-[#006d4e] text-white py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#006d4e] via-[#005a41] to-[#004d37]"></div>
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-pulse"></div>
+          <div className="absolute top-32 right-20 w-16 h-16 bg-white rounded-full animate-pulse delay-1000"></div>
+          <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white rounded-full animate-pulse delay-2000"></div>
+          <div className="absolute bottom-32 right-1/3 w-8 h-8 bg-white rounded-full animate-pulse delay-3000"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+          <Trophy className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-fade-in opacity-0 animation-delay-300" /> {/* Changed to fade-in */}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in opacity-0 animation-delay-300">{t('projects.title')}</h1> {/* Changed to fade-in */}
+          <p className="text-base sm:text-lg lg:text-xl animate-fade-in opacity-0 animation-delay-600">{t('projects.subtitle')}</p> {/* Changed to fade-in */}
+        </div>
+        
+        {/* Floating Animation Elements (New) */}
+        <div className="absolute top-1/2 left-0 w-4 h-4 bg-green-300 rounded-full animate-bounce opacity-30"></div>
+        <div className="absolute top-1/3 right-0 w-6 h-6 bg-green-200 rounded-full animate-bounce opacity-40 delay-500"></div>
+        <div className="absolute bottom-1/4 left-1/2 w-3 h-3 bg-green-400 rounded-full animate-bounce opacity-50 delay-1000"></div>
+      </section>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
+      <div className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">{t("projects.title")}</h1>
-          <p className="text-gray-600 text-base sm:text-lg">{t("projects.subtitle")}</p>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t("projects.title")}</h1>
+          <p className="text-gray-600 text-lg">{t("projects.subtitle")}</p>
         </div>
 
         {/* Search and Filters */}
-        <ResponsiveFilters>
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-            <Input
-              placeholder={t("projects.search.placeholder")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 sm:pl-10 text-sm sm:text-base"
-            />
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <Input
+                placeholder={t("projects.search.placeholder")}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            
+            <select
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              className="h-10 px-3 border border-gray-300 rounded-md"
+            >
+              <option value="">{t("projects.filters.allLocations")}</option>
+              <option value="downtown">Downtown</option>
+              <option value="suburb">Suburb</option>
+              <option value="central">Central</option>
+              <option value="coastal">Coastal</option>
+              <option value="historic">Historic</option>
+            </select>
+
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="h-10 px-3 border border-gray-300 rounded-md"
+            >
+              <option value="">{t("projects.filters.allStatus")}</option>
+              <option value="completed">{t("projects.filters.completed")}</option>
+            </select>
+
+            <select
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              className="h-10 px-3 border border-gray-300 rounded-md"
+            >
+              <option value="">{t("projects.filters.allTypes")}</option>
+              <option value="commercial">Commercial</option>
+              <option value="residential">Residential</option>
+              <option value="hospitality">Hospitality</option>
+              <option value="renovation">Renovation</option>
+              <option value="infrastructure">Infrastructure</option>
+            </select>
+
+            <Button className="bg-[#006d4e] hover:bg-[#005a3f]">
+              <Filter className="mr-2 h-4 w-4" />
+              {t("projects.filters.apply")}
+            </Button>
           </div>
-          
-          <select
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-            className="h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base"
-          >
-            <option value="">{t("projects.filters.allLocations")}</option>
-            <option value="downtown">Downtown</option>
-            <option value="suburb">Suburb</option>
-            <option value="central">Central</option>
-            <option value="coastal">Coastal</option>
-            <option value="historic">Historic</option>
-          </select>
-
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base"
-          >
-            <option value="">{t("projects.filters.allStatus")}</option>
-            <option value="completed">{t("projects.filters.completed")}</option>
-          </select>
-
-          <select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            className="h-9 sm:h-10 px-3 border border-gray-300 rounded-md text-sm sm:text-base"
-          >
-            <option value="">{t("projects.filters.allTypes")}</option>
-            <option value="commercial">Commercial</option>
-            <option value="residential">Residential</option>
-            <option value="hospitality">Hospitality</option>
-            <option value="renovation">Renovation</option>
-            <option value="infrastructure">Infrastructure</option>
-          </select>
-
-          <Button className="bg-[#006d4e] hover:bg-[#005a3f] w-full sm:w-auto">
-            <Filter className="mr-2 h-4 w-4" />
-            {t("projects.filters.apply")}
-          </Button>
-        </ResponsiveFilters>
+        </div>
 
         {/* Results Count */}
-        <div className="mb-4 sm:mb-6">
-          <p className="text-gray-600 text-sm sm:text-base">
+        <div className="mb-6">
+          <p className="text-gray-600">
             {t("projects.results.showing")} {filteredProjects.length} {t("projects.results.of")} {completedProjects.length} {t("projects.results.projects")}
           </p>
         </div>
 
         {/* Projects Grid */}
-        <ResponsiveCardGrid columns={3}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Card 
-              key={project.id} 
-              className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
-              onClick={() => {
-                console.log(`Viewing project details for: ${project.title}`);
-                // Add navigation logic here
-              }}
-            >
+            <Card key={project.id} className="group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-[#006d4e] text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold flex items-center">
+                <div className="absolute top-4 left-4 bg-[#006d4e] text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
                   <CheckCircle className="mr-1 h-3 w-3" />
                   {t("projects.project.completed")}
                 </div>
-                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                   {project.projectType}
                 </div>
-                <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 bg-black bg-opacity-70 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm flex items-center">
+                <div className="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm flex items-center">
                   <Calendar className="mr-1 h-3 w-3" />
                   {project.completedDate}
                 </div>
               </div>
-              <CardContent className="p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">{project.title}</h3>
-                <p className="text-gray-600 mb-2 flex items-center text-sm sm:text-base">
-                  <MapPin className="mr-1 h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">{project.location}</span>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{project.title}</h3>
+                <p className="text-gray-600 mb-2 flex items-center">
+                  <MapPin className="mr-1 h-4 w-4" />
+                  {project.location}
                 </p>
-                <p className="text-gray-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                  <Users className="mr-1 h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">{t("projects.project.client")}: {project.client}</span>
+                <p className="text-gray-600 mb-4 flex items-center">
+                  <Users className="mr-1 h-4 w-4" />
+                  {t("projects.project.client")}: {project.client}
                 </p>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 gap-2 sm:gap-0">
+                <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
                   <div className="flex flex-col">
                     <span className="font-semibold">{t("projects.project.size")}</span>
                     <span>{project.size}</span>
@@ -234,23 +241,17 @@ const Projects = () => {
                     <span className="text-[#006d4e] font-semibold">✓ {t("projects.project.completed")}</span>
                   </div>
                 </div>
-                <Button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    console.log(`Viewing project details for: ${project.title}`);
-                  }}
-                  className="w-full bg-[#006d4e] hover:bg-[#005a3f] text-sm sm:text-base"
-                >
+                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
                   {t("projects.project.viewDetails")}
                 </Button>
               </CardContent>
             </Card>
           ))}
-        </ResponsiveCardGrid>
+        </div>
 
         {filteredProjects.length === 0 && (
-          <div className="text-center py-8 sm:py-12">
-            <p className="text-gray-500 text-base sm:text-lg mb-4">{t("projects.noResults.message")}</p>
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">{t("projects.noResults.message")}</p>
             <Button 
               onClick={() => {
                 setSearchTerm("");
@@ -258,7 +259,7 @@ const Projects = () => {
                 setTypeFilter("");
                 setLocationFilter("");
               }}
-              className="bg-[#006d4e] hover:bg-[#005a3f]"
+              className="mt-4 bg-[#006d4e] hover:bg-[#005a3f]"
             >
               {t("projects.noResults.clearFilters")}
             </Button>
