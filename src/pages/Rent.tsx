@@ -117,6 +117,11 @@ const Rent = () => {
     return matchesSearch && matchesType && matchesLocation && matchesPrice;
   });
 
+  // Function to handle direct phone call
+  const handleContactAgent = () => {
+    window.location.href = 'tel:+9779707362231';
+  };
+
   // Get translated sqft label based on language
   const getSqftLabel = () => {
     return t("common.sqft") || "वर्ग फिट";
@@ -264,7 +269,10 @@ const Rent = () => {
                     {property.sqft} {getSqftLabel()}
                   </div>
                 </div>
-                <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                <Button 
+                  onClick={handleContactAgent}
+                  className="w-full bg-[#006d4e] hover:bg-[#005a3f]"
+                >
                   {t("rent.property.contact")}
                 </Button>
               </CardContent>
