@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, Bed, Bath, LayoutGrid, Calendar, User, Phone, Mail, Heart, Share2 } from "lucide-react";
+import {
+  ArrowLeft, MapPin, Bed, Bath, LayoutGrid, Calendar,
+  User, Phone, Mail, Heart, Share2
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Mock data - in a real app, this would come from an API or database
+// Mock data
 const getAllProperties = () => [
-  // Index page properties
   {
     id: 1,
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
@@ -24,9 +26,9 @@ const getAllProperties = () => [
     features: ["Modern Kitchen", "Garden View", "Parking Space", "24/7 Security", "Swimming Pool", "Gym Access"],
     yearBuilt: 2020,
     contact: {
-      agent: "John Doe",
-      phone: "+977-1234567890",
-      email: "john.doe@example.com"
+      agent: "Real Estate Crafters International Private Limited",
+      phone: "+977 970-7362231",
+      email: "realestatecrafters1@gmail.com"
     },
     images: [
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
@@ -34,7 +36,6 @@ const getAllProperties = () => [
       "https://images.unsplash.com/photo-1613490493576-7fde63acd811"
     ]
   },
-  // Buy page properties
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
@@ -49,9 +50,9 @@ const getAllProperties = () => [
     features: ["Private Pool", "Ocean View", "Wine Cellar", "Home Theater", "Guest House", "3-Car Garage"],
     yearBuilt: 2021,
     contact: {
-      agent: "Sarah Wilson",
-      phone: "+977-9876543210",
-      email: "sarah.wilson@example.com"
+      agent: "Real Estate Crafters International Private Limited",
+      phone: "+977 970-7362231",
+      email: "realestatecrafters1@gmail.com"
     },
     images: [
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
@@ -73,25 +74,29 @@ const getAllProperties = () => [
     features: ["City Views", "Modern Appliances", "Balcony", "Elevator Access", "Concierge Service"],
     yearBuilt: 2019,
     contact: {
-      agent: "Mike Johnson",
-      phone: "+977-5555666777",
-      email: "mike.johnson@example.com"
+       agent: "Real Estate Crafters International Private Limited",
+      phone: "+977 970-7362231",
+      email: "realestatecrafters1@gmail.com"
     },
     images: [
       "https://images.unsplash.com/photo-1524230572899-a752b3835840?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
     ]
   }
-  // Add more properties as needed
 ];
 
 const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
-  
+
+  // ✅ Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const property = getAllProperties().find(p => p.id === parseInt(id || "0"));
-  
+
   if (!property) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -112,9 +117,8 @@ const PropertyDetail = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
+
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Back Button */}
         <Button 
           onClick={() => navigate(-1)} 
           variant="outline" 
@@ -125,9 +129,7 @@ const PropertyDetail = () => {
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Image Gallery */}
             <div className="mb-8">
               <img
                 src={property.image}
@@ -148,7 +150,6 @@ const PropertyDetail = () => {
               )}
             </div>
 
-            {/* Property Details */}
             <Card className="mb-8">
               <CardContent className="p-8">
                 <div className="flex justify-between items-start mb-6">
@@ -175,31 +176,23 @@ const PropertyDetail = () => {
 
                 <div className="grid grid-cols-4 gap-6 py-6 border-y border-gray-200 mb-6">
                   <div className="text-center">
-                    <div className="flex items-center justify-center mb-2">
-                      <Bed className="h-6 w-6 text-[#006d4e]" />
-                    </div>
-                    <div className="text-2xl font-bold text-gray-800">{property.beds}</div>
+                    <Bed className="mx-auto mb-2 h-6 w-6 text-[#006d4e]" />
+                    <div className="text-2xl font-bold">{property.beds}</div>
                     <div className="text-sm text-gray-600">Bedrooms</div>
                   </div>
                   <div className="text-center">
-                    <div className="flex items-center justify-center mb-2">
-                      <Bath className="h-6 w-6 text-[#006d4e]" />
-                    </div>
-                    <div className="text-2xl font-bold text-gray-800">{property.baths}</div>
+                    <Bath className="mx-auto mb-2 h-6 w-6 text-[#006d4e]" />
+                    <div className="text-2xl font-bold">{property.baths}</div>
                     <div className="text-sm text-gray-600">Bathrooms</div>
                   </div>
                   <div className="text-center">
-                    <div className="flex items-center justify-center mb-2">
-                      <LayoutGrid className="h-6 w-6 text-[#006d4e]" />
-                    </div>
-                    <div className="text-2xl font-bold text-gray-800">{property.sqft}</div>
+                    <LayoutGrid className="mx-auto mb-2 h-6 w-6 text-[#006d4e]" />
+                    <div className="text-2xl font-bold">{property.sqft}</div>
                     <div className="text-sm text-gray-600">Sq Ft</div>
                   </div>
                   <div className="text-center">
-                    <div className="flex items-center justify-center mb-2">
-                      <Calendar className="h-6 w-6 text-[#006d4e]" />
-                    </div>
-                    <div className="text-2xl font-bold text-gray-800">{property.yearBuilt}</div>
+                    <Calendar className="mx-auto mb-2 h-6 w-6 text-[#006d4e]" />
+                    <div className="text-2xl font-bold">{property.yearBuilt}</div>
                     <div className="text-sm text-gray-600">Year Built</div>
                   </div>
                 </div>
@@ -229,14 +222,14 @@ const PropertyDetail = () => {
             <Card className="sticky top-8">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Contact Agent</h3>
-                
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-[#006d4e] rounded-full flex items-center justify-center mx-auto mb-3">
-                    <User className="h-8 w-8 text-white" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-gray-800">{property.contact.agent}</h4>
-                  <p className="text-sm text-gray-600">Real Estate Agent</p>
-                </div>
+
+              <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-3">
+               <img
+               src="/images/REC.jpg"  // <-- Put your company image path or URL here
+               alt="Company Logo"
+               className="w-full h-full object-cover"
+               />
+              </div>
 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-gray-600">
@@ -250,17 +243,14 @@ const PropertyDetail = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                  <Button
+                    className="w-full bg-[#006d4e] hover:bg-[#005a3f]"
+                    onClick={() => window.location.href = `tel:${property.contact.phone}`}
+                  >
                     <Phone className="mr-2 h-4 w-4" />
                     Call Now
                   </Button>
-                  <Button variant="outline" className="w-full border-[#006d4e] text-[#006d4e] hover:bg-[#006d4e] hover:text-white">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Send Message
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Schedule Tour
-                  </Button>
+
                 </div>
               </CardContent>
             </Card>

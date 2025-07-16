@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -171,7 +169,7 @@ const Navigation = () => {
       </header>
 
       {/* Add custom heartbeat animation styles */}
-      <style jsx>{`
+      <style >{`
         @keyframes heartbeat {
           0% {
             transform: scale(1);
@@ -195,4 +193,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
