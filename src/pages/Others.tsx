@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react"; // Import useRef
 import { Paintbrush, Hammer, Wrench, Palette, Home, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,11 +8,11 @@ import { Label } from "@/components/ui/label";
 import Navigation from "@/components/Navigation";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
-import Footer  from "@/components/Footer";
+import Footer from "@/components/Footer";
 
 const Others = () => {
   const { t } = useLanguage();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -23,6 +23,11 @@ const Others = () => {
     urgency: "",
     preferredDate: ""
   });
+
+  // State for selected files
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  // Ref for the hidden file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const services = [
     {
@@ -70,13 +75,67 @@ const Others = () => {
     });
   };
 
+  // Handler for file input change
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFiles(Array.from(e.target.files));
+    }
+  };
+
+  // Function to trigger the hidden file input
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // In a real application, you would send formData and selectedFiles to your backend
+    console.log("Service request submitted:", formData);
+    console.log("Selected Files:", selectedFiles);
+
+    // Example of how to send files with FormData (for a real API call)
+    const submitFormData = new FormData();
+    for (const key in formData) {
+      submitFormData.append(key, formData[key as keyof typeof formData]);
+    }
+    selectedFiles.forEach((file) => {
+      submitFormData.append("images", file); // 'images' would be the field name your backend expects
+    });
+
+    // You would typically use fetch or axios here:
+    // fetch('/api/submit-service-request', {
+    //   method: 'POST',
+    //   body: submitFormData,
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   toast({ title: t('others.toast.title'), description: t('others.toast.description') });
+    //   console.log(data);
+    //   // Optionally reset form and files
+    //   setFormData({
+    //     name: "", address: "", phone: "", email: "",
+    //     serviceType: "", description: "", urgency: "", preferredDate: ""
+    //   });
+    //   setSelectedFiles([]);
+    // })
+    // .catch(error => {
+    //   console.error("Error submitting form:", error);
+    //   toast({ title: "Submission Failed", description: "There was an error submitting your request.", variant: "destructive" });
+    // });
+
+    // For now, just show the toast and log
     toast({
       title: t('others.toast.title'),
       description: t('others.toast.description'),
     });
-    console.log("Service request submitted:", formData);
+
+    // Optionally reset form and files after successful submission (or mock success)
+    setFormData({
+      name: "", address: "", phone: "", email: "",
+      serviceType: "", description: "", urgency: "", preferredDate: ""
+    });
+    setSelectedFiles([]);
   };
 
   return (
@@ -93,18 +152,18 @@ const Others = () => {
           <Wrench className="w-24 h-24 text-orange-500 animate-rotate-float" />
         </div>
         <div className="floating-shape floating-shape-4">
-          <Home className="w-18 h-18 text-purple-500 animate-float" style={{animationDelay: '-2s'}} />
+          <Home className="w-18 h-18 text-purple-500 animate-float" style={{ animationDelay: '-2s' }} />
         </div>
-        
+
         {/* Additional floating elements */}
-        <div className="absolute top-20 right-20 w-4 h-4 bg-green-400 rounded-full animate-pulse-glow" style={{animationDelay: '-1s'}}></div>
-        <div className="absolute bottom-32 left-16 w-6 h-6 bg-blue-400 rounded-full animate-float" style={{animationDelay: '-3s'}}></div>
-        <div className="absolute top-1/2 left-10 w-3 h-3 bg-orange-400 rounded-full animate-pulse-glow" style={{animationDelay: '-0.5s'}}></div>
-        <div className="absolute bottom-20 right-32 w-5 h-5 bg-purple-400 rounded-full animate-float" style={{animationDelay: '-4s'}}></div>
+        <div className="absolute top-20 right-20 w-4 h-4 bg-green-400 rounded-full animate-pulse-glow" style={{ animationDelay: '-1s' }}></div>
+        <div className="absolute bottom-32 left-16 w-6 h-6 bg-blue-400 rounded-full animate-float" style={{ animationDelay: '-3s' }}></div>
+        <div className="absolute top-1/2 left-10 w-3 h-3 bg-orange-400 rounded-full animate-pulse-glow" style={{ animationDelay: '-0.5s' }}></div>
+        <div className="absolute bottom-20 right-32 w-5 h-5 bg-purple-400 rounded-full animate-float" style={{ animationDelay: '-4s' }}></div>
       </div>
 
       <Navigation />
-      
+
       {/* Hero Section with Animations (Updated) */}
       <section className="bg-[#006d4e] text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#006d4e] via-[#005a41] to-[#004d37]"></div>
@@ -114,13 +173,13 @@ const Others = () => {
           <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white rounded-full animate-pulse delay-2000"></div>
           <div className="absolute bottom-32 right-1/3 w-8 h-8 bg-white rounded-full animate-pulse delay-3000"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <Hammer className="mx-auto h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 mb-4 sm:mb-6 animate-fade-in opacity-0 animation-delay-300" /> {/* Changed to fade-in */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in opacity-0 animation-delay-300">{t('others.hero.title')}</h1> {/* Changed to fade-in */}
           <p className="text-base sm:text-lg lg:text-xl animate-fade-in opacity-0 animation-delay-600">{t('others.hero.subtitle')}</p> {/* Changed to fade-in */}
         </div>
-        
+
         {/* Floating Animation Elements (New) */}
         <div className="absolute top-1/2 left-0 w-4 h-4 bg-green-300 rounded-full animate-bounce opacity-30"></div>
         <div className="absolute top-1/3 right-0 w-6 h-6 bg-green-200 rounded-full animate-bounce opacity-40 delay-500"></div>
@@ -134,7 +193,7 @@ const Others = () => {
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">{t('others.services.title')}</h2>
             <p className="text-gray-600 text-base sm:text-lg">{t('others.services.subtitle')}</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => (
               <Card key={index} className={`group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover-lift animate-scale-in animate-delay-${300 + index * 100}`}>
@@ -174,7 +233,7 @@ const Others = () => {
                     className="mt-1 text-sm sm:text-base smooth-transition"
                   />
                 </div>
-                
+
                 <div className="animate-fade-in-right animate-delay-200">
                   <Label htmlFor="phone" className="text-sm font-medium">{t('others.form.phone')} *</Label>
                   <Input
@@ -291,9 +350,39 @@ const Others = () => {
                   <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 text-gray-400 mb-3 animate-bounce" />
                   <p className="text-gray-500 mb-2 text-sm sm:text-base">{t('others.form.uploadDesc')}</p>
                   <p className="text-xs sm:text-sm text-gray-400">{t('others.form.uploadFormat')}</p>
-                  <Button type="button" variant="outline" className="mt-3 text-sm sm:text-base smooth-transition hover-lift">
+
+                  {/* Hidden file input */}
+                  <Input
+                    id="file-upload"
+                    name="file-upload"
+                    type="file"
+                    multiple // Allow multiple files
+                    accept="image/*" // Restrict to image files
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden" // Keep it hidden
+                  />
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="mt-3 text-sm sm:text-base smooth-transition hover-lift"
+                    onClick={triggerFileInput} // Trigger click on the hidden input
+                  >
                     {t('others.form.chooseImages')}
                   </Button>
+
+                  {/* Display selected file names */}
+                  {selectedFiles.length > 0 && (
+                    <div className="mt-4 text-left text-gray-700">
+                      <p className="font-semibold text-sm">{t('others.form.selectedFiles')}:</p>
+                      <ul className="list-disc list-inside text-xs text-gray-600">
+                        {selectedFiles.map((file, index) => (
+                          <li key={index}>{file.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -307,10 +396,8 @@ const Others = () => {
           </CardContent>
         </Card>
       </div>
-              <Footer/>
-
+      <Footer />
     </div>
-    
   );
 };
 

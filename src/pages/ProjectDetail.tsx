@@ -26,9 +26,9 @@ const getAllProjects = () => [
     budget: "रू 50 Crore",
     startDate: "March 2022",
     contact: {
-      manager: "Rajesh Sharma",
-      phone: "+977-1234567890",
-      email: "rajesh.sharma@company.com"
+      manager: "",
+      phone: "+977-970-7362231",
+      email: "realestatecrafters1@gmail.com"
     },
     gallery: [
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
@@ -54,7 +54,7 @@ const getAllProjects = () => [
     title: "Green Valley Residential",
     location: "Suburb Hills, North Side",
     completedDate: "January 2024",
-    projectType: "residential",  
+    projectType: "residential",
     client: "Valley Homes Ltd",
     size: "150 units",
     duration: "18 months",
@@ -65,9 +65,8 @@ const getAllProjects = () => [
     budget: "रू 30 Crore",
     startDate: "July 2022",
     contact: {
-      manager: "Priya Patel",
-      phone: "+977-9876543210",
-      email: "priya.patel@company.com"
+      phone: "+977 970-7362231",
+      email: "realestatecrafters1@gmail.com"
     },
     gallery: [
       "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00",
@@ -90,9 +89,9 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
-  
+
   const project = getAllProjects().find(p => p.id === parseInt(id || "0"));
-  
+
   if (!project) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -113,12 +112,12 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
+
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Back Button */}
-        <Button 
-          onClick={() => navigate(-1)} 
-          variant="outline" 
+        <Button
+          onClick={() => navigate(-1)}
+          variant="outline"
           className="mb-6 hover:bg-[#006d4e] hover:text-white transition-colors"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -247,7 +246,7 @@ const ProjectDetail = () => {
             <Card className="mb-6">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Project Details</h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Client:</span>
@@ -276,13 +275,16 @@ const ProjectDetail = () => {
             <Card className="sticky top-8">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Contact Project Manager</h3>
-                
+
                 <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-[#006d4e] rounded-full flex items-center justify-center mx-auto mb-3">
-                    <User className="h-8 w-8 text-white" />
+                  <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-3">
+                    <img
+                      src="/images/realstate-removebg-preview.png"
+                      alt="Logo"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <h4 className="text-lg font-semibold text-gray-800">{project.contact.manager}</h4>
-                  <p className="text-sm text-gray-600">Project Manager</p>
                 </div>
 
                 <div className="space-y-3 mb-6">
@@ -297,17 +299,12 @@ const ProjectDetail = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Button className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
-                    <Phone className="mr-2 h-4 w-4" />
-                    Call Manager
-                  </Button>
-                  <Button variant="outline" className="w-full border-[#006d4e] text-[#006d4e] hover:bg-[#006d4e] hover:text-white">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Send Email
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Trophy className="mr-2 h-4 w-4" />
-                    View Portfolio
+                  {/* Changed Button to an anchor tag wrapped in a Button component for styling */}
+                  <Button asChild className="w-full bg-[#006d4e] hover:bg-[#005a3f]">
+                    <a href={`tel:${project.contact.phone}`}>
+                      <Phone className="mr-2 h-4 w-4" />
+                      Call Manager
+                    </a>
                   </Button>
                 </div>
               </CardContent>

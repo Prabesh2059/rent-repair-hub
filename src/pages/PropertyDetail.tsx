@@ -223,9 +223,9 @@ const PropertyDetail = () => {
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Contact Agent</h3>
 
-              <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-3">
+              <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-3">
                <img
-               src="/images/REC.jpg"  // <-- Put your company image path or URL here
+               src="/images/realstate-removebg-preview.png"  // <-- Put your company image path or URL here
                alt="Company Logo"
                className="w-full h-full object-cover"
                />
