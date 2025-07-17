@@ -1173,13 +1173,35 @@ const Admin = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="pending-image">Image URL</Label>
-                      <Input
-                        id="pending-image"
-                        value={newPendingProperty.image}
-                        onChange={(e) => setNewPendingProperty({ ...newPendingProperty, image: e.target.value })}
-                        placeholder="https://images.unsplash.com/..."
+                    <Label htmlFor="pending-image">Insert Image</Label>
+                    <div className="space-y-4">
+                      {/* Upload Input */}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setNewPendingProperty({ ...newPendingProperty, image: reader.result as string });
+                            };
+                            reader.readAsDataURL(file); // convert file to base64 string
+                          }
+                        }}
                       />
+
+                      {/* Image Preview Box */}
+                      {newPendingProperty.image && (
+                        <div className="w-full max-w-sm border border-gray-300 rounded-lg p-2">
+                          <img
+                            src={newPendingProperty.image}
+                            alt="Preview"
+                            className="w-full h-48 object-cover rounded-md"
+                          />
+                        </div>
+                      )}
+                    </div>
                     </div>
                     <Button onClick={handleAddPendingProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
                       Add Pending Property
@@ -1571,15 +1593,39 @@ const Admin = () => {
                         placeholder="e.g., 24 months"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="project-image">Image URL</Label>
-                      <Input
-                        id="project-image"
-                        value={newProject.image}
-                        onChange={(e) => setNewProject({ ...newProject, image: e.target.value })}
-                        placeholder="https://images.unsplash.com/..."
-                      />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="project-image">Project Image</Label>
+                    
+                    {/* File Input */}
+                    <input
+                      type="file"
+                      id="project-image"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setNewProject({ ...newProject, image: reader.result as string });
+                          };
+                          reader.readAsDataURL(file); // Convert to Base64
+                        }
+                      }}
+                      className="block w-full border border-gray-300 rounded px-3 py-2"
+                    />
+
+                    {/* Preview Box */}
+                    {newProject.image && (
+                      <div className="mt-2 border border-gray-300 rounded-lg p-2 max-w-sm">
+                        <img
+                          src={newProject.image}
+                          alt="Project Preview"
+                          className="w-full h-48 object-cover rounded-md"
+                        />
+                      </div>
+                    )}
+                  </div>
+
                     <Button onClick={handleAddProject} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
                       {editingProject ? 'Update Project' : 'Add Project'}
                     </Button>
