@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, Clock, Phone, Eye, Trophy, Wrench } from "lucide-react";
+import { Users, Home, MessageSquare, Plus, Edit, Trash2, LogOut, CheckCircle, Clock, Phone, Eye, Trophy, Wrench, BookOpen, MailCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -19,6 +19,24 @@ interface ContactMessage {
   subject: string;
   message: string;
   date: string;
+  isRead?: boolean;
+}
+
+interface ServiceRequest {
+  id: number;
+  clientName: string;
+  email: string;
+  phone: string;
+  serviceType: string;
+  projectType: string;
+  propertyType: string;
+  budget: string;
+  timeline: string;
+  description: string;
+  location: string;
+  images: string[];
+  submissionDate: string;
+  isRead?: boolean;
 }
 
 interface Property {
@@ -86,7 +104,8 @@ const Admin = () => {
       email: "john@example.com",
       subject: "Property Inquiry",
       message: "I'm interested in the downtown apartment listing.",
-      date: "2024-01-15"
+      date: "2024-01-15",
+      isRead: false
     },
     {
       id: 2,
@@ -94,7 +113,43 @@ const Admin = () => {
       email: "jane@example.com",
       subject: "Selling Property",
       message: "I want to list my house for sale.",
-      date: "2024-01-14"
+      date: "2024-01-14",
+      isRead: true
+    }
+  ]);
+
+  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([
+    {
+      id: 1,
+      clientName: "Michael Johnson",
+      email: "michael@example.com",
+      phone: "(555) 123-4567",
+      serviceType: "renovation",
+      projectType: "Kitchen Renovation",
+      propertyType: "house",
+      budget: "15000-25000",
+      timeline: "2-3 months",
+      description: "Looking to completely renovate the kitchen with modern appliances and cabinets.",
+      location: "Downtown, City Center",
+      images: ["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", "https://images.unsplash.com/photo-1556909002-f90a3c292e3e"],
+      submissionDate: "2024-01-16",
+      isRead: false
+    },
+    {
+      id: 2,
+      clientName: "Sarah Wilson",
+      email: "sarah@example.com",
+      phone: "(555) 987-6543",
+      serviceType: "repair",
+      projectType: "Bathroom Repair",
+      propertyType: "apartment",
+      budget: "5000-10000",
+      timeline: "1 month",
+      description: "Need to fix plumbing issues and replace tiles in the bathroom.",
+      location: "Uptown District",
+      images: ["https://images.unsplash.com/photo-1620626011761-996317b8d101"],
+      submissionDate: "2024-01-15",
+      isRead: true
     }
   ]);
 
@@ -329,12 +384,14 @@ const Admin = () => {
   const [showViewPendingDialog, setShowViewPendingDialog] = useState(false);
   const [showViewProjectDialog, setShowViewProjectDialog] = useState(false);
   const [showViewServiceDialog, setShowViewServiceDialog] = useState(false);
+  const [showViewServiceRequestDialog, setShowViewServiceRequestDialog] = useState(false);
 
   const [viewingContact, setViewingContact] = useState<ContactMessage | null>(null);
   const [viewingProperty, setViewingProperty] = useState<Property | null>(null);
   const [viewingPendingProperty, setViewingPendingProperty] = useState<PendingProperty | null>(null);
   const [viewingProject, setViewingProject] = useState<Project | null>(null);
   const [viewingService, setViewingService] = useState<Service | null>(null);
+  const [viewingServiceRequest, setViewingServiceRequest] = useState<ServiceRequest | null>(null);
 
   // Available icons for services
   const availableIcons = [
@@ -365,6 +422,34 @@ const Admin = () => {
     toast({
       title: "Contact Deleted",
       description: "Contact message has been removed.",
+    });
+  };
+
+  const handleMarkContactAsRead = (id: number) => {
+    setContacts(contacts.map(contact => 
+      contact.id === id ? { ...contact, isRead: true } : contact
+    ));
+    toast({
+      title: "Message Marked as Read",
+      description: "Contact message has been marked as read.",
+    });
+  };
+
+  const handleDeleteServiceRequest = (id: number) => {
+    setServiceRequests(serviceRequests.filter(request => request.id !== id));
+    toast({
+      title: "Service Request Deleted",
+      description: "Service request has been removed.",
+    });
+  };
+
+  const handleMarkServiceRequestAsRead = (id: number) => {
+    setServiceRequests(serviceRequests.map(request => 
+      request.id === id ? { ...request, isRead: true } : request
+    ));
+    toast({
+      title: "Service Request Marked as Read",
+      description: "Service request has been marked as read.",
     });
   };
 
@@ -594,6 +679,11 @@ const Admin = () => {
     setShowViewServiceDialog(true);
   };
 
+  const handleViewServiceRequest = (request: ServiceRequest) => {
+    setViewingServiceRequest(request);
+    setShowViewServiceRequestDialog(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -655,6 +745,15 @@ const Admin = () => {
             <MessageSquare className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Contact Messages</span>
             <span className="sm:hidden">Contacts</span>
+          </Button>
+          <Button
+            variant={activeTab === 'service-requests' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('service-requests')}
+            className={`flex items-center text-xs sm:text-sm ${activeTab === 'service-requests' ? 'bg-[#006d4e] text-white hover:bg-[#006d4e]/90' : ''}`}
+          >
+            <BookOpen className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Service Requests</span>
+            <span className="sm:hidden">Requests</span>
           </Button>
         </div>
 
@@ -1779,6 +1878,16 @@ const Admin = () => {
                             >
                               <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
+                            {!contact.isRead && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleMarkContactAsRead(contact.id)}
+                                className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white"
+                              >
+                                <MailCheck className="h-3 w-3 sm:h-4 sm:w-4" />
+                              </Button>
+                            )}
                             <Button variant="destructive" size="sm" onClick={() => handleDeleteContact(contact.id)}>
                               <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
@@ -1823,12 +1932,210 @@ const Admin = () => {
                   <p className="text-gray-700">{viewingContact.date}</p>
                 </div>
                 <div className="flex gap-2 pt-4">
+                  {!viewingContact.isRead && (
+                    <Button
+                      onClick={() => handleMarkContactAsRead(viewingContact.id)}
+                      variant="outline"
+                      className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white"
+                    >
+                      <MailCheck className="mr-2 h-4 w-4" />
+                      Mark as Read
+                    </Button>
+                  )}
                   <Button
                     onClick={() => handleDeleteContact(viewingContact.id)}
                     variant="destructive"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete Message
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Service Requests Tab */}
+        {activeTab === 'service-requests' && (
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold mb-4">Service Requests</h2>
+            <Card>
+              <CardContent className="p-0 overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Client Name</TableHead>
+                      <TableHead className="hidden md:table-cell">Email</TableHead>
+                      <TableHead className="hidden sm:table-cell">Service Type</TableHead>
+                      <TableHead className="hidden lg:table-cell">Budget</TableHead>
+                      <TableHead className="hidden lg:table-cell">Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {serviceRequests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell className="font-medium">{request.clientName}</TableCell>
+                        <TableCell className="hidden md:table-cell">{request.email}</TableCell>
+                        <TableCell className="hidden sm:table-cell capitalize">{request.serviceType}</TableCell>
+                        <TableCell className="hidden lg:table-cell">${request.budget}</TableCell>
+                        <TableCell className="hidden lg:table-cell">{request.submissionDate}</TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            request.isRead 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {request.isRead ? 'Read' : 'Unread'}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleViewServiceRequest(request)}
+                              className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                            >
+                              <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            {!request.isRead && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleMarkServiceRequestAsRead(request.id)}
+                                className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white"
+                              >
+                                <MailCheck className="h-3 w-3 sm:h-4 sm:w-4" />
+                              </Button>
+                            )}
+                            <Button variant="destructive" size="sm" onClick={() => handleDeleteServiceRequest(request.id)}>
+                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* View Service Request Dialog */}
+        <Dialog open={showViewServiceRequestDialog} onOpenChange={setShowViewServiceRequestDialog}>
+          <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Service Request Details</DialogTitle>
+            </DialogHeader>
+            {viewingServiceRequest && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Client Information */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-[#006d4e]">Client Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="font-semibold">Name</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.clientName}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Email</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.email}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Phone</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.phone}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Location</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.location}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Project Information */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-[#006d4e]">Project Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="font-semibold">Service Type</Label>
+                        <p className="text-gray-700 capitalize">{viewingServiceRequest.serviceType}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Project Type</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.projectType}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Property Type</Label>
+                        <p className="text-gray-700 capitalize">{viewingServiceRequest.propertyType}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Budget</Label>
+                        <p className="text-gray-700">${viewingServiceRequest.budget}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Timeline</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.timeline}</p>
+                      </div>
+                      <div>
+                        <Label className="font-semibold">Submission Date</Label>
+                        <p className="text-gray-700">{viewingServiceRequest.submissionDate}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <Label className="font-semibold">Project Description</Label>
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg border">
+                    <p className="text-gray-700">{viewingServiceRequest.description}</p>
+                  </div>
+                </div>
+
+                {/* Images */}
+                {viewingServiceRequest.images && viewingServiceRequest.images.length > 0 && (
+                  <div>
+                    <Label className="font-semibold">Project Images ({viewingServiceRequest.images.length})</Label>
+                    <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {viewingServiceRequest.images.map((image, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={image}
+                            alt={`Project image ${index + 1}`}
+                            className="w-full h-48 object-cover rounded-lg border cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={() => window.open(image, '_blank')}
+                          />
+                          <div className="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+                            {index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex gap-2 pt-4 border-t">
+                  {!viewingServiceRequest.isRead && (
+                    <Button
+                      onClick={() => handleMarkServiceRequestAsRead(viewingServiceRequest.id)}
+                      variant="outline"
+                      className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white"
+                    >
+                      <MailCheck className="mr-2 h-4 w-4" />
+                      Mark as Read
+                    </Button>
+                  )}
+                  <Button
+                    onClick={() => handleDeleteServiceRequest(viewingServiceRequest.id)}
+                    variant="destructive"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete Request
                   </Button>
                 </div>
               </div>
