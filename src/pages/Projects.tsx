@@ -250,6 +250,7 @@ const Projects = () => {
                 <Button 
                   onClick={(e) => {
                     e.stopPropagation();
+                    window.scrollTo(0, 0); // Scroll to top before navigating
                     navigate(`/project/${project.id}`);
                   }}
                   className="w-full bg-[#006d4e] hover:bg-[#005a3f]"
