@@ -49,7 +49,7 @@ interface Property {
   baths: number;
   sqft: string;
   type: 'buy' | 'rent';
-  image: string;
+  images: string[]; // Changed from image: string
   phone: string;
   status: 'active' | 'inactive';
   features: string[]; // New field
@@ -166,11 +166,11 @@ const Admin = () => {
       baths: 3,
       sqft: "2,400 sq ft",
       type: 'buy',
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      images: ["https://images.unsplash.com/photo-1506744038136-46273834b3fb"],
       phone: "(555) 123-4567",
       status: 'active',
-      features: [] as string[], // New field
-      description: "" // Added description field
+      features: [] as string[],
+      description: ""
     },
     {
       id: 2,
@@ -181,11 +181,11 @@ const Admin = () => {
       baths: 2,
       sqft: "1,800 sq ft",
       type: 'buy',
-      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
+      images: ["https://images.unsplash.com/photo-1524230572899-a752b3835840"],
       phone: "(555) 234-5678",
       status: 'active',
-      features: [] as string[], // New field
-      description: "" // Added description field
+      features: [] as string[],
+      description: ""
     },
     {
       id: 3,
@@ -196,11 +196,11 @@ const Admin = () => {
       baths: 2,
       sqft: "1,200 sq ft",
       type: 'rent',
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2",
+      images: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"],
       phone: "(555) 345-6789",
       status: 'active',
-      features: [] as string[], // New field
-      description: "" // Added description field
+      features: [] as string[],
+      description: ""
     },
     {
       id: 4,
@@ -211,11 +211,11 @@ const Admin = () => {
       baths: 1,
       sqft: "800 sq ft",
       type: 'rent',
-      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
+      images: ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"],
       phone: "(555) 456-7890",
       status: 'active',
-      features: [] as string[], // New field
-      description: "" // Added description field
+      features: [] as string[],
+      description: ""
     }
   ]);
 
@@ -340,14 +340,14 @@ const Admin = () => {
     baths: 1,
     sqft: "",
     type: 'buy' as 'buy' | 'rent',
-    image: "",
+    images: [] as string[], // Changed from image: ""
     phone: "",
     status: 'active' as 'active' | 'inactive',
-    features: [] as string[], // New field
-    description: "" // Added description field
+    features: [] as string[],
+    description: ""
   };
   const [newProperty, setNewProperty] = useState<typeof initialNewPropertyState>(initialNewPropertyState);
-  const [propertyImagePreview, setPropertyImagePreview] = useState<string | null>(null);
+  const [propertyImagesPreview, setPropertyImagesPreview] = useState<string[]>([]); // Changed from single preview
 
   const initialNewPendingPropertyState = {
     title: "",
@@ -468,59 +468,59 @@ const Admin = () => {
     });
   };
 
-  const handlePropertyImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
+  const handlePropertyImagesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const imageUrls: string[] = [];
+    let loaded = 0;
+    files.forEach((file, idx) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
-          setPropertyImagePreview(reader.result);
-          setNewProperty({ ...newProperty, image: reader.result });
+          imageUrls[idx] = reader.result;
+          loaded++;
+          if (loaded === files.length) {
+            setPropertyImagesPreview(prev => [...prev, ...imageUrls]);
+            setNewProperty(prev => ({ ...prev, images: [...prev.images, ...imageUrls] }));
+          }
         }
       };
       reader.readAsDataURL(file);
-    } else {
-      setPropertyImagePreview("");
-      setNewProperty({ ...newProperty, image: "" });
-    }
+    });
+    event.target.value = '';
   };
 
-  const handlePendingPropertyImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          setPendingPropertyImagePreview(reader.result);
-          setNewPendingProperty({ ...newPendingProperty, image: reader.result });
-        }
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPendingPropertyImagePreview("");
-      setNewPendingProperty({ ...newPendingProperty, image: "" });
-    }
+  const handleRemovePropertyImage = (indexToRemove: number) => {
+    setPropertyImagesPreview(prev => prev.filter((_, index) => index !== indexToRemove));
+    setNewProperty(prev => ({ ...prev, images: prev.images.filter((_, index) => index !== indexToRemove) }));
   };
 
   const handleUpdateProperty = () => {
+    if (newProperty.images.length < 3) {
+      toast({
+        title: "Missing Images",
+        description: "Please upload at least 3 property images.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (editingProperty) {
       setProperties(properties.map(p => p.id === editingProperty.id ? { ...newProperty, id: editingProperty.id } : p));
       toast({ title: "Property Updated", description: "Property has been updated successfully." });
     } else {
-      // Logic for adding a new property if this dialog is used for adding
       const newId = properties.length > 0 ? Math.max(...properties.map(p => p.id)) + 1 : 1;
       setProperties([...properties, { ...newProperty, id: newId }]);
       toast({ title: "Property Added", description: "New property has been added successfully." });
     }
     setEditingProperty(null);
     setShowPropertyDialog(false);
-    setPropertyImagePreview(null); // Clear preview after update/add
+    setPropertyImagesPreview([]); // Clear preview after update/add
+    setNewProperty(initialNewPropertyState);
   };
 
   const handleEditProperty = (property: Property) => {
     setNewProperty(property);
     setEditingProperty(property);
-    setPropertyImagePreview(property.image); // Set preview for existing image
+    setPropertyImagesPreview(property.images); // Set preview for existing images
     setShowPropertyDialog(true);
   };
 
@@ -552,11 +552,11 @@ const Admin = () => {
       baths: pendingProperty.bathrooms,
       sqft: `${pendingProperty.sqft} sq ft`,
       type: pendingProperty.propertyType === 'apartment' ? 'rent' : 'buy',
-      image: pendingProperty.image,
+      images: [pendingProperty.image], // Fix: wrap image in array
       phone: pendingProperty.contactPhone,
       status: 'active',
-      features: [] as string[], // New field
-      description: "" // Ensure description is present
+      features: [] as string[],
+      description: ""
     };
 
     setProperties([...properties, newProperty]);
@@ -885,7 +885,7 @@ const Admin = () => {
               <h2 className="text-xl sm:text-2xl font-bold">All Property Listings</h2>
               <div className="flex flex-col sm:flex-row gap-4"> {/* Added a div to contain both buttons */}
                 <Dialog open={showPropertyDialog} onOpenChange={setShowPropertyDialog}>
-                  <Button onClick={() => { setNewProperty(initialNewPropertyState); setEditingProperty(null); setPropertyImagePreview(null); setShowPropertyDialog(true); }} className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90" >
+                  <Button onClick={() => { setNewProperty(initialNewPropertyState); setEditingProperty(null); setPropertyImagesPreview([]); setShowPropertyDialog(true); }} className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90" >
                       <Plus className="mr-2 h-4 w-4" />
                       <span className="hidden sm:inline">Add Property</span>
                       <span className="sm:hidden">Add</span>
@@ -1003,13 +1003,23 @@ const Admin = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="image">Property Image</Label>
-                      <Input id="image" type="file" accept="image/*" onChange={handlePropertyImageUpload} className="mb-2" />
-                      {propertyImagePreview && (
-                        <div className="mt-2 w-32 h-32 border rounded overflow-hidden">
-                          <img src={propertyImagePreview} alt="Property Preview" className="w-full h-full object-cover" />
-                        </div>
-                      )}
+                      <Label htmlFor="images">Property Images (Min 3)</Label>
+                      <Input id="images" type="file" accept="image/*" multiple onChange={handlePropertyImagesUpload} className="mb-2" />
+                      <div className="grid grid-cols-3 gap-2 mt-2">
+                        {propertyImagesPreview.map((img, index) => (
+                          <div key={index} className="relative w-full h-24">
+                            <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover rounded-md" />
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-1 right-1 h-6 w-6 p-0 rounded-full"
+                              onClick={() => handleRemovePropertyImage(index)}
+                            >
+                              ×
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                     <div>
                       <Label htmlFor="description">Description</Label>
@@ -1048,7 +1058,7 @@ const Admin = () => {
                     {properties.map((property) => (
                       <TableRow key={property.id}>
                         <TableCell className="hidden sm:table-cell">
-                          <img src={property.image} alt={property.title} className="w-16 h-16 object-cover rounded-md" />
+                          <img src={property.images[0]} alt={property.title} className="w-16 h-16 object-cover rounded-md" />
                         </TableCell>
                         <TableCell className="font-medium">{property.title}</TableCell>
                         <TableCell className="hidden md:table-cell">{property.location}</TableCell>
@@ -1108,7 +1118,19 @@ const Admin = () => {
             </DialogHeader>
             {viewingProperty && (
               <div className="space-y-4">
-                <img src={viewingProperty.image} alt={viewingProperty.title} className="w-full h-64 object-cover rounded-md" />
+                {viewingProperty.images.map((img, index) => (
+                  <div key={index} className="relative w-full h-64">
+                    <img src={img} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover rounded-md" />
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-1 right-1 h-6 w-6 p-0 rounded-full"
+                      onClick={() => handleRemovePropertyImage(0)}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ))}
                 <h3 className="text-2xl font-bold">{viewingProperty.title}</h3>
                 <p className="text-lg text-gray-700">{viewingProperty.price}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1168,6 +1190,16 @@ const Admin = () => {
                   <div>
                     <Label className="font-semibold">Description</Label>
                     <p className="text-gray-700">{viewingProperty.description}</p>
+                  </div>
+                )}
+                {viewingProperty && viewingProperty.images && viewingProperty.images.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold mt-4">Images:</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+                      {viewingProperty.images.map((img, index) => (
+                        <img key={index} src={img} alt={`Property Image ${index + 1}`} className="w-full h-32 object-cover rounded-md" />
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
