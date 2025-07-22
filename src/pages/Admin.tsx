@@ -836,7 +836,7 @@ const Admin = () => {
             className={`flex items-center text-xs sm:text-sm ${activeTab === 'listings' ? 'bg-[#006d4e] text-white hover:bg-[#006d4e]/90' : ''}`}
           >
             <Home className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">All Listings</span>
+            <span className="hidden sm:inline">Properties</span>
             <span className="sm:hidden">Listings</span>
           </Button>
           <Button
@@ -845,7 +845,7 @@ const Admin = () => {
             className={`flex items-center text-xs sm:text-sm ${activeTab === 'pending' ? 'bg-[#006d4e] text-white hover:bg-[#006d4e]/90' : ''}`}
           >
             <Clock className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Pending Properties</span>
+            <span className="hidden sm:inline">Sales request</span>
             <span className="sm:hidden">Pending</span>
           </Button>
           <Button
