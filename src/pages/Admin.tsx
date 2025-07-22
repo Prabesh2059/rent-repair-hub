@@ -53,6 +53,7 @@ interface Property {
   phone: string;
   status: 'active' | 'inactive';
   features: string[]; // New field
+  description: string; // Added description field
 }
 
 interface PendingProperty {
@@ -85,12 +86,13 @@ interface Project {
   duration: string;
   professionals: string; // New field
   budget: string; // New field
-  status: 'completed';
+  status: 'planning' | 'under construction' | 'completed' | 'on hold' | 'cancelled';
   image: string; // Keep single image for display in table
   keyFeatures: string[];
   challenges: string[];
   outcomes: string[];
   projectImages: string[]; // New field for multiple images
+  description: string; // Added description field
 }
 
 
@@ -167,7 +169,8 @@ const Admin = () => {
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
       phone: "(555) 123-4567",
       status: 'active',
-      features: [] as string[] // New field
+      features: [] as string[], // New field
+      description: "" // Added description field
     },
     {
       id: 2,
@@ -181,7 +184,8 @@ const Admin = () => {
       image: "https://images.unsplash.com/photo-1524230572899-a752b3835840",
       phone: "(555) 234-5678",
       status: 'active',
-      features: [] as string[] // New field
+      features: [] as string[], // New field
+      description: "" // Added description field
     },
     {
       id: 3,
@@ -195,7 +199,8 @@ const Admin = () => {
       image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2",
       phone: "(555) 345-6789",
       status: 'active',
-      features: [] as string[] // New field
+      features: [] as string[], // New field
+      description: "" // Added description field
     },
     {
       id: 4,
@@ -209,7 +214,8 @@ const Admin = () => {
       image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
       phone: "(555) 456-7890",
       status: 'active',
-      features: [] as string[] // New field
+      features: [] as string[], // New field
+      description: "" // Added description field
     }
   ]);
 
@@ -272,7 +278,8 @@ const Admin = () => {
         "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
         "https://images.unsplash.com/photo-1582234007127-14e3006a8e84",
         "https://images.unsplash.com/photo-1600877983636-f00e99e82c5f"
-      ]
+      ],
+      description: "" // Added description field
     },
     {
       id: 2,
@@ -295,7 +302,8 @@ const Admin = () => {
         "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00",
         "https://images.unsplash.com/photo-1564078564-e1d9d7e5d8a0",
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
-      ]
+      ],
+      description: "" // Added description field
     },
     {
       id: 3,
@@ -318,7 +326,8 @@ const Admin = () => {
         "https://images.unsplash.com/photo-1497366216548-37526070297c",
         "https://images.unsplash.com/photo-1506748687-bb4f5766b3f9",
         "https://images.unsplash.com/photo-1524148417534-111ad7a25039"
-      ]
+      ],
+      description: "" // Added description field
     }
   ]);
 
@@ -335,6 +344,7 @@ const Admin = () => {
     phone: "",
     status: 'active' as 'active' | 'inactive',
     features: [] as string[], // New field
+    description: "" // Added description field
   };
   const [newProperty, setNewProperty] = useState<typeof initialNewPropertyState>(initialNewPropertyState);
   const [propertyImagePreview, setPropertyImagePreview] = useState<string | null>(null);
@@ -356,21 +366,23 @@ const Admin = () => {
   const [newPendingProperty, setNewPendingProperty] = useState<Omit<PendingProperty, 'id' | 'status' | 'submissionDate'>>(initialNewPendingPropertyState);
   const [pendingPropertyImagePreview, setPendingPropertyImagePreview] = useState<string | null>(null);
 
-  const [newProject, setNewProject] = useState<Omit<Project, 'id' | 'status' | 'image'>>({
+  const [newProject, setNewProject] = useState<Omit<Project, 'id' | 'image'> & { description?: string }>({
     title: "",
     location: "",
     completedDate: "",
-    startDate: "", // New field
+    startDate: "",
     projectType: "",
     client: "",
     size: "",
     duration: "",
-    professionals: "", // New field
-    budget: "", // New field
+    professionals: "",
+    budget: "",
     keyFeatures: [],
     challenges: [],
     outcomes: [],
-    projectImages: []
+    projectImages: [],
+    description: "",
+    status: "planning" // Default to planning
   });
 
   const [projectImages, setProjectImages] = useState<string[]>([]);
@@ -543,7 +555,8 @@ const Admin = () => {
       image: pendingProperty.image,
       phone: pendingProperty.contactPhone,
       status: 'active',
-      features: [] as string[] // New field
+      features: [] as string[], // New field
+      description: "" // Ensure description is present
     };
 
     setProperties([...properties, newProperty]);
@@ -709,12 +722,13 @@ const Admin = () => {
     const finalNewProject: Project = {
       ...newProject,
       id: editingProject ? editingProject.id : (projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1),
-      status: 'completed',
+      status: newProject.status as any, // Use selected status
       image: projectImages[0] || "",
       projectImages: projectImages,
       keyFeatures: newProject.keyFeatures.filter(f => f.trim() !== ''),
       challenges: newProject.challenges.filter(c => c.trim() !== ''),
-      outcomes: newProject.outcomes.filter(o => o.trim() !== '')
+      outcomes: newProject.outcomes.filter(o => o.trim() !== ''),
+      description: newProject.description || ""
     };
 
     if (editingProject) {
@@ -729,17 +743,19 @@ const Admin = () => {
       title: "", 
       location: "", 
       completedDate: "", 
-      startDate: "", // New field
+      startDate: "", 
       projectType: "", 
       client: "", 
       size: "", 
       duration: "", 
-      professionals: "", // New field
-      budget: "", // New field
+      professionals: "", 
+      budget: "", 
       keyFeatures: [], 
       challenges: [], 
       outcomes: [], 
-      projectImages: []
+      projectImages: [],
+      description: "",
+      status: "planning"
     });
     setProjectImages([]);
     setEditingProject(null);
@@ -760,17 +776,19 @@ const Admin = () => {
       title: project.title,
       location: project.location,
       completedDate: project.completedDate,
-      startDate: project.startDate, // New field
+      startDate: project.startDate,
       projectType: project.projectType,
       client: project.client,
       size: project.size,
       duration: project.duration,
-      professionals: project.professionals, // New field
-      budget: project.budget, // New field
+      professionals: project.professionals,
+      budget: project.budget,
       keyFeatures: project.keyFeatures,
       challenges: project.challenges,
       outcomes: project.outcomes,
-      projectImages: project.projectImages
+      projectImages: project.projectImages,
+      description: project.description || "",
+      status: project.status || "planning"
     });
     setProjectImages(project.projectImages);
     setEditingProject(project);
@@ -993,6 +1011,16 @@ const Admin = () => {
                         </div>
                       )}
                     </div>
+                    <div>
+                      <Label htmlFor="description">Description</Label>
+                      <Textarea
+                        id="description"
+                        value={newProperty.description}
+                        onChange={(e) => setNewProperty({ ...newProperty, description: e.target.value })}
+                        placeholder="Describe the property in detail"
+                        className="min-h-[80px]"
+                      />
+                    </div>
                     <Button onClick={handleUpdateProperty} className="w-full bg-[#006d4e] text-white hover:bg-[#006d4e]/90" >
                       {editingProperty ? 'Update Property' : 'Add Property'}
                     </Button>
@@ -1134,6 +1162,12 @@ const Admin = () => {
                     <ul className="list-disc pl-5">
                       {viewingProperty.features.map((feature, index) => <li key={index}>{feature}</li>)}
                     </ul>
+                  </div>
+                )}
+                {viewingProperty && viewingProperty.description && (
+                  <div>
+                    <Label className="font-semibold">Description</Label>
+                    <p className="text-gray-700">{viewingProperty.description}</p>
                   </div>
                 )}
               </div>
@@ -1287,7 +1321,7 @@ const Admin = () => {
           <div>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl sm:text-2xl font-bold">Completed Projects</h2>
-              <Button onClick={() => { setNewProject({ title: "", location: "", completedDate: "", startDate: "", projectType: "", client: "", size: "", duration: "", professionals: "", budget: "", keyFeatures: [], challenges: [], outcomes: [], projectImages: [] }); setProjectImages([]); setEditingProject(null); setShowProjectDialog(true); }} className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
+              <Button onClick={() => { setNewProject({ title: "", location: "", completedDate: "", startDate: "", projectType: "", client: "", size: "", duration: "", professionals: "", budget: "", keyFeatures: [], challenges: [], outcomes: [], projectImages: [], description: "", status: "planning" }); setProjectImages([]); setEditingProject(null); setShowProjectDialog(true); }} className="bg-[#006d4e] text-white hover:bg-[#006d4e]/90">
                 <Plus className="mr-2 h-4 w-4" /> Add Project
               </Button>
             </div>
@@ -1495,6 +1529,34 @@ const Admin = () => {
                   ))}
                 </div>
               </div>
+              <div>
+                <Label htmlFor="projectDescription">Description</Label>
+                <Textarea
+                  id="projectDescription"
+                  value={newProject.description}
+                  onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+                  placeholder="Describe the project in detail"
+                  className="min-h-[80px]"
+                />
+              </div>
+              <div>
+                <Label htmlFor="projectStatus">Project Status</Label>
+                <Select
+                  value={newProject.status}
+                  onValueChange={(value) => setNewProject({ ...newProject, status: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select project status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="planning">Planning</SelectItem>
+                    <SelectItem value="under construction">Under Construction</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="on hold">On Hold</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <DialogFooter className="mt-4">
               <Button variant="outline" onClick={() => setShowProjectDialog(false)}>Cancel</Button>
@@ -1525,6 +1587,7 @@ const Admin = () => {
               <p className="text-gray-700"><strong>Duration:</strong> {newProject.duration}</p>
               <p className="text-gray-700"><strong>No of Professionals:</strong> {newProject.professionals}</p>
               <p className="text-gray-700"><strong>Budget:</strong> {newProject.budget}</p>
+              <p className="text-gray-700"><strong>Status:</strong> {newProject.status}</p>
 
               <div>
                 <h4 className="font-semibold mt-4">Key Features:</h4>
@@ -1553,6 +1616,12 @@ const Admin = () => {
                   ))}
                 </div>
               </div>
+              {newProject.description && (
+                <div>
+                  <Label className="font-semibold">Description</Label>
+                  <p className="text-gray-700">{newProject.description}</p>
+                </div>
+              )}
             </div>
             <DialogFooter className="mt-4">
               <Button variant="outline" onClick={() => { setShowProjectPreviewDialog(false); setShowProjectDialog(true); }}>
@@ -1584,6 +1653,7 @@ const Admin = () => {
                 <p className="text-gray-700"><strong>Duration:</strong> {viewingProject.duration}</p>
                 <p className="text-gray-700"><strong>No of Professionals:</strong> {viewingProject.professionals}</p>
                 <p className="text-gray-700"><strong>Budget:</strong> {viewingProject.budget}</p>
+                <p className="text-gray-700"><strong>Status:</strong> {viewingProject.status}</p>
 
                 <div>
                   <h4 className="font-semibold mt-4">Key Features:</h4>
@@ -1612,6 +1682,12 @@ const Admin = () => {
                     ))}
                   </div>
                 </div>
+                {viewingProject.description && (
+                  <div>
+                    <Label className="font-semibold">Description</Label>
+                    <p className="text-gray-700">{viewingProject.description}</p>
+                  </div>
+                )}
               </div>
             )}
             <DialogFooter>
