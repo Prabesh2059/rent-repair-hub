@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, MapPin, DollarSign, Home, Users, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,150 @@ const RainAnimation = () => {
         ))}
       </div>
     </>
+  );
+};
+
+// Land Unit Conversion Calculator Component
+const LandUnitCalculator = () => {
+  // State for each unit
+  const [bigha, setBigha] = useState("");
+  const [kattha, setKattha] = useState("");
+  const [dhur, setDhur] = useState("");
+  const [ropani, setRopani] = useState("");
+  const [aana, setAana] = useState("");
+  const [sqft, setSqft] = useState("");
+  const [active, setActive] = useState("sqft"); // Which field was last edited
+
+  // Conversion constants
+  const BIGHA_TO_KATTHA = 20;
+  const KATTHA_TO_DHUR = 20;
+  const BIGHA_TO_SQFT = 13552.5;
+  const KATTHA_TO_SQFT = 677.625;
+  const DHUR_TO_SQFT = 33.88125;
+  const ROPANI_TO_AANA = 16;
+  const ROPANI_TO_SQFT = 5476;
+  const AANA_TO_SQFT = 342.25;
+
+  // Helper: clear all except the one being edited
+  const clearOthers = (except: string) => {
+    if (except !== "bigha") setBigha("");
+    if (except !== "kattha") setKattha("");
+    if (except !== "dhur") setDhur("");
+    if (except !== "ropani") setRopani("");
+    if (except !== "aana") setAana("");
+    if (except !== "sqft") setSqft("");
+  };
+
+  // Conversion logic
+  const handleChange = (unit: string, value: string) => {
+    if (!/^\d*\.?\d*$/.test(value)) return; // Only allow numbers
+    setActive(unit);
+    clearOthers(unit);
+    if (value === "") {
+      setBigha(""); setKattha(""); setDhur(""); setRopani(""); setAana(""); setSqft("");
+      return;
+    }
+    const v = parseFloat(value);
+    if (isNaN(v)) return;
+    switch (unit) {
+      case "bigha": {
+        setBigha(value);
+        setKattha((v * BIGHA_TO_KATTHA).toString());
+        setDhur((v * BIGHA_TO_KATTHA * KATTHA_TO_DHUR).toString());
+        setSqft((v * BIGHA_TO_SQFT).toString());
+        setRopani((v * BIGHA_TO_SQFT / ROPANI_TO_SQFT).toFixed(6));
+        setAana((v * BIGHA_TO_SQFT / AANA_TO_SQFT).toFixed(6));
+        break;
+      }
+      case "kattha": {
+        setKattha(value);
+        setBigha((v / BIGHA_TO_KATTHA).toString());
+        setDhur((v * KATTHA_TO_DHUR).toString());
+        setSqft((v * KATTHA_TO_SQFT).toString());
+        setRopani((v * KATTHA_TO_SQFT / ROPANI_TO_SQFT).toFixed(6));
+        setAana((v * KATTHA_TO_SQFT / AANA_TO_SQFT).toFixed(6));
+        break;
+      }
+      case "dhur": {
+        setDhur(value);
+        setKattha((v / KATTHA_TO_DHUR).toString());
+        setBigha((v / (BIGHA_TO_KATTHA * KATTHA_TO_DHUR)).toString());
+        setSqft((v * DHUR_TO_SQFT).toString());
+        setRopani((v * DHUR_TO_SQFT / ROPANI_TO_SQFT).toFixed(6));
+        setAana((v * DHUR_TO_SQFT / AANA_TO_SQFT).toFixed(6));
+        break;
+      }
+      case "ropani": {
+        setRopani(value);
+        setAana((v * ROPANI_TO_AANA).toString());
+        setSqft((v * ROPANI_TO_SQFT).toString());
+        setBigha((v * ROPANI_TO_SQFT / BIGHA_TO_SQFT).toFixed(6));
+        setKattha((v * ROPANI_TO_SQFT / KATTHA_TO_SQFT).toFixed(6));
+        setDhur((v * ROPANI_TO_SQFT / DHUR_TO_SQFT).toFixed(6));
+        break;
+      }
+      case "aana": {
+        setAana(value);
+        setRopani((v / ROPANI_TO_AANA).toString());
+        setSqft((v * AANA_TO_SQFT).toString());
+        setBigha((v * AANA_TO_SQFT / BIGHA_TO_SQFT).toFixed(6));
+        setKattha((v * AANA_TO_SQFT / KATTHA_TO_SQFT).toFixed(6));
+        setDhur((v * AANA_TO_SQFT / DHUR_TO_SQFT).toFixed(6));
+        break;
+      }
+      case "sqft": {
+        setSqft(value);
+        setBigha((v / BIGHA_TO_SQFT).toFixed(6));
+        setKattha((v / KATTHA_TO_SQFT).toFixed(6));
+        setDhur((v / DHUR_TO_SQFT).toFixed(6));
+        setRopani((v / ROPANI_TO_SQFT).toFixed(6));
+        setAana((v / AANA_TO_SQFT).toFixed(6));
+        break;
+      }
+    }
+  };
+
+  return (
+    <Card className="mt-6 mb-6 max-w-4xl mx-auto bg-white/95 border border-green-200 shadow-xl rounded-2xl animate-fade-in-up">
+      <CardContent className="p-6">
+        <h3 className="text-xl font-bold text-[#006d4e] mb-4 text-center">Land Unit Converter</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Bigha</label>
+            <input type="text" value={bigha} onChange={e => handleChange("bigha", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Kattha</label>
+            <input type="text" value={kattha} onChange={e => handleChange("kattha", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Dhur</label>
+            <input type="text" value={dhur} onChange={e => handleChange("dhur", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Ropani</label>
+            <input type="text" value={ropani} onChange={e => handleChange("ropani", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Aana</label>
+            <input type="text" value={aana} onChange={e => handleChange("aana", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Sq. Ft.</label>
+            <input type="text" value={sqft} onChange={e => handleChange("sqft", e.target.value)}
+              className="w-full border-2 border-green-200 rounded-lg px-4 py-2 focus:border-[#006d4e] focus:ring-2 focus:ring-[#006d4e] outline-none" placeholder="0" />
+          </div>
+        </div>
+        {/* <div className="text-xs text-gray-500 mt-4 text-center">
+          <span>1 Bigha = 20 Kattha = 13,552.5 sq ft | 1 Kattha = 20 Dhur = 677.625 sq ft | 1 Dhur = 33.88125 sq ft | 1 Ropani = 16 Aana = 5,476 sq ft | 1 Aana = 342.25 sq ft</span>
+        </div> */}
+      </CardContent>
+    </Card>
   );
 };
 
@@ -226,6 +370,8 @@ const Index = () => {
             </Button>
           </div>
         </div>
+        {/* Land Unit Calculator - Inserted below search bar */}
+        <LandUnitCalculator />
         </div>
       </section>
 
